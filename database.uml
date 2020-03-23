@@ -1,75 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Diagram>
   <ID>DATABASE</ID>
-  <OriginalElement>a42020f2-1e4d-4752-9d92-1e29ccac993b.SCHEMA:asset_manager.public</OriginalElement>
-  <nodes>
-    <node x="413.75" y="325.0">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.user</node>
-    <node x="615.75" y="371.0">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.admin</node>
-    <node x="130.99999999999997" y="185.5">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.category</node>
-    <node x="420.75" y="568.0">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.invoice</node>
-    <node x="76.09722222222217" y="614.0">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset_tag</node>
-    <node x="345.0" y="174.0">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.department</node>
-    <node x="0.0" y="382.5">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.tag</node>
-    <node x="377.0" y="0.0">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.location</node>
-    <node x="180.99999999999997" y="348.0">a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset</node>
-  </nodes>
+  <OriginalElement />
+  <nodes />
   <notes />
-  <edges>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.category">
-      <point x="-47.0" y="-73.5" />
-      <point x="0.0" y="39.0" />
-    </edge>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.invoice" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset">
-      <point x="-56.0" y="-96.5" />
-      <point x="448.75" y="543.0" />
-      <point x="322.0" y="543.0" />
-      <point x="47.0" y="73.5" />
-    </edge>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.invoice" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.user">
-      <point x="0.0" y="-96.5" />
-      <point x="0.0" y="96.5" />
-    </edge>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.user" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.department">
-      <point x="0.0" y="-96.5" />
-      <point x="53.25" y="50.5" />
-    </edge>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.department" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.location">
-      <point x="0.0" y="-50.5" />
-      <point x="0.0" y="62.0" />
-    </edge>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.invoice" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.admin">
-      <point x="56.0" y="-96.5" />
-      <point x="560.75" y="543.0" />
-      <point x="699.25" y="543.0" />
-      <point x="0.0" y="50.5" />
-    </edge>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.department">
-      <point x="47.0" y="-73.5" />
-      <point x="322.0" y="300.0" />
-      <point x="398.25" y="300.0" />
-      <point x="-53.25" y="50.5" />
-    </edge>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset_tag" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset">
-      <point x="38.75" y="-50.5" />
-      <point x="192.34722222222217" y="543.0" />
-      <point x="227.99999999999997" y="543.0" />
-      <point x="-47.0" y="73.5" />
-    </edge>
-    <edge source="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset_tag" target="a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.tag">
-      <point x="-38.75" y="-50.5" />
-      <point x="114.84722222222217" y="543.0" />
-      <point x="80.5" y="543.0" />
-      <point x="0.0" y="39.0" />
-    </edge>
-  </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="391.5" y="380.5" />
-  <SelectedNodes>
-    <node>a42020f2-1e4d-4752-9d92-1e29ccac993b.TABLE:asset_manager.public.asset</node>
-  </SelectedNodes>
-  <Categories>
-    <Category>Key columns</Category>
-    <Category>Columns</Category>
-    <Category>Virtual foreign keys</Category>
-  </Categories>
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.19999999999999937" x="766.2499999999995" y="34.999999999999545" />
+  <SelectedNodes />
+  <Categories />
 </Diagram>
 
