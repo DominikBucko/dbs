@@ -8,6 +8,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,15 +47,16 @@ public class MainView extends VerticalLayout {
         addClassName("centered-content");
 
 
-        List<String> personList = new ArrayList<String>();
+        ArrayList<String> personList = new ArrayList<String>();
         personList.add("Aasdfasdfsad");
         personList.add("asdfasdfsafs");
         personList.add("sadfasdfd");
         personList.add("kjljhkjytdag");
 
 
-        Grid<String> grid = new Grid<>(String.class);
+        Grid<ArrayList> grid = new Grid<>();
         grid.setItems(personList);
+//        CallbackDataProvider
 
         add(textField, button, grid);
 
