@@ -48,7 +48,7 @@ Použivateľ po úspešnom schvalení si môže vyzdvihnuť asset, kontaktuje ad
 
 
 ## Logický model</H3>
-[Logicky model](logicky_model.jpg "Logicky model")
+[Logicky model](fyzicky_model.png "Logicky model")
 obsahuje sedem tabuliek. Sú v ňom pridané kardinality medzi jednotlivými tabuľkami.
 
 ## Fyzický model</H4>
