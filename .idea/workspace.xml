@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4dbb8665-fc32-4bd6-8963-87ef4e7d0017" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="postgres@digitalocean" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="postgres@digitalocean" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="postgres@digitalocean" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="asset_manager: database" type="162271b6:PgImplModel$Database" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="postgres@digitalocean" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="asset_manager: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="postgres@digitalocean" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="asset_manager: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="postgres@digitalocean" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="asset_manager: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ZAsYGQpDwOBkvJMhAJvTIY6agu" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
+  </component>
+  <component name="RunManager" selected="Spring Boot.Application">
+    <configuration name="Main_Backend" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="backend.Main_Backend" />
+      <module name="dbs" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="backend.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="dbs" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.icloud.dominik.Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main_Backend" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4dbb8665-fc32-4bd6-8963-87ef4e7d0017" name="Default Changelist" comment="" />
+      <created>1584293278963</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584293278963</updated>
+      <workItem from="1584293286631" duration="1780000" />
+      <workItem from="1584300315724" duration="2844000" />
+      <workItem from="1584356719293" duration="1336000" />
+      <workItem from="1584538722780" duration="6281000" />
+      <workItem from="1584973477699" duration="22592000" />
+      <workItem from="1585149645651" duration="17551000" />
+      <workItem from="1585233211529" duration="632000" />
+      <workItem from="1585239218378" duration="15991000" />
+      <workItem from="1585515413805" duration="318000" />
+    </task>
+    <task id="LOCAL-00001" summary="init commit">
+      <created>1584541817606</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1584541817606</updated>
+    </task>
+    <task id="LOCAL-00002" summary="created connector to db">
+      <created>1585001399913</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1585001399913</updated>
+    </task>
+    <task id="LOCAL-00003" summary="odovzdanie_1">
+      <created>1585164848177</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1585164848178</updated>
+    </task>
+    <task id="LOCAL-00004" summary="started work on login">
+      <created>1585340722646</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1585340722646</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init commit" />
+    <MESSAGE value="created connector to db" />
+    <MESSAGE value="AssetObject created + interface" />
+    <MESSAGE value="AssetObject filling from database working" />
+    <MESSAGE value="odovzdanie_1" />
+    <MESSAGE value="started work on login" />
+    <option name="LAST_COMMIT_MESSAGE" value="started work on login" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="555" y="215" width="800" height="684" key="#Notifications" timestamp="1585340757982">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="555" y="215" width="800" height="684" key="#Notifications/0.27.1920.1053@0.27.1920.1053" timestamp="1585340757982" />
+    <state x="555" y="215" width="800" height="684" key="#SQL_Dialects" timestamp="1585048018159">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="555" y="215" width="800" height="684" key="#SQL_Dialects/0.27.1920.1053@0.27.1920.1053" timestamp="1585048018159" />
+    <state x="656" y="237" width="800" height="684" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584999365371">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="656" y="237" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1584999365371" />
+    <state x="2795" y="215" width="800" height="684" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584541129138" />
+    <state x="768" y="260" width="374" height="594" key="#com.intellij.ide.util.MemberChooser" timestamp="1585248100367">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="768" y="260" width="374" height="594" key="#com.intellij.ide.util.MemberChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1585248100367" />
+    <state x="2927" y="368" width="524" height="451" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1584302153493">
+      <screen x="1920" y="0" width="2560" height="1080" />
+    </state>
+    <state x="2927" y="368" width="524" height="451" key="#com.intellij.ide.util.PackageChooserDialog/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584302153493" />
+    <state x="1134" y="27" width="776" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585250709382">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="1134" y="27" width="776" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1585250709382" />
+    <state x="2933" y="302" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1584300075086">
+      <screen x="1920" y="0" width="2560" height="1080" />
+    </state>
+    <state x="2933" y="302" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584300075086" />
+    <state x="1092" y="168" key="#xdebugger.evaluate" timestamp="1585051315385">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="1092" y="168" key="#xdebugger.evaluate/0.27.1920.1053@0.27.1920.1053" timestamp="1585051315385" />
+    <state x="632" y="86" width="864" height="994" key="CommitChangelistDialog2" timestamp="1585340722264">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="632" y="86" width="864" height="994" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1585340722264" />
+    <state x="2763" y="62" width="864" height="990" key="CommitChangelistDialog2/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584541817342" />
+    <state x="788" y="317" width="424" height="520" key="FileChooserDialogImpl" timestamp="1585165093324">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="788" y="317" width="424" height="520" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1585165093324" />
+    <state x="2971" y="297" width="447" height="520" key="FileChooserDialogImpl/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584541644312" />
+    <state x="822" y="317" width="374" height="508" key="FileChooserDialogImpl/1920.0.2560.1080/58.27.1862.1053@58.27.1862.1053" timestamp="1584731547731" />
+    <state width="684" height="850" key="GridCell.Tab.0.bottom" timestamp="1585395557297">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="684" height="850" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1585395557297" />
+    <state width="827" height="850" key="GridCell.Tab.0.bottom/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584358690135" />
+    <state width="684" height="850" key="GridCell.Tab.0.center" timestamp="1585395557296">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="684" height="850" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1585395557296" />
+    <state width="827" height="850" key="GridCell.Tab.0.center/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584358690135" />
+    <state width="684" height="850" key="GridCell.Tab.0.left" timestamp="1585395557295">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="684" height="850" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1585395557295" />
+    <state width="827" height="850" key="GridCell.Tab.0.left/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584358690135" />
+    <state width="684" height="850" key="GridCell.Tab.0.right" timestamp="1585395557297">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="684" height="850" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1585395557297" />
+    <state width="827" height="850" key="GridCell.Tab.0.right/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584358690135" />
+    <state width="684" height="850" key="GridCell.Tab.1.bottom" timestamp="1585395557299">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="684" height="850" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1585395557299" />
+    <state width="827" height="850" key="GridCell.Tab.1.bottom/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584358690135" />
+    <state width="684" height="850" key="GridCell.Tab.1.center" timestamp="1585395557298">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="684" height="850" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1585395557298" />
+    <state width="827" height="850" key="GridCell.Tab.1.center/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584358690135" />
+    <state width="684" height="850" key="GridCell.Tab.1.left" timestamp="1585395557297">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="684" height="850" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1585395557297" />
+    <state width="827" height="850" key="GridCell.Tab.1.left/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584358690135" />
+    <state width="684" height="850" key="GridCell.Tab.1.right" timestamp="1585395557298">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="684" height="850" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1585395557298" />
+    <state width="827" height="850" key="GridCell.Tab.1.right/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584358690135" />
+    <state width="623" height="850" key="GridCell.Tab.2.bottom" timestamp="1585303459501">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="623" height="850" key="GridCell.Tab.2.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1585303459501" />
+    <state width="2514" height="314" key="GridCell.Tab.2.bottom/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584300290619" />
+    <state width="623" height="850" key="GridCell.Tab.2.center" timestamp="1585303459501">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="623" height="850" key="GridCell.Tab.2.center/0.27.1920.1053@0.27.1920.1053" timestamp="1585303459501" />
+    <state width="2514" height="314" key="GridCell.Tab.2.center/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584300290619" />
+    <state width="623" height="850" key="GridCell.Tab.2.left" timestamp="1585303459500">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="623" height="850" key="GridCell.Tab.2.left/0.27.1920.1053@0.27.1920.1053" timestamp="1585303459500" />
+    <state width="2514" height="314" key="GridCell.Tab.2.left/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584300290619" />
+    <state width="623" height="850" key="GridCell.Tab.2.right" timestamp="1585303459501">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="623" height="850" key="GridCell.Tab.2.right/0.27.1920.1053@0.27.1920.1053" timestamp="1585303459501" />
+    <state width="2514" height="314" key="GridCell.Tab.2.right/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584300290619" />
+    <state width="263" height="541" key="HiddenNamespacesPopup" timestamp="1584994885988">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="263" height="541" key="HiddenNamespacesPopup/0.27.1920.1053@0.27.1920.1053" timestamp="1584994885988" />
+    <state x="545" y="173" width="819" height="768" key="NewModule_or_Project.wizard" timestamp="1585165111628">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="545" y="173" width="819" height="768" key="NewModule_or_Project.wizard/0.27.1920.1053@0.27.1920.1053" timestamp="1585165111628" />
+    <state x="656" y="305" width="800" height="543" key="Vcs.Push.Dialog.v2" timestamp="1585515854929">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="656" y="305" width="800" height="543" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1585515854929" />
+    <state x="2795" y="285" width="800" height="543" key="Vcs.Push.Dialog.v2/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584541905604" />
+    <state x="672" y="27" width="566" height="1053" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1585159283420">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="672" y="27" width="566" height="1053" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1585159283420" />
+    <state x="269" y="133" width="1372" height="848" key="new project wizard" timestamp="1585164973717">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="269" y="133" width="1372" height="848" key="new project wizard/0.27.1920.1053@0.27.1920.1053" timestamp="1585164973717" />
+    <state x="624" y="252" key="run.anything.popup" timestamp="1585060801888">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="624" y="252" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1585060801888" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/backend/Mapping.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/backend/authentication/Authenticator.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/LoginPage.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.vaadin.designer2.intellij.settings.SizePresetsSettingsComponent">
+    <option name="sizePresets">
+      <list>
+        <SizePreset>
+          <option name="caption" value="Phone" />
+          <option name="height" value="568" />
+          <option name="width" value="320" />
+        </SizePreset>
+        <SizePreset>
+          <option name="caption" value="Tablet" />
+          <option name="height" value="1024" />
+          <option name="width" value="768" />
+        </SizePreset>
+        <SizePreset>
+          <option name="caption" value="Desktop" />
+          <option name="height" value="900" />
+          <option name="width" value="1440" />
+        </SizePreset>
+      </list>
+    </option>
+  </component>
+</project>
