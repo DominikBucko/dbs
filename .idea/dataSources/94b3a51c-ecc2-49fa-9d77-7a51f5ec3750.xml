@@ -10,13 +10,13 @@
       <Owner>postgres</Owner>
       <IntrospectionStateNumber>734</IntrospectionStateNumber>
       <Relations>sequence|table|17046|17048|1
-sequence|table|16909|16911|1
 sequence|table|17038|17040|1
 sequence|table|16980|16982|1
 sequence|table|16917|16919|1
 sequence|table|16930|16932|1
 sequence|table|16944|16946|1
 sequence|table|16962|16964|1
+sequence|table|16909|16911|1
 </Relations>
     </database>
     <database id="3" parent="1" name="postgres">
