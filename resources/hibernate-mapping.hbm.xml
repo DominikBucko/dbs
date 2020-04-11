@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+   <class name = "backend.mapping.Asset" table = "">
+
+      <meta attribute = "class-description">
+         Asset details.
+      </meta>
+
+      <id name = "asset_id" type = "int" column = "asset_id">
+         <generator class="native"/>
+      </id>
+
+      <property name = "name" column = "name" type = "string"/>
+      <property name = "type" column = "type" type = "string"/>
+      <property name = "qr_code" column = "qr_code" type = "string"/>
+      <property name = "asset_category" column = "asset_category" type = "string"/>
+      <property name = "asset_department" column = "asset_department" type = "integer"/>
+      <property name = "status" column = "status" type = "string"/>
+
+   </class>
+</hibernate-mapping>
