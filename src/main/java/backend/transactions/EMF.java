@@ -8,6 +8,7 @@ import org.hibernate.cfg.Configuration;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.File;
+import java.sql.Connection;
 
 public class EMF {
 
@@ -24,5 +25,7 @@ public class EMF {
         }
         return null;
     }
+
+    private static Connection connection = null;
 
 }

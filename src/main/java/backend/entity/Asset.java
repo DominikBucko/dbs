@@ -1,6 +1,12 @@
-package backend.mapping;
+package backend.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+
+//@Entity
 public class Asset {
+//    @Id
     public int getAsset_id() {
         return asset_id;
     }
@@ -57,6 +63,13 @@ public class Asset {
         this.status = status;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     private int asset_id;
     private String name;
@@ -65,6 +78,9 @@ public class Asset {
     private String asset_category;
     private int asset_department;
     private String status;
+    private Department department;
+
+
 //    public Asset(int asset_id, String name, String type, String qr_code, String asset_category, int asset_department, String status, Department department) {
 //        this.asset_id = asset_id;
 //        this.name = name;

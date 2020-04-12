@@ -1,4 +1,4 @@
-package backend.mapping;
+package backend.entity;
 
 public class AssetFault {
     int asset_fault_id;
