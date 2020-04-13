@@ -2,7 +2,6 @@ package com.icloud.dominik.UI;
 
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -17,8 +16,8 @@ public class HomeLayout extends AppLayout {
     }
 
     private void createDrawer() {
-        RouterLink assetsTab = new RouterLink("Assets", Home.class);
-        RouterLink usersTab = new RouterLink("Users", UserList.class);
+        RouterLink assetsTab = new RouterLink("Assets", Assets.class);
+        RouterLink usersTab = new RouterLink("Users", Users.class);
         RouterLink test = new RouterLink("Test", Test.class);
         assetsTab.setHighlightCondition(HighlightConditions.sameLocation());
         addToDrawer(new VerticalLayout(

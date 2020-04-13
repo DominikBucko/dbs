@@ -12,6 +12,10 @@ public class ConnectionService {
     private static Connection conn;
 
     private ConnectionService() {
+        createConnection();
+    }
+
+    private void createConnection() {
         try {
             conn = DriverManager.getConnection("jdbc:postgresql://dbs.fiit.uk.to/asset_manager","postgres","BoboJeSmutny");
         } catch (SQLException e) {
@@ -20,6 +24,13 @@ public class ConnectionService {
     }
 
     public Connection getConnection() {
+        try {
+            if (conn.isClosed()) {
+                createConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return conn;
     }
 

@@ -1,4 +1,4 @@
-package com.icloud.dominik.UI;
+package com.icloud.dominik.UI.components;
 
 import backend.entity.Department;
 import backend.entity.User;
@@ -28,13 +28,13 @@ public class UserForm extends FormLayout {
     TextField city = new TextField("City");
     TextField address = new TextField("Address");
     IntegerField postcode = new IntegerField("Postcode");
-    ComboBox<Department> department;
+    ComboBox<Department> department = new ComboBox<>("Department");
     TextField login = new TextField("Username");
     TextField password = new TextField("Password");
     Checkbox is_admin = new Checkbox("Make Administrator");
     Button save = new Button("Save");
     Button delete = new Button("Delete");
-    Button cancel = new Button("Cancel");
+    public Button cancel = new Button("Cancel");
     Notification userAdded = new Notification();
 
     DepartmentService departmentService = new DepartmentService();
@@ -46,8 +46,8 @@ public class UserForm extends FormLayout {
         binder.bindInstanceFields(this);
         addClassName("new-user-form");
         departmentComboSetup();
-        save.addClickListener(click -> saveUser());
         delete.addClickListener(click -> clearForm());
+        save.addClickListener(click -> saveUser());
         setupNotification();
         add(
                 first_name,
@@ -63,14 +63,30 @@ public class UserForm extends FormLayout {
         );
     }
 
+    public void mapSaveBtnToCreate() {
+        save.addClickListener(click -> saveUser());
+    }
+
+    public void mapSaveBtnToUpdate() {
+        save.addClickListener(click -> updateUser());
+    }
+
+    private void updateUser() {
+        userService.updateUser(binder.getBean());
+    }
+
     private void setupNotification() {
         Button cancelNotification = new Button("OK");
         cancelNotification.addClickListener(click -> userAdded.close());
         Text userAddedSuccess = new Text("New user added successfully.");
         HorizontalLayout notificationHL = new HorizontalLayout(userAddedSuccess, cancelNotification);
         userAdded.add(notificationHL);
+
     }
 
+    public void setUser(User user) {
+        binder.setBean(user);
+    }
 
     private void saveUser() {
         List<User> users = new ArrayList<>();
@@ -107,7 +123,7 @@ public class UserForm extends FormLayout {
 
     private void departmentComboSetup() {
         Collection<Department> departments = departmentService.getAll();
-        department = new ComboBox<>("Department", departments);
+        department.setItems(departments);
         department.setItemLabelGenerator(Department::getDepartment_name);
         department.setPlaceholder("No department selected");
         department.setWidth("100%");

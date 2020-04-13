@@ -72,4 +72,12 @@ public class UserService {
         }
         return true;
     }
+
+    public void updateUser(User user) {
+        //UPDATE QUERY HERE
+    }
+
+    public List<User> filterBy(String property, String toMatch) {
+
+    }
 }

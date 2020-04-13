@@ -11,10 +11,10 @@ import com.vaadin.flow.router.Route;
 
 @Route(value = "", layout = HomeLayout.class)
 @PageTitle("Assets | SAM")
-public class Home extends VerticalLayout {
+public class Assets extends VerticalLayout {
     Grid<Asset> grid = new Grid<>(Asset.class);
     AssetService assetService = new AssetService();
-    public Home() {
+    public Assets() {
         addClassName("list-view");
         setSizeFull();
         setupGrid();
