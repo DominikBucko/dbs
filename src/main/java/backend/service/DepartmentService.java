@@ -1,9 +1,12 @@
 package backend.service;
 
+import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.Department;
 import backend.entity.Location;
 import backend.transactions.ConnectionService;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -37,5 +40,42 @@ public class DepartmentService {
             e.printStackTrace();
         }
         return departments;
+    }
+    public boolean createNew(List<Department> departments) {
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
+            for (Department department : departments) {
+                MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+                parameterSource.addValue("department_name", department.getDepartment_name());
+                parameterSource.addValue("department_location", department.getLocation().getLocation_id());
+                jdbcTemplate.update("INSERT INTO asset_manager.public.department (department_name, department_location) " +
+                                "VALUES (:department_name, :department_location)",
+                        parameterSource
+                );
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    public boolean update(Department department) {
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
+            MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+            parameterSource.addValue("index", department.getDepartment_id());
+            parameterSource.addValue("name", department.getDepartment_name());
+            parameterSource.addValue("location", department.getLocation().getLocation_id());
+            jdbcTemplate.update("UPDATE asset_manager.public.department"+
+                            " SET department_name = :name, department_location = :location" +
+                            " WHERE department_id = :index",
+                    parameterSource
+            );
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
