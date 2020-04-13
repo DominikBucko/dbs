@@ -34,8 +34,10 @@ public class UserForm extends FormLayout {
     Checkbox is_admin = new Checkbox("Make Administrator");
     Button save = new Button("Save");
     Button delete = new Button("Delete");
+    Button update = new Button("Update");
     public Button cancel = new Button("Cancel");
     Notification userAdded = new Notification();
+    HorizontalLayout buttonLayout;
 
     DepartmentService departmentService = new DepartmentService();
     UserService userService = new UserService();
@@ -49,6 +51,7 @@ public class UserForm extends FormLayout {
         delete.addClickListener(click -> clearForm());
         save.addClickListener(click -> saveUser());
         setupNotification();
+        buttonLayout = buttonRow();
         add(
                 first_name,
                 surname,
@@ -59,16 +62,20 @@ public class UserForm extends FormLayout {
                 login,
                 password,
                 is_admin,
-                buttonRow()
+                buttonLayout
         );
     }
 
     public void mapSaveBtnToCreate() {
         save.addClickListener(click -> saveUser());
+        buttonLayout.removeAll();
+        buttonLayout.add(save, delete, cancel);
     }
 
     public void mapSaveBtnToUpdate() {
-        save.addClickListener(click -> updateUser());
+        update.addClickListener(click -> updateUser());
+        buttonLayout.removeAll();
+        buttonLayout.add(update, delete, cancel);
     }
 
     private void updateUser() {
@@ -81,7 +88,6 @@ public class UserForm extends FormLayout {
         Text userAddedSuccess = new Text("New user added successfully.");
         HorizontalLayout notificationHL = new HorizontalLayout(userAddedSuccess, cancelNotification);
         userAdded.add(notificationHL);
-
     }
 
     public void setUser(User user) {
@@ -130,10 +136,11 @@ public class UserForm extends FormLayout {
     }
 
     private HorizontalLayout buttonRow() {
+    update.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
     cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
+    update.addClickShortcut(Key.ENTER);
     save.addClickShortcut(Key.ENTER);
     cancel.addClickShortcut(Key.ESCAPE);
     return new HorizontalLayout(save, delete, cancel);

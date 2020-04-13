@@ -36,7 +36,7 @@ public class Users extends VerticalLayout {
 
         dialogContent.addClassName("dialog-content");
         setupUserDialog();
-        newUser.addClickListener(click -> newUserDialog.open());
+        newUser.addClickListener(click -> addNewUser());
 
         add(newUser, newUserDialog, userGrid, userAdded);
     }
