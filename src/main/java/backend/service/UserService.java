@@ -74,7 +74,27 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        //UPDATE QUERY HERE
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
+            MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+            parameterSource.addValue("id", user.getUser_id());
+            parameterSource.addValue("fname", user.getFirst_name());
+            parameterSource.addValue("surname", user.getSurname());
+            parameterSource.addValue("city", user.getCity());
+            parameterSource.addValue("address", user.getAddress());
+            parameterSource.addValue("postcode", user.getPostcode());
+            parameterSource.addValue("user_department", user.getUser_department());
+            parameterSource.addValue("login", user.getLogin());
+            parameterSource.addValue("password", user.getPassword());
+            parameterSource.addValue("is_admin", user.getIs_admin());
+            jdbcTemplate.update("UPDATE asset_manager.public.user"+
+                            " SET first_name = :fname, surname = :surname, city = :city, address = :address, postcode = :postcode, user_department = :user_department, login = :login, password = :password, is_admin = :is_admin" +
+                            " WHERE user_id = :id",
+                    parameterSource
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<User> filterBy(String property, String toMatch) {
