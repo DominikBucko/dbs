@@ -46,4 +46,16 @@ public class AssetService {
         return assets;
     }
 
+    public boolean createNew(List<Asset> assets) {
+
+    }
+
+    public boolean update(Asset asset) {
+
+    }
+
+    public List<Asset> filterBy(String property, String toMatch) {
+
+    }
+
 }

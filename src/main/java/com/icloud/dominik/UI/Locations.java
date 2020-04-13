@@ -37,6 +37,7 @@ public class Locations extends VerticalLayout {
 
     private void editLocation(Location value) {
         locationForm.setLocation(value);
+        dialog.open();
     }
 
 }

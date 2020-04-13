@@ -2,23 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4dbb8665-fc32-4bd6-8963-87ef4e7d0017" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/backend/service/LocationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/Locations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/components/CustomForm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/components/LocationForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/backend/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/backend/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/backend/transactions/ConnectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/backend/transactions/ConnectionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/Assets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/HomeLayout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/HomeLayout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/UserForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/components/UserForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/UserList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/Users.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/icloud/dominik/AbstractViewTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/icloud/dominik/LoginPageIT.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/icloud/dominik/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/icloud/dominik/Application.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/icloud/dominik/AbstractViewTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/icloud/dominik/LoginPageIT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/backend/service/AssetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/backend/service/AssetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/backend/service/LocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/backend/service/LocationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/Locations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/Locations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/components/LocationForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/icloud/dominik/UI/components/LocationForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/icloud/dominik/UI/Home.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +123,7 @@
       <workItem from="1586450389211" duration="2035000" />
       <workItem from="1586513930595" duration="1574000" />
       <workItem from="1586515761007" duration="10109000" />
-      <workItem from="1586538036551" duration="64665000" />
+      <workItem from="1586538036551" duration="66082000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1584541817606</created>
@@ -192,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586774805653</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="services need updating">
+      <created>1586790266211</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1586790266211</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,7 +205,8 @@
     <MESSAGE value="hibernate cfg" />
     <MESSAGE value="added tables for users and assets, created ui form for new user creation" />
     <MESSAGE value="user creation functional, notification added" />
-    <option name="LAST_COMMIT_MESSAGE" value="user creation functional, notification added" />
+    <MESSAGE value="services need updating" />
+    <option name="LAST_COMMIT_MESSAGE" value="services need updating" />
   </component>
   <component name="WindowStateProjectService">
     <state x="566" y="397" width="752" height="319" key="#Assign_Data_Sources" timestamp="1586615876506">
@@ -261,11 +258,11 @@
       <screen x="0" y="27" width="2560" height="1053" />
     </state>
     <state x="953" y="415" width="643" height="283" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.27.2560.1053@0.27.2560.1053" timestamp="1586515476585" />
-    <state x="843" y="86" width="912" height="994" key="CommitChangelistDialog2" timestamp="1586774805464">
+    <state x="843" y="86" width="912" height="994" key="CommitChangelistDialog2" timestamp="1586790265971">
       <screen x="0" y="27" width="2560" height="1053" />
     </state>
     <state x="632" y="86" width="864" height="994" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1585340722264" />
-    <state x="843" y="86" width="912" height="994" key="CommitChangelistDialog2/0.27.2560.1053@0.27.2560.1053" timestamp="1586774805464" />
+    <state x="843" y="86" width="912" height="994" key="CommitChangelistDialog2/0.27.2560.1053@0.27.2560.1053" timestamp="1586790265971" />
     <state x="2763" y="62" width="864" height="990" key="CommitChangelistDialog2/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584541817342" />
     <state x="2020" y="127" width="1720" height="853" key="DiffContextDialog" timestamp="1586458346279">
       <screen x="0" y="27" width="3840" height="1053" />
@@ -362,11 +359,11 @@
       <screen x="0" y="27" width="2560" height="1053" />
     </state>
     <state x="965" y="221" width="1022" height="737" key="SettingsEditor/0.27.2560.1053@0.27.2560.1053" timestamp="1586777611408" />
-    <state x="875" y="305" width="800" height="543" key="Vcs.Push.Dialog.v2" timestamp="1586774809705">
+    <state x="875" y="305" width="800" height="543" key="Vcs.Push.Dialog.v2" timestamp="1586790270561">
       <screen x="0" y="27" width="2560" height="1053" />
     </state>
     <state x="656" y="305" width="800" height="543" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1585515854929" />
-    <state x="875" y="305" width="800" height="543" key="Vcs.Push.Dialog.v2/0.27.2560.1053@0.27.2560.1053" timestamp="1586774809705" />
+    <state x="875" y="305" width="800" height="543" key="Vcs.Push.Dialog.v2/0.27.2560.1053@0.27.2560.1053" timestamp="1586790270561" />
     <state x="2795" y="285" width="800" height="543" key="Vcs.Push.Dialog.v2/1920.0.2560.1080/0.27.1920.1053@1920.0.2560.1080" timestamp="1584541905604" />
     <state width="1280" height="526" key="XDebugger.FullValuePopup" timestamp="1586543474105">
       <screen x="0" y="27" width="2560" height="1053" />
@@ -394,10 +391,10 @@
     </state>
     <state x="624" y="252" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1585060801888" />
     <state x="832" y="252" key="run.anything.popup/0.27.2560.1053@0.27.2560.1053" timestamp="1586786836259" />
-    <state x="943" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1586106359755">
+    <state x="943" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1586790425029">
       <screen x="0" y="27" width="2560" height="1053" />
     </state>
-    <state x="943" y="259" width="672" height="678" key="search.everywhere.popup/0.27.2560.1053@0.27.2560.1053" timestamp="1586106359755" />
+    <state x="943" y="259" width="672" height="678" key="search.everywhere.popup/0.27.2560.1053@0.27.2560.1053" timestamp="1586790425029" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

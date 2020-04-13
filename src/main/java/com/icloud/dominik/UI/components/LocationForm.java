@@ -36,10 +36,12 @@ public class LocationForm extends CustomForm {
 
     public void setLocation(Location location) {
         binder.setBean(location);
+        save.addClickListener(click -> updateNewLocation());
     }
 
     private void updateNewLocation() {
         locationService.update(binder.getBean());
+        save.addClickListener(click -> createNewLocation()); //Toto treba upravit na lepsie riesenie
     }
 
     private void createNewLocation() {
@@ -51,6 +53,7 @@ public class LocationForm extends CustomForm {
             notification.open();
         } else {
             setupNotification("ERROR");
+            notification.open();
         }
     }
 
