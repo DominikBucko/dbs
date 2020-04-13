@@ -90,6 +90,30 @@ public class User {
         this.is_admin = is_admin;
     }
 
+    public User() {
+
+    }
+
+    public User(String first_name,
+                String surname,
+                String city,
+                String address,
+                int postcode,
+                int user_department,
+                String login,
+                String password,
+                Boolean is_admin) {
+        this.first_name = first_name;
+        this.surname = surname;
+        this.city = city;
+        this.address = address;
+        this.postcode = postcode;
+        this.user_department = user_department;
+        this.login = login;
+        this.password = password;
+        this.is_admin = is_admin;
+    }
+
     int user_id;
     String first_name;
     String surname;

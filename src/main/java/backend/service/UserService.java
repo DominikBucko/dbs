@@ -46,21 +46,30 @@ public class UserService {
         return assets;
     }
 
-    public void createNew(List<User> userList) {
-        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
-        for (User user: userList) {
-            MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-            parameterSource.addValue("fname", user.getFirst_name());
-            parameterSource.addValue("surname", user.getSurname());
-            parameterSource.addValue("city", user.getCity());
-            parameterSource.addValue("address", user.getAddress());
-            parameterSource.addValue("postcode", user.getPostcode());
-            parameterSource.addValue("user_department", user.getUser_department());
-            parameterSource.addValue("login", user.getLogin());
-            parameterSource.addValue("password", user.getPassword());
-            parameterSource.addValue("is_admin", user.getIs_admin());
-            jdbcTemplate.queryForRowSet("INSERT INTO asset_manager.public.user (first_name, surname, city, address, postcode, user_department, login, password, is_admin) " +
-                    "VALUES (:fname, :surname, :city, :address, :postcode, :user_depratment, :login, :password, :is_admin)", parameterSource);
+    public boolean createNew(List<User> userList) {
+        try {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
+            for (User user : userList) {
+                MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+                parameterSource.addValue("fname", user.getFirst_name());
+                parameterSource.addValue("surname", user.getSurname());
+                parameterSource.addValue("city", user.getCity());
+                parameterSource.addValue("address", user.getAddress());
+                parameterSource.addValue("postcode", user.getPostcode());
+                parameterSource.addValue("user_department", user.getUser_department());
+                parameterSource.addValue("login", user.getLogin());
+                parameterSource.addValue("password", user.getPassword());
+                parameterSource.addValue("is_admin", user.getIs_admin());
+                jdbcTemplate.update("INSERT INTO asset_manager.public.user (first_name, surname, city, address, postcode, user_department, login, password, is_admin) " +
+                                "VALUES (:fname, :surname, :city, :address, :postcode, :user_department, :login, :password, :is_admin)",
+                        parameterSource
+                        );
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 }

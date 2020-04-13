@@ -10,12 +10,12 @@ import com.vaadin.flow.router.Route;
 public class Test extends VerticalLayout {
     Button btn = new Button("test");
     public Test() {
-        btn.addClickListener(click -> {
-            AssetsManager assetsManager = new AssetsManager();
-            assetsManager.get_assets();
-        });
-        UserForm form = new UserForm();
-        form.setSizeFull();
-        add(btn, form);
+//        btn.addClickListener(click -> {
+//            AssetsManager assetsManager = new AssetsManager();
+//            assetsManager.get_assets();
+//        });
+//        UserForm form = new UserForm();
+//        form.setSizeFull();
+//        add(btn, form);
     }
 }
