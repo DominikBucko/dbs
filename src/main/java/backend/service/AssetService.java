@@ -47,15 +47,15 @@ public class AssetService {
     }
 
     public boolean createNew(List<Asset> assets) {
-
+        return false;
     }
 
     public boolean update(Asset asset) {
-
+        return false;
     }
 
     public List<Asset> filterBy(String property, String toMatch) {
-
+        return new ArrayList<Asset>();
     }
 
 }

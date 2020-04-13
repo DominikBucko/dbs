@@ -16,6 +16,8 @@ public class CustomForm extends FormLayout {
     Button save = new Button("Save");
     Button cancel = new Button("Cancel");
     Button delete = new Button("Delete");
+    Button update = new Button("Update");
+    HorizontalLayout buttonLayout = buttonRow();
     Notification notification = new Notification();
 
 
@@ -35,6 +37,20 @@ public class CustomForm extends FormLayout {
         save.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
         return new HorizontalLayout(save, delete, cancel);
+    }
+
+    public void setCancelBtn(Button cancel) {
+        this.cancel = cancel;
+    }
+
+    public void setUpdateMode() {
+        buttonLayout.removeAll();
+        buttonLayout.add(update, delete, cancel);
+    }
+
+    public void setCreateMode() {
+        buttonLayout.removeAll();
+        buttonLayout.add(save, delete, cancel);
     }
 
 }

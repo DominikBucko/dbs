@@ -15,11 +15,11 @@ public class LocationForm extends CustomForm {
     TextField state = new TextField("State");
     TextField address = new TextField("Address");
     IntegerField postcode = new IntegerField("Postcode");
-    Binder<Location> binder = new Binder<Location>(Location.class);
+    Binder<Location> binder = new Binder<>(Location.class);
     LocationService locationService = new LocationService();
 
     public LocationForm() {
-        binder.bindInstanceFields(Location.class);
+        binder.bindInstanceFields(this);
         addClassName("location-form");
         setupNotification("Location saved successfully.");
         save.addClickListener(click -> createNewLocation());
@@ -36,12 +36,10 @@ public class LocationForm extends CustomForm {
 
     public void setLocation(Location location) {
         binder.setBean(location);
-        save.addClickListener(click -> updateNewLocation());
     }
 
     private void updateNewLocation() {
         locationService.update(binder.getBean());
-        save.addClickListener(click -> createNewLocation()); //Toto treba upravit na lepsie riesenie
     }
 
     private void createNewLocation() {

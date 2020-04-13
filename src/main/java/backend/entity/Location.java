@@ -33,9 +33,9 @@ public class Location {
         this.postcode = postcode;
     }
 
-    private int location_id;
-    private String state;
-    private String address;
-    private int postcode;
+    int location_id;
+    String state;
+    String address;
+    int postcode;
 
 }

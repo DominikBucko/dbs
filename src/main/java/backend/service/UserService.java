@@ -78,6 +78,6 @@ public class UserService {
     }
 
     public List<User> filterBy(String property, String toMatch) {
-
+        return new ArrayList<User>();
     }
 }

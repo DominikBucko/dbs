@@ -18,11 +18,13 @@ public class HomeLayout extends AppLayout {
     private void createDrawer() {
         RouterLink assetsTab = new RouterLink("Assets", Assets.class);
         RouterLink usersTab = new RouterLink("Users", Users.class);
+        RouterLink locationsTab = new RouterLink("Locations", Locations.class);
         RouterLink test = new RouterLink("Test", Test.class);
         assetsTab.setHighlightCondition(HighlightConditions.sameLocation());
         addToDrawer(new VerticalLayout(
                 assetsTab,
                 usersTab,
+                locationsTab,
                 test
         ));
 
