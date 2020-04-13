@@ -6,6 +6,7 @@ import backend.service.AssetService;
 import backend.service.DepartmentService;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class AssetForm extends CustomForm {
 
     DepartmentService departmentService = new DepartmentService();
     AssetService assetService = new AssetService();
-    Binder<Asset> binder = new Binder<>(Asset.class);
+    Binder<Asset> binder = new BeanValidationBinder<>(Asset.class);
 
     public AssetForm() {
         binder.bindInstanceFields(this);
@@ -60,7 +61,16 @@ public class AssetForm extends CustomForm {
 
     private void createNewAsset() {
         List<Asset> assets = new ArrayList<>();
-        assets.add(binder.getBean());
+        Asset asset = new Asset(
+                name.getValue(),
+                type.getValue(),
+                qr_code.getValue(),
+                asset_category.getValue(),
+                status.getValue(),
+                department.getValue()
+        );
+
+        assets.add(asset);
         assetService.createNew(assets);
     }
 

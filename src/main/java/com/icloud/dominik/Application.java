@@ -13,7 +13,7 @@ import static backend.Mapping.getConnection;
 /**
  * The entry point of the Spring Boot application.
  */
-@SpringBootApplication(/*exclude = ErrorMvcAutoConfiguration.class*/)
+@SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

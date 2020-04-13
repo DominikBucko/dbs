@@ -32,6 +32,7 @@ public class Locations extends VerticalLayout {
         updateGrid();
         setupDialog();
         newLocation.addClickListener(click -> createLocation());
+        add(newLocation, locationsGrid);
     }
 
     private void setupDialog() {
@@ -48,7 +49,7 @@ public class Locations extends VerticalLayout {
 
     private void setupGrid() {
         locationsGrid.addClassName("locations-Grid");
-        locationsGrid.setSizeFull();
+//        locationsGrid.setSizeFull(); //BUG
         locationsGrid.setColumns("state", "address", "postcode");
         locationsGrid.asSingleSelect().addValueChangeListener(evt -> editLocation(evt.getValue()));
     }

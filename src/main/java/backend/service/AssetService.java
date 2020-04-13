@@ -82,10 +82,10 @@ public class AssetService {
             parameterSource.addValue("type", asset.getType());
             parameterSource.addValue("qr_code", asset.getQr_code());
             parameterSource.addValue("category", asset.getAsset_category());
-            parameterSource.addValue("department", asset.getDepartment());
+            parameterSource.addValue("department", asset.getDepartment().getDepartment_id());
             parameterSource.addValue("status", asset.getStatus());
             jdbcTemplate.update("UPDATE asset_manager.public.asset"+
-                            " SET name = :name, type = :type, qr_code = :qr_code, asset_category = :category, asset_department = :department, status = :status" +
+                            " SET \"name\" = :name, \"type\" = :type, qr_code = :qr_code, asset_category = :category, asset_department = :department, status = :status" +
                             " WHERE asset_id = :index",
                     parameterSource
             );
