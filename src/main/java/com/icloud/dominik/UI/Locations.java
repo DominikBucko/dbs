@@ -18,7 +18,7 @@ import com.vaadin.flow.router.Route;
 @Route(value = "locations", layout = HomeLayout.class)
 @PageTitle("Locations | SAM")
 
-public class Locations extends Div {
+public class Locations extends VerticalLayout {
     Grid<Location> locationsGrid = new Grid<>(Location.class);
     LocationService locationService = new LocationService();
     Button newLocation = new Button("New location");
@@ -42,6 +42,11 @@ public class Locations extends Div {
         dialog.add(dialogContent);
     }
 
+    private void closeAndUpdate() {
+        updateGrid();
+        dialog.close();
+    }
+
     public void updateGrid() {
         locationsGrid.setItems(locationService.getAll());
     }
@@ -54,6 +59,7 @@ public class Locations extends Div {
         locationsGrid.recalculateColumnWidths();
         locationsGrid.setColumns("state", "address", "postcode");
         locationsGrid.asSingleSelect().addValueChangeListener(evt -> editLocation(evt.getValue()));
+        locationsGrid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 
     private void createLocation() {

@@ -2,13 +2,12 @@ package backend.service;
 
 import backend.entity.Asset;
 import backend.entity.Department;
-import backend.entity.Department;
 import backend.entity.Location;
-import backend.transactions.ConnectionService;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -77,5 +76,19 @@ public class DepartmentService {
             e.printStackTrace();
             return false;
         }
+    }
+    public boolean delete(Department department) {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "DELETE FROM department WHERE department_id=?"
+            );
+            sql.setInt(1, department.getDepartment_id());
+            sql.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

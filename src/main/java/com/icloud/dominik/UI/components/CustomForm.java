@@ -17,6 +17,7 @@ public class CustomForm extends FormLayout {
     Button cancel = new Button("Cancel");
     Button delete = new Button("Delete");
     Button update = new Button("Update");
+    Button clear = new Button("Clear");
     HorizontalLayout buttonLayout = buttonRow();
     Notification notification = new Notification();
 
@@ -34,6 +35,7 @@ public class CustomForm extends FormLayout {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+
         save.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
         return new HorizontalLayout(save, delete, cancel);
@@ -54,7 +56,7 @@ public class CustomForm extends FormLayout {
 
     public void setCreateMode() {
         buttonLayout.removeAll();
-        buttonLayout.add(save, delete, cancel);
+        buttonLayout.add(save, clear, cancel);
     }
 
 }

@@ -12,6 +12,7 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -34,6 +35,7 @@ public class UserForm extends FormLayout {
     Checkbox is_admin = new Checkbox("Make Administrator");
     Button save = new Button("Save");
     Button delete = new Button("Delete");
+    Button clear = new Button("Clear");
     Button update = new Button("Update");
     Button cancel = new Button("Cancel");
     Notification userAdded = new Notification();
@@ -48,8 +50,10 @@ public class UserForm extends FormLayout {
         binder.bindInstanceFields(this);
         addClassName("new-user-form");
         departmentComboSetup();
-        delete.addClickListener(click -> clearForm());
+        delete.addClickListener(click -> deleteUser());
         save.addClickListener(click -> saveUser());
+        update.addClickListener(click -> updateUser());
+        clear.addClickListener(click -> clearForm());
         setupNotification();
         buttonLayout = buttonRow();
         add(
@@ -66,9 +70,23 @@ public class UserForm extends FormLayout {
         );
     }
 
+    private void deleteUser() {
+        if(!userService.delete(binder.getBean())) {
+            Notification notification = new Notification(
+                    "Deletion not possible! Please remove all references to this item before deleting it");
+            notification.setDuration(10000);
+//            Button btn = new Button("Close");
+//            btn.addClickListener(click -> notification.close());
+//            notification.add(btn);
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            notification.open();
+        }
+        cancel.click();
+    }
+
     public void mapSaveBtnToCreate() {
         buttonLayout.removeAll();
-        buttonLayout.add(save, delete, cancel);
+        buttonLayout.add(save, clear, cancel);
     }
 
     public void mapSaveBtnToUpdate() {

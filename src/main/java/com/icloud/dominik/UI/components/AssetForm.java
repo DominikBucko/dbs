@@ -4,7 +4,10 @@ import backend.entity.Asset;
 import backend.entity.Department;
 import backend.service.AssetService;
 import backend.service.DepartmentService;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -29,10 +32,25 @@ public class AssetForm extends CustomForm {
         addClassName("asset-form");
         setupNotification("Asset saved successfully");
         save.addClickListener(click -> createNewAsset());
-        delete.addClickListener(click -> clearFields());
+        clear.addClickListener(click -> clearFields());
+        delete.addClickListener(click -> deleteAsset());
         update.addClickListener(click -> updateAsset());
         setUpCombobox();
         add(name, type, qr_code, asset_category, department, status, buttonLayout);
+    }
+
+    private void deleteAsset() {
+        if (!assetService.delete(binder.getBean())) {
+            Notification notification = new Notification(
+                    "Deletion not possible! Please remove all references to this item before deleting it");
+            notification.setDuration(10000);
+//            Button btn = new Button("Close");
+//            btn.addClickListener(click -> notification.close());
+//            notification.add(btn);
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            notification.open();
+        }
+        cancel.click();
     }
 
     public void setAsset(Asset asset) {

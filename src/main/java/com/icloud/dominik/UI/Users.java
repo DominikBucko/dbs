@@ -5,10 +5,12 @@ import backend.entity.User;
 import backend.service.UserService;
 import com.icloud.dominik.UI.components.UserForm;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -25,30 +27,72 @@ public class Users extends VerticalLayout {
     Div dialogContent = new Div();
     Button newUser = new Button("Create user");
     Notification userAdded = new Notification();
+    ComboBox<String> propertySelect = new ComboBox<>();
     UserForm userForm;
     TextField filter = new TextField();
+    HorizontalLayout topRow = new HorizontalLayout();
 
     public Users() {
         addClassName("user-list");
         setSizeFull();
         setupGrid();
         updateGrid();
-
-        dialogContent.addClassName("dialog-content");
+        topRow.add(newUser, filter, propertySelect);
         setupUserDialog();
         newUser.addClickListener(click -> addNewUser());
+        newUser.setWidthFull();
+        filterConfig();
 
-        add(newUser, newUserDialog, userGrid, userAdded);
+        add(topRow, newUserDialog, userGrid, userAdded);
     }
 
     private void filterConfig() {
-        filter.setPlaceholder("Filter by surname..");
+        filter.addFocusListener(focus -> setPropertyOnFocus());
+        filter.setPlaceholder("Filter by Surname..");
+        filter.setSizeFull();
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.LAZY);
-        filter.addValueChangeListener(e -> updateGrid());
+        filter.addValueChangeListener(e -> applyFilter());
+
+        propertySelect.setPlaceholder("Filter by:");
+        propertySelect.setItemLabelGenerator(this::beautifyPropName);
+        propertySelect.setItems("first_name", "surname", "address", "login");
+        propertySelect.addValueChangeListener(evt -> updateFilterPrompt());
+    }
+
+    private void setPropertyOnFocus() {
+        if (propertySelect.getValue() == (propertySelect.getEmptyValue())) {
+            propertySelect.setValue("surname");
+        }
+    }
+
+    private void updateFilterPrompt() {
+        filter.setPlaceholder("Filter by " + beautifyPropName(propertySelect.getValue()) +"...");
+    }
+
+    private void applyFilter() {
+        if (propertySelect.getValue().equals(propertySelect.getEmptyValue())) {
+            propertySelect.setValue("surname");
+        }
+        String property = propertySelect.getValue();
+        String toMatch = filter.getValue();
+        updateGrid(property, toMatch);
+    }
+
+    private String beautifyPropName(String name) {
+        StringBuilder myName = new StringBuilder(name);
+        try {
+            int dash = name.indexOf('_');
+            myName.setCharAt(dash, ' ');
+        } catch (Exception e) {
+        }
+        char first = Character.toUpperCase(name.charAt(0));
+        myName.setCharAt(0, first);
+        return myName.toString();
     }
 
     private void setupUserDialog() {
+        dialogContent.addClassName("dialog-content");
         userForm = new UserForm();
         dialogContent.add(userForm);
         userForm.getCancel().addClickListener(click -> refreshAfterDialogClose());
@@ -65,8 +109,8 @@ public class Users extends VerticalLayout {
         userGrid.setItems(userService.getAll());
     }
 
-    private void updateGrid(String search_phrase) {
-        userGrid.setItems(userService.filterBy("surname", search_phrase));
+    private void updateGrid(String property, String search_phrase) {
+        userGrid.setItems(userService.filterBy(property, search_phrase));
     }
 
     private void addNewUser() {
@@ -82,6 +126,7 @@ public class Users extends VerticalLayout {
     private void setupGrid() {
         userGrid.addClassName("asset-userGrid");
         userGrid.setSizeFull();
+        userGrid.recalculateColumnWidths();
         userGrid.removeColumnByKey("user_department");
         userGrid.setColumns("first_name", "surname", "address", "login");
         userGrid.addColumn(user -> {
@@ -89,6 +134,7 @@ public class Users extends VerticalLayout {
             return department == null ? "none" : department.getDepartment_name();
         }).setHeader("Department");
         userGrid.asSingleSelect().addValueChangeListener(evt -> editUser(evt.getValue()));
+        userGrid.getColumns().forEach(col -> col.setAutoWidth(true));
 
     }
 }

@@ -2,16 +2,12 @@ package backend.service;
 
 import backend.entity.Asset;
 import backend.entity.Department;
-import backend.entity.User;
-import backend.transactions.ConnectionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -100,4 +96,19 @@ public class AssetService {
         return null;
     }
 
+    public boolean delete(Asset asset) {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "DELETE FROM asset WHERE asset_id=?"
+            );
+            sql.setInt(1, asset.getAsset_id());
+            sql.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

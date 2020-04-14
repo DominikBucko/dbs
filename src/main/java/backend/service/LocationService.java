@@ -1,14 +1,13 @@
 package backend.service;
 
 import backend.entity.Asset;
-import backend.entity.Department;
 import backend.entity.Location;
-import backend.transactions.ConnectionService;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -75,5 +74,20 @@ public class LocationService {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public boolean delete(Location location) {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "DELETE FROM location WHERE location_id=?"
+            );
+            sql.setInt(1, location.getLocation_id());
+            sql.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

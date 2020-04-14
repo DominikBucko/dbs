@@ -3,6 +3,9 @@ package com.icloud.dominik.UI.components;
 import backend.entity.Location;
 import backend.entity.User;
 import backend.service.LocationService;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -23,9 +26,25 @@ public class LocationForm extends CustomForm {
         addClassName("location-form");
         setupNotification("Location saved successfully.");
         save.addClickListener(click -> createNewLocation());
-        delete.addClickListener(click -> clearFields());
+        clear.addClickListener(click -> clearFields());
+        delete.addClickListener(clic -> deleteLocation());
+        update.addClickListener(click -> updateNewLocation());
 
         add(state, address, postcode, buttonLayout);
+    }
+
+    private void deleteLocation() {
+        if (!locationService.delete(binder.getBean())) {
+            Notification notification = new Notification(
+                    "Deletion not possible! Please remove all references to this item before deleting it");
+            notification.setDuration(10000);
+//            Button btn = new Button("Close");
+//            btn.addClickListener(click -> notification.close());
+//            notification.add(btn);
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            notification.open();
+        }
+        cancel.click();
     }
 
     private void clearFields() {
@@ -40,6 +59,7 @@ public class LocationForm extends CustomForm {
 
     private void updateNewLocation() {
         locationService.update(binder.getBean());
+        cancel.click();
     }
 
     private void createNewLocation() {

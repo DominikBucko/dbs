@@ -1,6 +1,4 @@
-package backend.transactions;
-
-import backend.service.CustomDataSource;
+package backend.service;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -17,7 +15,7 @@ public class ConnectionService {
 
     private void createConnection() {
         try {
-            conn = DriverManager.getConnection("jdbc:postgresql://dbs.fiit.uk.to/asset_manager","postgres","BoboJeSmutny");
+            conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1/asset_manager","postgres","BoboJeSmutny");
         } catch (SQLException e) {
             e.printStackTrace();
         }

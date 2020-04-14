@@ -5,7 +5,7 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://dbs.fiit.uk.to:5432/postgres</property>
+        <property name="connection.url">jdbc:postgresql://127.0.0.1:5432/asset_manager</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">BoboJeSmutny</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>

@@ -70,6 +70,8 @@ public class Assets extends VerticalLayout {
             return department == null ? "none" : department.getDepartment_name();
         }).setHeader("Department");
         grid.asSingleSelect().addValueChangeListener(evt -> updateAsset(evt.getValue()));
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));
+
     }
 
     private void refreshAfterDialogCloses() {
