@@ -51,10 +51,9 @@ public class Assets extends VerticalLayout {
 
     private void setupDialog() {
         dialogContent.add(assetForm);
+        assetForm.getCancel().addClickListener(click -> refreshAfterDialogCloses());
         dialog.add(dialogContent);
-        Button cancelButton = new Button("Cancel");
-        cancelButton.addClickListener(click -> dialog.open());
-        assetForm.setCancelBtn(cancelButton);
+
     }
 
     private void updateGrid() {
@@ -71,6 +70,11 @@ public class Assets extends VerticalLayout {
             return department == null ? "none" : department.getDepartment_name();
         }).setHeader("Department");
         grid.asSingleSelect().addValueChangeListener(evt -> updateAsset(evt.getValue()));
+    }
+
+    private void refreshAfterDialogCloses() {
+        updateGrid();
+        dialog.close();
     }
 
 }

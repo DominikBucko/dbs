@@ -35,7 +35,7 @@ public class UserForm extends FormLayout {
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button update = new Button("Update");
-    public Button cancel = new Button("Cancel");
+    Button cancel = new Button("Cancel");
     Notification userAdded = new Notification();
     HorizontalLayout buttonLayout;
 
@@ -67,19 +67,18 @@ public class UserForm extends FormLayout {
     }
 
     public void mapSaveBtnToCreate() {
-        save.addClickListener(click -> saveUser());
         buttonLayout.removeAll();
         buttonLayout.add(save, delete, cancel);
     }
 
     public void mapSaveBtnToUpdate() {
-        update.addClickListener(click -> updateUser());
         buttonLayout.removeAll();
         buttonLayout.add(update, delete, cancel);
     }
 
     private void updateUser() {
         userService.updateUser(binder.getBean());
+        cancel.click();
     }
 
     private void setupNotification() {
@@ -125,6 +124,8 @@ public class UserForm extends FormLayout {
         login.clear();
         password.clear();
         is_admin.clear();
+
+        cancel.click();
     }
 
     private void departmentComboSetup() {
@@ -146,4 +147,7 @@ public class UserForm extends FormLayout {
     return new HorizontalLayout(save, delete, cancel);
     }
 
+    public Button getCancel() {
+        return cancel;
+    }
 }

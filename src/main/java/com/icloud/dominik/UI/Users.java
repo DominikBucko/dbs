@@ -51,8 +51,13 @@ public class Users extends VerticalLayout {
     private void setupUserDialog() {
         userForm = new UserForm();
         dialogContent.add(userForm);
-        userForm.cancel.addClickListener(click -> newUserDialog.close());
+        userForm.getCancel().addClickListener(click -> refreshAfterDialogClose());
         newUserDialog.add(dialogContent);
+    }
+
+    private void refreshAfterDialogClose() {
+        updateGrid();
+        newUserDialog.close();
     }
 
 

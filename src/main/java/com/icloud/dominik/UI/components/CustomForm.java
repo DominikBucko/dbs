@@ -43,6 +43,10 @@ public class CustomForm extends FormLayout {
         this.cancel = cancel;
     }
 
+    public Button getCancel() {
+        return cancel;
+    }
+
     public void setUpdateMode() {
         buttonLayout.removeAll();
         buttonLayout.add(update, delete, cancel);

@@ -41,6 +41,7 @@ public class AssetForm extends CustomForm {
 
     private void updateAsset() {
         assetService.update(binder.getBean());
+        cancel.click();
     }
 
     private void setUpCombobox() {
@@ -72,8 +73,6 @@ public class AssetForm extends CustomForm {
 
         assets.add(asset);
         assetService.createNew(assets);
+        cancel.click();
     }
-
-
-
 }

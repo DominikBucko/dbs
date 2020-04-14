@@ -25,7 +25,7 @@ public class LocationForm extends CustomForm {
         save.addClickListener(click -> createNewLocation());
         delete.addClickListener(click -> clearFields());
 
-        add(state, address, postcode, buttonRow());
+        add(state, address, postcode, buttonLayout);
     }
 
     private void clearFields() {
