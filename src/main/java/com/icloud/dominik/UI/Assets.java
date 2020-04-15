@@ -2,8 +2,10 @@ package com.icloud.dominik.UI;
 
 import backend.entity.Asset;
 import backend.entity.Department;
+import backend.entity.Location;
 import backend.service.AssetService;
 import com.icloud.dominik.UI.components.AssetForm;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.util.List;
 
 
 @Route(value = "", layout = HomeLayout.class)
@@ -23,6 +26,7 @@ public class Assets extends VerticalLayout {
     AssetForm assetForm = new AssetForm();
     Div dialogContent = new Div();
     Dialog dialog = new Dialog();
+    Text itemCount = new Text("");
     public Assets() {
         addClassName("list-view");
         setSizeFull();
@@ -35,7 +39,7 @@ public class Assets extends VerticalLayout {
 //        Button btn = new Button("EXEC");
 //        AssetsManager assetsManager = new AssetsManager();
 //        btn.addClickListener(click -> assetsManager.get_assets());
-        add(addNew, grid);
+        add(addNew, itemCount, grid);
 	}
 
     private void createNewAsset() {
@@ -57,7 +61,9 @@ public class Assets extends VerticalLayout {
     }
 
     private void updateGrid() {
-        grid.setItems(assetService.getAll());
+        List<Asset> locations = assetService.getAll();
+        grid.setItems(locations);
+        itemCount.setText("Number of items listed: " + locations.size());
     }
 
     private void setupGrid() {

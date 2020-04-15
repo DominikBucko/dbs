@@ -90,6 +90,14 @@ public class User {
         this.is_admin = is_admin;
     }
 
+    public int getTicketCount() {
+        return ticketCount;
+    }
+
+    public void setTicketCount(int ticketCount) {
+        this.ticketCount = ticketCount;
+    }
+
     public User() {
 
     }
@@ -125,4 +133,5 @@ public class User {
     String login;
     String password;
     Boolean is_admin;
+    int ticketCount;
 }

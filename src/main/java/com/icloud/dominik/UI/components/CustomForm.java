@@ -23,6 +23,7 @@ public class CustomForm extends FormLayout {
 
 
 
+
     protected void setupNotification(String text) {
         Button cancelNotification = new Button("OK");
         cancelNotification.addClickListener(click -> notification.close());

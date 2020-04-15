@@ -20,8 +20,11 @@ public class UserService {
         Connection conn = ConnectionService.getConnectionService().getConnection();
         List<User> assets = new ArrayList<User>();
         try {
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * from \"user\"" +
-                    "INNER JOIN department d on \"user\".user_department = d.department_id");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT user_id, first_name, surname, city , address, postcode, user_department, login, password, is_admin,\n" +
+                            "department_name, count(user_info) from \"user\"\n" +
+                            "INNER JOIN department d on user_department = d.department_id\n" +
+                            "LEFT JOIN ticket t on user_id = t.user_info\n" +
+                            "GROUP BY user_id, department_name");
             while (rs.next()) {
                 User user = new User();
                 user.setUser_id(rs.getInt("user_id"));
@@ -32,12 +35,13 @@ public class UserService {
                 user.setPostcode(rs.getInt("postcode"));
                 user.setUser_department(rs.getInt("user_department"));
                 Department department = new Department();
-                department.setDepartment_id(rs.getInt("department_id"));
+                department.setDepartment_id(rs.getInt("user_department"));
                 department.setDepartment_name(rs.getString("department_name"));
                 user.setDepartment(department);
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
                 user.setIs_admin(rs.getBoolean("is_admin"));
+                user.setTicketCount(rs.getInt("count"));
                 assets.add(user);
             }
         } catch (SQLException e) {

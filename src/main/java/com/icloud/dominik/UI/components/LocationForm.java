@@ -64,11 +64,12 @@ public class LocationForm extends CustomForm {
 
     private void createNewLocation() {
         List<Location> locations = new ArrayList<>();
-        Location location = binder.getBean();
+        Location location = new Location(state.getValue(), address.getValue(), postcode.getValue());
+        locations.add(location);
         if (locationService.createNew(locations)) {
-            cancel.click();
             setupNotification("Location saved successfully.");
             notification.open();
+            cancel.click();
         } else {
             setupNotification("ERROR");
             notification.open();

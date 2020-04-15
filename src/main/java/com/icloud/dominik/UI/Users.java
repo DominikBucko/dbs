@@ -4,6 +4,7 @@ import backend.entity.Department;
 import backend.entity.User;
 import backend.service.UserService;
 import com.icloud.dominik.UI.components.UserForm;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -16,6 +17,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
+import java.util.List;
 
 
 @Route(value = "users", layout = HomeLayout.class)
@@ -31,6 +34,8 @@ public class Users extends VerticalLayout {
     UserForm userForm;
     TextField filter = new TextField();
     HorizontalLayout topRow = new HorizontalLayout();
+    VerticalLayout middleRow = new VerticalLayout();
+    Text itemCount = new Text("Number of items listed: ");
 
     public Users() {
         addClassName("user-list");
@@ -43,7 +48,7 @@ public class Users extends VerticalLayout {
         newUser.setWidthFull();
         filterConfig();
 
-        add(topRow, newUserDialog, userGrid, userAdded);
+        add(topRow, middleRow, itemCount, newUserDialog, userGrid, userAdded);
     }
 
     private void filterConfig() {
@@ -106,11 +111,16 @@ public class Users extends VerticalLayout {
 
 
     private void updateGrid() {
-        userGrid.setItems(userService.getAll());
+        List<User> users = userService.getAll();
+        userGrid.setItems(users);
+        itemCount.setText("Number of items listed: " + users.size());
     }
 
     private void updateGrid(String property, String search_phrase) {
-        userGrid.setItems(userService.filterBy(property, search_phrase));
+        List <User> users = userService.filterBy(property, search_phrase);
+        userGrid.setItems(users);
+        userGrid.setItems(users);
+        itemCount.setText("Number of items listed: " + users.size());
     }
 
     private void addNewUser() {
@@ -128,7 +138,7 @@ public class Users extends VerticalLayout {
         userGrid.setSizeFull();
         userGrid.recalculateColumnWidths();
         userGrid.removeColumnByKey("user_department");
-        userGrid.setColumns("first_name", "surname", "address", "login");
+        userGrid.setColumns("first_name", "surname", "address", "login", "ticketCount");
         userGrid.addColumn(user -> {
             Department department = user.getDepartment();
             return department == null ? "none" : department.getDepartment_name();

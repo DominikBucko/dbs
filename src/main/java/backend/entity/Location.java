@@ -33,6 +33,14 @@ public class Location {
         this.postcode = postcode;
     }
 
+    public Location() { }
+
+    public Location(String state, String address, int postcode) {
+        this.state = state;
+        this.address = address;
+        this.postcode = postcode;
+    }
+
     int location_id;
     String state;
     String address;
