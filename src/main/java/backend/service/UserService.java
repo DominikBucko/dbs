@@ -16,15 +16,20 @@ import java.util.List;
 
 @Service
 public class UserService {
-    public List<User> getAll() {
+    public List<User> getAll(int offset, int limit) {
         Connection conn = ConnectionService.getConnectionService().getConnection();
         List<User> assets = new ArrayList<User>();
         try {
-            ResultSet rs = conn.createStatement().executeQuery("SELECT user_id, first_name, surname, city , address, postcode, user_department, login, password, is_admin,\n" +
+            ResultSet rs;
+            PreparedStatement sql = conn.prepareStatement("SELECT user_id, first_name, surname, city , address, postcode, user_department, login, password, is_admin,\n" +
                             "department_name, count(user_info) from \"user\"\n" +
                             "INNER JOIN department d on user_department = d.department_id\n" +
                             "LEFT JOIN ticket t on user_id = t.user_info\n" +
-                            "GROUP BY user_id, department_name");
+                            "GROUP BY user_id, department_name " +
+                            "LIMIT ? " + "OFFSET ?");
+            sql.setInt(1, limit);
+            sql.setInt(2, offset);
+            rs = sql.executeQuery();
             while (rs.next()) {
                 User user = new User();
                 user.setUser_id(rs.getInt("user_id"));
@@ -120,9 +125,7 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<User>();
-            };
-
-
+            }
         List<User> users = new ArrayList<User>();
         try {
             while (rs.next()) {
@@ -162,5 +165,23 @@ public class UserService {
             return false;
         }
         return true;
+    }
+
+    public int countAll() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select count(user_id) as POCET\n" +
+                            "from \"user\""
+            );
+            rs = sql.executeQuery();
+            rs.next();
+            return rs.getInt("POCET");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -11,19 +11,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
 public class AssetService {
 
-    public List<Asset> getAll() {
+    public List<Asset> getAll(int offset, int limit) {
         Connection conn = ConnectionService.getConnectionService().getConnection();
         List<Asset> assets = new ArrayList<Asset>();
         try {
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * " +
-                    "FROM asset_manager.public.asset " +
-                    "INNER JOIN asset_manager.public.department " +
-                    "ON asset.asset_department = department.department_id");
+            ResultSet rs;
+            PreparedStatement sql = conn.prepareStatement(
+                    "SELECT * " +
+                   "FROM asset_manager.public.asset " +
+                   "INNER JOIN asset_manager.public.department " +
+                   "ON asset.asset_department = department.department_id "+
+                   "LIMIT ? " + "OFFSET ?"
+            );
+            sql.setInt(1, limit);
+            sql.setInt(2, offset);
+            rs = sql.executeQuery();
             while (rs.next()) {
                 Asset asset = new Asset();
                 asset.setAsset_id(rs.getInt("asset_id"));
@@ -80,7 +88,7 @@ public class AssetService {
             parameterSource.addValue("category", asset.getAsset_category());
             parameterSource.addValue("department", asset.getDepartment().getDepartment_id());
             parameterSource.addValue("status", asset.getStatus());
-            jdbcTemplate.update("UPDATE asset_manager.public.asset"+
+            jdbcTemplate.update("UPDATE asset_manager.public.asset" +
                             " SET \"name\" = :name, \"type\" = :type, qr_code = :qr_code, asset_category = :category, asset_department = :department, status = :status" +
                             " WHERE asset_id = :index",
                     parameterSource
@@ -110,5 +118,61 @@ public class AssetService {
             return false;
         }
         return true;
+    }
+
+    public int countAll() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select count(asset_id) as POCET\n" +
+                            "from asset"
+            );
+            rs = sql.executeQuery();
+            rs.next();
+            return rs.getInt("POCET");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<Asset> getStats(int offset, int limit, String department, String status, String category) {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        List<Asset> assets = new ArrayList<Asset>();
+        ResultSet rs;
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select \"name\", \"type\", status, department_name, count(*) as \"SUM\" from asset\n" +
+                            "JOIN department on asset_department = department_id\n" +
+                            "where department_name LIKE ? and status LIKE ? and asset_category LIKE ?--REGEX\n" +
+                            "group by \"name\",\"type\", status, department_name\n" +
+                            "order by \"SUM\" DESC\n" +
+                            "LIMIT ?\n" +
+                            "OFFSET ?"
+            );
+            sql.setString(1, department);
+            sql.setString(2, status);
+            sql.setString(3, category);
+            sql.setInt(4, limit);
+            sql.setInt(5, offset);
+            rs = sql.executeQuery();
+
+            while (rs.next()) {
+                Asset asset = new Asset();
+                asset.setAsset_id(rs.getInt("asset_id"));
+                asset.setName(rs.getString("name"));
+                asset.setType(rs.getString("type"));
+                Department department1 = new Department();
+                department1.setDepartment_name(rs.getString("department_name"));
+                asset.setDepartment(department1);
+                asset.setCount(rs.getInt("SUM"));
+                assets.add(asset);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return assets;
     }
 }

@@ -91,4 +91,22 @@ public class DepartmentService {
         }
         return true;
     }
+
+    public int countAll() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select count(department_id) as POCET\n" +
+                            "from department"
+            );
+            rs = sql.executeQuery();
+            rs.next();
+            return rs.getInt("POCET");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

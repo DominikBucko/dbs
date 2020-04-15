@@ -11,9 +11,13 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 
@@ -61,12 +65,18 @@ public class Assets extends VerticalLayout {
     }
 
     private void updateGrid() {
-        List<Asset> locations = assetService.getAll();
-        grid.setItems(locations);
-        itemCount.setText("Number of items listed: " + locations.size());
+//        List<Asset> locations = assetService.getAll();
+        grid.getDataProvider().refreshAll();
+        itemCount.setText("Number of items listed: " + assetService.countAll());
     }
 
     private void setupGrid() {
+
+        CallbackDataProvider<Asset, Void> provider = DataProvider.fromCallbacks(
+                query -> assetService.getAll(query.getOffset(), query.getLimit()).stream(),
+                query -> assetService.countAll()
+        );
+        grid.setDataProvider(provider);
         grid.addClassName("asset-grid");
         grid.setSizeFull();
         grid.removeColumnByKey("asset_department");

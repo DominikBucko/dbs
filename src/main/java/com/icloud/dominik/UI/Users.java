@@ -1,5 +1,6 @@
 package com.icloud.dominik.UI;
 
+import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.User;
 import backend.service.UserService;
@@ -14,6 +15,8 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -36,6 +39,7 @@ public class Users extends VerticalLayout {
     HorizontalLayout topRow = new HorizontalLayout();
     VerticalLayout middleRow = new VerticalLayout();
     Text itemCount = new Text("Number of items listed: ");
+    CallbackDataProvider<User, Void> provider;
 
     public Users() {
         addClassName("user-list");
@@ -111,12 +115,16 @@ public class Users extends VerticalLayout {
 
 
     private void updateGrid() {
-        List<User> users = userService.getAll();
-        userGrid.setItems(users);
-        itemCount.setText("Number of items listed: " + users.size());
+        userGrid.getDataProvider().refreshAll();
+        itemCount.setText("Number of items listed: " + userService.countAll());
     }
 
     private void updateGrid(String property, String search_phrase) {
+        if (filter.isEmpty()) {
+            userGrid.setDataProvider(provider);
+            userGrid.scrollToStart();
+            return;
+        }
         List <User> users = userService.filterBy(property, search_phrase);
         userGrid.setItems(users);
         userGrid.setItems(users);
@@ -134,6 +142,11 @@ public class Users extends VerticalLayout {
     }
 
     private void setupGrid() {
+        provider = DataProvider.fromCallbacks(
+                query -> userService.getAll(query.getOffset(), query.getLimit()).stream(),
+                query -> userService.countAll()
+        );
+        userGrid.setDataProvider(provider);
         userGrid.addClassName("asset-userGrid");
         userGrid.setSizeFull();
         userGrid.recalculateColumnWidths();

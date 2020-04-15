@@ -1,5 +1,6 @@
 package com.icloud.dominik.UI;
 
+import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.Location;
 import backend.service.LocationService;
@@ -12,6 +13,8 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -52,12 +55,18 @@ public class Locations extends VerticalLayout {
     }
 
     public void updateGrid() {
-        List<Location> locations = locationService.getAll();
-        locationsGrid.setItems(locations);
-        itemCount.setText("Number of items listed: " + locations.size());
+//        List<Location> locations = locationService.getAll();
+//        locationsGrid.setItems(locations);
+        locationsGrid.getDataProvider().refreshAll();
+        itemCount.setText("Number of items listed: " + locationService.countAll());
     }
 
     private void setupGrid() {
+        CallbackDataProvider<Location, Void> provider = DataProvider.fromCallbacks(
+                query -> locationService.getAll(query.getOffset(), query.getLimit()).stream(),
+                query -> locationService.countAll()
+        );
+        locationsGrid.setDataProvider(provider);
         locationsGrid.addClassName("locations-Grid");
 //        locationsGrid.setSizeFull(); //BUG
 //        locationsGrid.setWidth("90%");

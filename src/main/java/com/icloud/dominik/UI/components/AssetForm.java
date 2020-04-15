@@ -51,6 +51,7 @@ public class AssetForm extends CustomForm {
             notification.open();
         }
         cancel.click();
+
     }
 
     public void setAsset(Asset asset) {

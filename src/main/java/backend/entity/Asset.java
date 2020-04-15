@@ -67,10 +67,17 @@ public class Asset {
         return department;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public void setDepartment(Department department) {
         this.department = department;
     }
-
     private int asset_id;
     private String name;
     private String type;
@@ -78,7 +85,10 @@ public class Asset {
     private String asset_category;
     private int asset_department;
     private String status;
+
     private Department department;
+
+    private int count;
 
     public Asset() {}
 
