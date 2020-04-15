@@ -100,9 +100,9 @@ public class AssetService {
         }
     }
 
-    public List<Asset> filterBy(String property, String toMatch) {
-        return null;
-    }
+//    public List<Asset> filterBy(String property, String toMatch) {
+//        return null;
+//    }
 
     public boolean delete(Asset asset) {
         Connection conn = ConnectionService.getConnectionService().getConnection();
@@ -140,14 +140,17 @@ public class AssetService {
 
     public List<Asset> getStats(int offset, int limit, String department, String status, String category) {
         Connection conn = ConnectionService.getConnectionService().getConnection();
+        if (department == null) {
+            department = "%";
+        }
         List<Asset> assets = new ArrayList<Asset>();
         ResultSet rs;
         try {
             PreparedStatement sql = conn.prepareStatement(
-                    "select \"name\", \"type\", status, department_name, count(*) as \"SUM\" from asset\n" +
+                    "select \"name\", \"type\", asset_category, status, department_name, count(*) as \"SUM\" from asset\n" +
                             "JOIN department on asset_department = department_id\n" +
                             "where department_name LIKE ? and status LIKE ? and asset_category LIKE ?--REGEX\n" +
-                            "group by \"name\",\"type\", status, department_name\n" +
+                            "group by \"name\",\"type\", asset_category, status, department_name\n" +
                             "order by \"SUM\" DESC\n" +
                             "LIMIT ?\n" +
                             "OFFSET ?"
@@ -161,13 +164,55 @@ public class AssetService {
 
             while (rs.next()) {
                 Asset asset = new Asset();
-                asset.setAsset_id(rs.getInt("asset_id"));
+//                asset.setAsset_id(rs.getInt("asset_id"));
                 asset.setName(rs.getString("name"));
                 asset.setType(rs.getString("type"));
+                asset.setAsset_category(rs.getString("asset_category"));
+                asset.setStatus(rs.getString("status"));
                 Department department1 = new Department();
                 department1.setDepartment_name(rs.getString("department_name"));
                 asset.setDepartment(department1);
                 asset.setCount(rs.getInt("SUM"));
+                assets.add(asset);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return assets;
+    }
+
+    public List<Asset> filterBy(String property, String toMatch){
+        ResultSet rs;
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "SELECT asset_id, \"name\", \"type\", qr_code , status, asset_category, department_name from \"asset\"\n" +
+                            "INNER JOIN department d on asset_department = d.department_id\n" +
+                            "WHERE (lower("+ property +")) LIKE lower(?)\n" +
+                            "GROUP BY asset_id, department_name;"
+            );
+            sql.setString(1, toMatch + "%");
+            rs = sql.executeQuery();
+        } catch (Exception e) {
+        e.printStackTrace();
+        return new ArrayList<Asset>();
+        };
+
+        List<Asset> assets = new ArrayList<Asset>();
+        try {
+            while (rs.next()) {
+                Asset asset = new Asset();
+                asset.setAsset_id(rs.getInt("asset_id"));
+                asset.setName(rs.getString("name"));
+                asset.setType(rs.getString("type"));
+                asset.setQr_code(rs.getString("qr_code"));
+                asset.setAsset_category(rs.getString("asset_category"));
+//                asset.setAsset_department(rs.getInt("asset_department"));
+                asset.setStatus(rs.getString("status"));
+                Department department = new Department();
+//                department.setDepartment_id(rs.getInt("department_id"));
+                department.setDepartment_name(rs.getString("department_name"));
+                asset.setDepartment(department);
                 assets.add(asset);
             }
         } catch (SQLException e) {

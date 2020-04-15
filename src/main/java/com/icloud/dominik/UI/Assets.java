@@ -11,8 +11,10 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -21,7 +23,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 
-@Route(value = "", layout = HomeLayout.class)
+@Route(value = "assets", layout = HomeLayout.class)
 @PageTitle("Assets | SAM")
 public class Assets extends VerticalLayout {
     Grid<Asset> grid = new Grid<>(Asset.class);
@@ -31,9 +33,12 @@ public class Assets extends VerticalLayout {
     Div dialogContent = new Div();
     Dialog dialog = new Dialog();
     Text itemCount = new Text("");
+    TextField filter = new TextField();
+    CallbackDataProvider<Asset, Void> provider;
     public Assets() {
         addClassName("list-view");
         setSizeFull();
+        filterConfig();
         setupGrid();
         updateGrid();
         setupDialog();
@@ -43,8 +48,35 @@ public class Assets extends VerticalLayout {
 //        Button btn = new Button("EXEC");
 //        AssetsManager assetsManager = new AssetsManager();
 //        btn.addClickListener(click -> assetsManager.get_assets());
-        add(addNew, itemCount, grid);
+        add(addNew, filter, itemCount, grid);
 	}
+
+	private void filterConfig() {
+        filter.setPlaceholder("Filter by name..");
+        filter.setWidthFull();
+        filter.setClearButtonVisible(true);
+        filter.setValueChangeMode(ValueChangeMode.LAZY);
+        filter.addValueChangeListener(e -> applyFilter());
+    }
+
+    private void applyFilter() {
+        if (filter.getValue().equals("")) {
+            grid.setDataProvider(provider);
+            grid.scrollToStart();
+            grid.getDataProvider().refreshAll();
+            return;
+        }
+        String property = "name";
+        String toMatch = filter.getValue();
+        updateGrid(property, toMatch);
+    }
+
+    private void updateGrid(String property, String toMatch) {
+        List<Asset> assets = assetService.filterBy(property, toMatch);
+        itemCount.setText("Number of items listed: " + assets.size());
+
+        grid.setItems(assets);
+    }
 
     private void createNewAsset() {
         assetForm.setCreateMode();
@@ -72,7 +104,7 @@ public class Assets extends VerticalLayout {
 
     private void setupGrid() {
 
-        CallbackDataProvider<Asset, Void> provider = DataProvider.fromCallbacks(
+        provider = DataProvider.fromCallbacks(
                 query -> assetService.getAll(query.getOffset(), query.getLimit()).stream(),
                 query -> assetService.countAll()
         );

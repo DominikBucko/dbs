@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 public class HomeLayout extends AppLayout {
@@ -20,11 +21,13 @@ public class HomeLayout extends AppLayout {
         RouterLink usersTab = new RouterLink("Users", Users.class);
         RouterLink locationsTab = new RouterLink("Locations", Locations.class);
         RouterLink test = new RouterLink("Test", Test.class);
+        RouterLink dashboard = new RouterLink("Dashboard", Dashboard.class);
         assetsTab.setHighlightCondition(HighlightConditions.sameLocation());
         addToDrawer(new VerticalLayout(
                 assetsTab,
                 usersTab,
                 locationsTab,
+                dashboard,
                 test
         ));
 
