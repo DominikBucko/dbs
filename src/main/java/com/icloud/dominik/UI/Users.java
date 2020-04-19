@@ -123,6 +123,7 @@ public class Users extends VerticalLayout {
         if (filter.isEmpty()) {
             userGrid.setDataProvider(provider);
             userGrid.scrollToStart();
+            updateGrid();
             return;
         }
         List <User> users = userService.filterBy(property, search_phrase);

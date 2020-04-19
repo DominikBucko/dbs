@@ -64,6 +64,7 @@ public class Assets extends VerticalLayout {
             grid.setDataProvider(provider);
             grid.scrollToStart();
             grid.getDataProvider().refreshAll();
+            itemCount.setText("Number of items listed: " + assetService.countAll());
             return;
         }
         String property = "name";
