@@ -54,6 +54,7 @@ public class Dashboard extends VerticalLayout {
     }
 
     private void setupGrid() {
+        assetService.hib_test();
         assetProvider = DataProvider.fromCallbacks(
             query -> assetService.getStats(query.getOffset(), query.getLimit(), departments.getValue().getDepartment_name(), status
             .getValue(), category.getValue()).stream(),

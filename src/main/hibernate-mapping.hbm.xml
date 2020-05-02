@@ -20,6 +20,7 @@
       <property name = "asset_category" column = "asset_category" type = "string"/>
       <property name = "asset_department" column = "asset_department" type = "integer"/>
       <property name = "status" column = "status" type = "string"/>
+      <property name="department"
 
    </class>
 </hibernate-mapping>

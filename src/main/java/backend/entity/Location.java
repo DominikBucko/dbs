@@ -1,6 +1,24 @@
 package backend.entity;
-
+import javax.persistence.*;
+//@PersistenceContext
+@Entity
+@Table(name = "location")
 public class Location {
+
+    @Id @GeneratedValue
+    @Column(name = "location_id")
+    int location_id;
+
+    @Column(name = "state")
+    String state;
+
+    @Column(name = "address")
+    String address;
+
+    @Column(name = "postcode")
+    int postcode;
+
+
     public int getLocation_id() {
         return location_id;
     }
@@ -41,9 +59,5 @@ public class Location {
         this.postcode = postcode;
     }
 
-    int location_id;
-    String state;
-    String address;
-    int postcode;
 
 }

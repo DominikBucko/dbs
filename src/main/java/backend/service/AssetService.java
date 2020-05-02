@@ -2,10 +2,22 @@ package backend.service;
 
 import backend.entity.Asset;
 import backend.entity.Department;
+import backend.entity.Location;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.NativeQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -219,5 +231,26 @@ public class AssetService {
             e.printStackTrace();
         }
         return assets;
+    }
+    @PersistenceContext
+    EntityManager em;
+
+    public List<Asset> hib_test() {
+        SessionFactory factory;
+        List<Location> rows;
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Location");
+        try {
+            File cfg = new File("resources/hibernate.cfg.xml");
+            factory = new Configuration().configure(cfg).buildSessionFactory();
+            Session session = factory.getCurrentSession();
+            Transaction tx = session.beginTransaction();
+            rows = em.createNativeQuery("SELECT * " +
+                   "FROM asset_manager.public.location ").getResultList();
+//            rows = q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<Asset>();
+
     }
 }

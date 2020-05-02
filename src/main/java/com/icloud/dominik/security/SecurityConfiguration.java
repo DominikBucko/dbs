@@ -1,15 +1,20 @@
 package com.icloud.dominik.security;
 
+import backend.entity.User;
+import backend.service.UserService;
+import com.icloud.dominik.UI.Users;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @EnableWebSecurity
@@ -40,13 +45,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withUsername("user")
-                        .password("{noop}password")
-                        .roles("USER")
-                        .build();
+//        UserDetails user =
+//                User.withUsername("user")
+//                        .password("{noop}password")
+//                        .roles("USER")
+//                        .build();
+        UserService userService = new UserService();
+        List<User> users = userService.getAll(0, 1);
+        List<UserDetails> userDetails = new ArrayList<>();
+        for (User user : users) {
 
-        return new InMemoryUserDetailsManager(user);
+            userDetails.add(org.springframework.security.core.userdetails.User
+                    .withUsername(user.getLogin())
+                    .password("{noop}" + user.getPassword())
+                    .roles("USER")
+                    .build());
+        }
+
+        return new InMemoryUserDetailsManager(userDetails);
     }
 
     @Override
