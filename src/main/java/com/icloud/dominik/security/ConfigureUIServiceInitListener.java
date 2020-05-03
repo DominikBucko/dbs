@@ -1,9 +1,8 @@
 package com.icloud.dominik.security;
 
-import com.icloud.dominik.UI.Dashboard;
-import com.icloud.dominik.UI.LoginPage;
+import com.icloud.dominik.UI.admin.Dashboard;
+import com.icloud.dominik.UI.admin.LoginPage;
 import com.icloud.dominik.UI.Test;
-import com.icloud.dominik.UI.Users;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.NotFoundException;

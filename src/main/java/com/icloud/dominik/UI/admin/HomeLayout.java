@@ -1,5 +1,6 @@
-package com.icloud.dominik.UI;
+package com.icloud.dominik.UI.admin;
 
+import com.icloud.dominik.UI.Test;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H2;
@@ -7,7 +8,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 public class HomeLayout extends AppLayout {

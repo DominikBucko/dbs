@@ -1,8 +1,7 @@
-package com.icloud.dominik.UI;
+package com.icloud.dominik.UI.admin;
 
 import backend.entity.Asset;
 import backend.entity.Department;
-import backend.entity.Location;
 import backend.service.AssetService;
 import com.icloud.dominik.UI.components.AssetForm;
 import com.vaadin.flow.component.Text;
@@ -20,7 +19,6 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 

@@ -1,6 +1,5 @@
-package com.icloud.dominik.UI;
+package com.icloud.dominik.UI.admin;
 
-import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.User;
 import backend.service.UserService;

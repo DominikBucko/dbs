@@ -1,25 +1,19 @@
-package com.icloud.dominik.UI;
+package com.icloud.dominik.UI.admin;
 
-import backend.entity.Asset;
-import backend.entity.Department;
 import backend.entity.Location;
 import backend.service.LocationService;
 import com.icloud.dominik.UI.components.LocationForm;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.charts.model.Dial;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
-
-import java.util.List;
 
 
 @Route(value = "locations", layout = HomeLayout.class)

@@ -1,4 +1,4 @@
-package com.icloud.dominik.UI;
+package com.icloud.dominik.UI.admin;
 
 import backend.entity.Asset;
 import backend.entity.Department;
@@ -17,7 +17,6 @@ import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
@@ -48,7 +47,7 @@ public class Dashboard extends VerticalLayout {
     VerticalLayout stats = new VerticalLayout(div1, div2, div3, div4);
     HorizontalLayout filter = new HorizontalLayout(departments, status, category, show);
 
-    @Autowired
+//    @Autowired
     public Dashboard() {
         setUpFilter();
         setupGrid();
@@ -60,7 +59,6 @@ public class Dashboard extends VerticalLayout {
     }
 
     private void setupGrid() {
-        assetService.hib_test();
         assetProvider = DataProvider.fromCallbacks(
             query -> assetService.getStats(query.getOffset(), query.getLimit(), departments.getValue().getDepartment_name(), status
             .getValue(), category.getValue()).stream(),
