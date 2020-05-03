@@ -36,10 +36,10 @@ public class AssetService {
             ResultSet rs;
             PreparedStatement sql = conn.prepareStatement(
                     "SELECT * " +
-                   "FROM asset_manager.public.asset " +
-                   "INNER JOIN asset_manager.public.department " +
-                   "ON asset.asset_department = department.department_id "+
-                   "LIMIT ? " + "OFFSET ?"
+                            "FROM asset_manager.public.asset " +
+                            "INNER JOIN asset_manager.public.department " +
+                            "ON asset.asset_department = department.department_id " +
+                            "LIMIT ? " + "OFFSET ?"
             );
             sql.setInt(1, limit);
             sql.setInt(2, offset);
@@ -193,22 +193,23 @@ public class AssetService {
         return assets;
     }
 
-    public List<Asset> filterBy(String property, String toMatch){
+    public List<Asset> filterBy(String property, String toMatch) {
         ResultSet rs;
         Connection conn = ConnectionService.getConnectionService().getConnection();
         try {
             PreparedStatement sql = conn.prepareStatement(
                     "SELECT asset_id, \"name\", \"type\", qr_code , status, asset_category, department_name from \"asset\"\n" +
                             "INNER JOIN department d on asset_department = d.department_id\n" +
-                            "WHERE (lower("+ property +")) LIKE lower(?)\n" +
+                            "WHERE (lower(" + property + ")) LIKE lower(?)\n" +
                             "GROUP BY asset_id, department_name;"
             );
             sql.setString(1, toMatch + "%");
             rs = sql.executeQuery();
         } catch (Exception e) {
-        e.printStackTrace();
-        return new ArrayList<Asset>();
-        };
+            e.printStackTrace();
+            return new ArrayList<Asset>();
+        }
+        ;
 
         List<Asset> assets = new ArrayList<Asset>();
         try {
@@ -231,26 +232,5 @@ public class AssetService {
             e.printStackTrace();
         }
         return assets;
-    }
-    @PersistenceContext
-    EntityManager em;
-
-    public List<Asset> hib_test() {
-        SessionFactory factory;
-        List<Location> rows;
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Location");
-        try {
-            File cfg = new File("resources/hibernate.cfg.xml");
-            factory = new Configuration().configure(cfg).buildSessionFactory();
-            Session session = factory.getCurrentSession();
-            Transaction tx = session.beginTransaction();
-            rows = em.createNativeQuery("SELECT * " +
-                   "FROM asset_manager.public.location ").getResultList();
-//            rows = q.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<Asset>();
-
     }
 }

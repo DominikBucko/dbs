@@ -120,6 +120,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.ilay</groupId>
+            <artifactId>ilay</artifactId>
+            <version>3.0-Final</version>
+        </dependency>
+        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
             <exclusions>

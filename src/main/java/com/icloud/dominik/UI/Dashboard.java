@@ -17,13 +17,17 @@ import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 
 
 @Route(value = "", layout = HomeLayout.class)
+@Secured({"ROLE_Admin", "ROLE_User"})
 @PageTitle("Dashboard | SAM")
 public class Dashboard extends VerticalLayout {
+
     Grid<Asset> assetGrid = new Grid<>(Asset.class);
     ComboBox<Department> departments = new ComboBox<>();
     ComboBox<String> status = new ComboBox<>();
@@ -43,6 +47,8 @@ public class Dashboard extends VerticalLayout {
     Div div4 = new Div(new Text("Number of locations: " + locationService.countAll()));
     VerticalLayout stats = new VerticalLayout(div1, div2, div3, div4);
     HorizontalLayout filter = new HorizontalLayout(departments, status, category, show);
+
+    @Autowired
     public Dashboard() {
         setUpFilter();
         setupGrid();

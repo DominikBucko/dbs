@@ -17,11 +17,13 @@ import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 
 
 @Route(value = "locations", layout = HomeLayout.class)
+@Secured("ROLE_Admin")
 @PageTitle("Locations | SAM")
 
 public class Locations extends VerticalLayout {

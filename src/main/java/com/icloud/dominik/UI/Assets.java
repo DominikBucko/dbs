@@ -17,6 +17,7 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.security.access.annotation.Secured;
 
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,6 +25,7 @@ import java.util.List;
 
 
 @Route(value = "assets", layout = HomeLayout.class)
+@Secured("ROLE_User")
 @PageTitle("Assets | SAM")
 public class Assets extends VerticalLayout {
     Grid<Asset> grid = new Grid<>(Asset.class);
