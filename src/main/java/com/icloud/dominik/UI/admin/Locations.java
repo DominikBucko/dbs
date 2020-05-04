@@ -15,12 +15,34 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import java.util.List;
+import java.util.Date;
+import java.util.Iterator;
+import org.hibernate.cfg.Configuration;
 
 @Route(value = "locations", layout = HomeLayout.class)
 @Secured("ROLE_Admin")
 @PageTitle("Locations | SAM")
 
+
 public class Locations extends VerticalLayout {
+    //    HIBERNATE TEST
+    private static SessionFactory factory;
+
+    public void createFactory(){
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+        System.err.println("Failed to create sessionFactory object." + ex);
+        throw new ExceptionInInitializerError(ex);
+    }
+}
+//END
+
     Grid<Location> locationsGrid = new Grid<>(Location.class);
     LocationService locationService = new LocationService();
     Button newLocation = new Button("New location");
@@ -37,6 +59,8 @@ public class Locations extends VerticalLayout {
         setupDialog();
         newLocation.addClickListener(click -> createLocation());
         add(newLocation, itemCount, locationsGrid);
+        createFactory();
+        listLocations();
     }
 
     private void setupDialog() {
@@ -82,6 +106,31 @@ public class Locations extends VerticalLayout {
         locationForm.setLocation(value);
         locationForm.setUpdateMode();
         dialog.open();
+    }
+
+    public void listLocations(){
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            List <Location> locations = session.createQuery("FROM backend.entity.Location").list();
+
+//            List locations = session.createQuery("FROM backend.entity.Location").list();
+
+////            for (Iterator iterator = locations.iterator(); iterator.hasNext();){
+//            Location location = (Location) iterator.next();
+//            System.out.print("state: " + location.getState());
+//            System.out.print("address: " + location.getAddress());
+//            System.out.println("postcode " + location.getPostcode());
+////            }
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }
+
     }
 
 }

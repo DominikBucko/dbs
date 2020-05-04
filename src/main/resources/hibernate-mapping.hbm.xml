@@ -1,7 +1,7 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-"-//Hibernate/Hibernate Mapping DTD//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
    <class name = "backend.entity.Asset" table = "asset">
@@ -20,6 +20,21 @@
       <property name = "asset_category" column = "asset_category" type = "string"/>
       <property name = "asset_department" column = "asset_department" type = "integer"/>
       <property name = "status" column = "status" type = "string"/>
+
+   </class>
+   <class name = "backend.entity.Location" table = "asset_manager.public.location">
+
+      <meta attribute = "class-description">
+         This class contains the location detail.
+      </meta>
+
+      <id name = "location_id" type = "int" column = "location_id">
+         <generator class="native"/>
+      </id>
+
+      <property name = "state" column = "state" type = "string"/>
+      <property name = "address" column = "address" type = "string"/>
+      <property name = "postcode" column = "postcode" type = "int"/>
 
    </class>
 </hibernate-mapping>

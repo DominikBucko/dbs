@@ -18,6 +18,11 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
@@ -26,7 +31,6 @@ import java.util.List;
 @Secured({"ROLE_Admin", "ROLE_User"})
 @PageTitle("Dashboard | SAM")
 public class Dashboard extends VerticalLayout {
-
     Grid<Asset> assetGrid = new Grid<>(Asset.class);
     ComboBox<Department> departments = new ComboBox<>();
     ComboBox<String> status = new ComboBox<>();

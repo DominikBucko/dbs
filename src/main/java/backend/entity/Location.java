@@ -1,6 +1,12 @@
 package backend.entity;
 import javax.persistence.*;
 //@PersistenceContext
+/*TODO
+anotations:
+ticket
+asset-hard
+services
+*/
 @Entity
 @Table(name = "location")
 public class Location {
@@ -54,6 +60,13 @@ public class Location {
     public Location() { }
 
     public Location(String state, String address, int postcode) {
+        this.state = state;
+        this.address = address;
+        this.postcode = postcode;
+    }
+
+    public Location(int location_id,String state, String address, int postcode) {
+        this.location_id=location_id;
         this.state = state;
         this.address = address;
         this.postcode = postcode;
