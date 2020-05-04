@@ -76,6 +76,15 @@ public class Ticket {
         this.asset = asset;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+
     int invoice_id;
     Date time_created;
     Date time_accepted;
@@ -85,6 +94,7 @@ public class Ticket {
     int asset_info;
     User user;
     Asset asset;
+    String comment;
 
     public Ticket() {}
 

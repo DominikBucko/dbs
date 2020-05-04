@@ -22,4 +22,8 @@
       <property name = "status" column = "status" type = "string"/>
 
    </class>
+
+   <class name = "backend.entity.Ticket" table = "ticket">
+
+   </class>
 </hibernate-mapping>
