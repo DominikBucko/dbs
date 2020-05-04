@@ -184,4 +184,8 @@ public class UserService {
         }
         return 0;
     }
+
+    public User getUserByUsername(String username) {
+        return new User();
+    }
 }

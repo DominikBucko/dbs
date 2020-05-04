@@ -233,4 +233,8 @@ public class AssetService {
         }
         return assets;
     }
+
+    public List<Asset> getAvailable(Department department) {
+        return new ArrayList<>();
+    }
 }

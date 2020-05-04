@@ -3,6 +3,7 @@ package com.icloud.dominik.security;
 import com.icloud.dominik.UI.admin.Dashboard;
 import com.icloud.dominik.UI.admin.LoginPage;
 import com.icloud.dominik.UI.Test;
+import com.icloud.dominik.UI.user.AssetsToRequest;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.NotFoundException;
@@ -47,7 +48,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                 .map(r -> r.getAuthority()).collect(Collectors.toSet());
 
             if (!roles.contains("ROLE_Admin")) {
-                event.rerouteTo(Test.class);}
+                event.rerouteTo(AssetsToRequest.class);}
         }
     }
 }
