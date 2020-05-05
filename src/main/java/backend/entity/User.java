@@ -1,5 +1,9 @@
 package backend.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "location")
 public class User {
 
     public int getUser_id() {
@@ -102,6 +106,20 @@ public class User {
 
     }
 
+    public User(int user_id, String first_name, String surname, String city, String address, int postcode, int user_department, Department department, String login, String password, Boolean is_admin) {
+        this.user_id = user_id;
+        this.first_name = first_name;
+        this.surname = surname;
+        this.city = city;
+        this.address = address;
+        this.postcode = postcode;
+        this.user_department = user_department;
+        this.department = department;
+        this.login = login;
+        this.password = password;
+        this.is_admin = is_admin;
+    }
+
     public User(String first_name,
                 String surname,
                 String city,
@@ -122,16 +140,39 @@ public class User {
         this.is_admin = is_admin;
     }
 
+    @Id @GeneratedValue
+    @Column(name = "user_id")
     int user_id;
+
+    @Column(name = "first_name")
     String first_name;
+
+    @Column(name = "surname")
     String surname;
+
+    @Column(name = "city")
     String city;
+
+    @Column(name = "address")
     String address;
+
+    @Column(name = "postcode")
     int postcode;
+
+    @Column(name = "user_department")
     int user_department;
+
+    @ManyToOne
+    @JoinColumn(name = "user_department")
     Department department;
+
+    @Column(name = "login")
     String login;
+
+    @Column(name = "password")
     String password;
+
+    @Column(name = "is_admin")
     Boolean is_admin;
     int ticketCount;
 }

@@ -3,9 +3,11 @@ package backend.service;
 import backend.entity.Asset;
 import backend.entity.User;
 import backend.entity.Department;
+import org.hibernate.Session;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+import backend.service.SessionFactoryProvider.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static backend.service.SessionFactoryProvider.getSessionFactoryProvider;
 
 @Service
 public class UserService {
@@ -186,6 +190,7 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) {
-        return new User();
+        Session session = getSessionFactoryProvider().getSessionFactory().getCurrentSession();
+        return null;
     }
 }

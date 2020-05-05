@@ -14,5 +14,13 @@
         <property name="show_sql">true</property>
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
+
+        <!-- List of XML mapping files -->
+        <mapping class = "backend.entity.Location"/>
+        <mapping class="backend.entity.User"/>
+        <mapping class="backend.entity.Department"/>
+        <mapping class="backend.entity.Ticket"/>
+        <mapping class="backend.entity.Asset"/>
+
     </session-factory>
 </hibernate-configuration>

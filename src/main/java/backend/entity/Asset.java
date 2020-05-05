@@ -1,12 +1,10 @@
 package backend.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
-//@Entity
+@Entity
+@Table(name = "asset")
 public class Asset {
-//    @Id
     public int getAsset_id() {
         return asset_id;
     }
@@ -78,19 +76,47 @@ public class Asset {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    @Id @GeneratedValue
+    @Column(name = "asset_id")
     private int asset_id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "type")
     private String type;
+
+    @Column(name = "qr_code")
     private String qr_code;
+
+    @Column(name = "asset_category")
     private String asset_category;
+
+    @Column(name = "asset_department")
     private int asset_department;
+
+    @Column(name = "status")
     private String status;
 
+    @ManyToOne
+    @JoinColumn(name = "asset_department")
     private Department department;
 
     private int count;
 
     public Asset() {}
+
+    public Asset(int asset_id, String name, String type, String qr_code, String asset_category, int asset_department, String status, Department department) {
+        this.asset_id = asset_id;
+        this.name = name;
+        this.type = type;
+        this.qr_code = qr_code;
+        this.asset_category = asset_category;
+        this.asset_department = asset_department;
+        this.status = status;
+        this.department = department;
+    }
 
     public Asset(String name, String type, String qr_code, String asset_category, String status, Department department) {
         this.name = name;
