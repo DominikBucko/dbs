@@ -31,16 +31,16 @@ import org.hibernate.cfg.Configuration;
 
 public class Locations extends VerticalLayout {
     //    HIBERNATE TEST
-    private static SessionFactory factory;
-
-    public void createFactory(){
-        try {
-            factory = new Configuration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
-        System.err.println("Failed to create sessionFactory object." + ex);
-        throw new ExceptionInInitializerError(ex);
-    }
-}
+//    private static SessionFactory factory;
+//
+//    public void createFactory(){
+//        try {
+//            factory = new Configuration().configure().buildSessionFactory();
+//        } catch (Throwable ex) {
+//        System.err.println("Failed to create sessionFactory object." + ex);
+//        throw new ExceptionInInitializerError(ex);
+//    }
+//}
 //END
 
     Grid<Location> locationsGrid = new Grid<>(Location.class);
@@ -59,8 +59,8 @@ public class Locations extends VerticalLayout {
         setupDialog();
         newLocation.addClickListener(click -> createLocation());
         add(newLocation, itemCount, locationsGrid);
-        createFactory();
-        listLocations();
+//        createFactory();
+//        listLocations();
     }
 
     private void setupDialog() {
@@ -83,6 +83,7 @@ public class Locations extends VerticalLayout {
 
     private void setupGrid() {
         CallbackDataProvider<Location, Void> provider = DataProvider.fromCallbacks(
+//                query -> locationService.getAllHib().stream(),
                 query -> locationService.getAll(query.getOffset(), query.getLimit()).stream(),
                 query -> locationService.countAll()
         );
@@ -108,29 +109,29 @@ public class Locations extends VerticalLayout {
         dialog.open();
     }
 
-    public void listLocations(){
-        Session session = factory.openSession();
-        Transaction tx = null;
-
-        try {
-            tx = session.beginTransaction();
-
-            List <Location> locations = session.createQuery("FROM backend.entity.Location").list();
-
-//            List locations = session.createQuery("FROM backend.entity.Location").list();
-
-////            for (Iterator iterator = locations.iterator(); iterator.hasNext();){
-//            Location location = (Location) iterator.next();
-//            System.out.print("state: " + location.getState());
-//            System.out.print("address: " + location.getAddress());
-//            System.out.println("postcode " + location.getPostcode());
-////            }
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
-            e.printStackTrace();
-        }
-
-    }
+//    public void listLocations(){
+//        Session session = factory.openSession();
+//        Transaction tx = null;
+//
+//        try {
+//            tx = session.beginTransaction();
+//
+//            List <Location> locations = session.createQuery("FROM backend.entity.Location").list();
+//
+////            List locations = session.createQuery("FROM backend.entity.Location").list();
+//
+//////            for (Iterator iterator = locations.iterator(); iterator.hasNext();){
+////            Location location = (Location) iterator.next();
+////            System.out.print("state: " + location.getState());
+////            System.out.print("address: " + location.getAddress());
+////            System.out.println("postcode " + location.getPostcode());
+//////            }
+//            tx.commit();
+//        } catch (HibernateException e) {
+//            if (tx!=null) tx.rollback();
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 }

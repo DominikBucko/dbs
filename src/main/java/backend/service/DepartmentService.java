@@ -3,6 +3,9 @@ package backend.service;
 import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.Location;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -108,5 +111,20 @@ public class DepartmentService {
             e.printStackTrace();
         }
         return 0;
+    }
+    public List<Department> getAllHib(){
+        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
+        Transaction tx = null;
+        List <Department> departments = null;
+
+        try {
+            tx = session.beginTransaction();
+            departments = session.createQuery("FROM backend.entity.Department").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }
+        return departments;
     }
 }

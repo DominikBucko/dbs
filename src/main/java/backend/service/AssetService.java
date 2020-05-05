@@ -3,10 +3,8 @@ package backend.service;
 import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.Location;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import backend.entity.User;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.NativeQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -236,5 +234,21 @@ public class AssetService {
 
     public List<Asset> getAvailable(Department department) {
         return new ArrayList<>();
+    }
+
+    public List<Asset> getAllHib(){
+        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
+        Transaction tx = null;
+        List <Asset> assets = null;
+
+        try {
+            tx = session.beginTransaction();
+            assets = session.createQuery("FROM backend.entity.Asset as ass group by ass.asset_id").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }
+        return assets;
     }
 }

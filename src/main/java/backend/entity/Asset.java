@@ -1,10 +1,9 @@
 package backend.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
-//@Entity
+@Entity
+@Table(name = "asset")
 public class Asset {
 //    @Id
     public int getAsset_id() {
@@ -78,14 +77,31 @@ public class Asset {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    @Id
+    @GeneratedValue
+    @Column(name = "asset_id")
     private int asset_id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "type")
     private String type;
+
+    @Column(name = "qr_code")
     private String qr_code;
+
+    @Column(name = "asset_category")
     private String asset_category;
+
     private int asset_department;
+
+    @Column(name = "status")
     private String status;
 
+    @ManyToOne
+    @JoinColumn(name = "asset_department", insertable=false, updatable = false)
     private Department department;
 
     private int count;

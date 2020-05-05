@@ -24,6 +24,7 @@ public class Location {
     @Column(name = "postcode")
     int postcode;
 
+    @OneToMany(mappedBy="department_location")
 
     public int getLocation_id() {
         return location_id;

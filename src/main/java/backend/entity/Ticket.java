@@ -1,7 +1,10 @@
 package backend.entity;
 
+import javax.persistence.*;
 import java.sql.Date;
 
+@Entity
+@Table(name = "ticket")
 public class Ticket {
 
     public int getInvoice_id() {
@@ -76,15 +79,37 @@ public class Ticket {
         this.asset = asset;
     }
 
+    @Id
+    @GeneratedValue
+    @Column(name = "invoice_id")
     int invoice_id;
+
+    @Column(name = "time_created")
     Date time_created;
+
+    @Column(name = "time_accepted")
     Date time_accepted;
+
+    @Column(name = "time_assigned")
     Date time_assigned;
+
+    @Column(name = "time_returned")
     Date time_returned;
+
+
     int user_info;
     int asset_info;
+
+    @ManyToOne
+    @JoinColumn(name = "user_info", insertable=false, updatable = false)
     User user;
+
+    @ManyToOne
+    @JoinColumn(name = "asset_info", insertable=false, updatable = false)
     Asset asset;
+
+    @Column(name = "comment")
+    String comment;
 
     public Ticket() {}
 
@@ -94,5 +119,19 @@ public class Ticket {
         this.asset = asset;
         this.asset_info = asset.getAsset_id();
         this.time_created = new Date(System.currentTimeMillis());
+    }
+
+    public Ticket(User currentUser, Asset asset, Date time_created, Date time_accepted, Date time_assigned,
+                  Date time_returned, String comment) {
+        this.user = currentUser;
+        this.user_info = currentUser.getUser_id();
+        this.asset = asset;
+        this.asset_info = asset.getAsset_id();
+        this.time_created = time_created;
+        this.time_accepted = time_accepted;
+        this.time_assigned = time_assigned;
+        this.time_returned = time_returned;
+        this.comment = comment;
+
     }
 }

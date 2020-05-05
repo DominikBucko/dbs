@@ -2,10 +2,8 @@ package com.icloud.dominik.UI.admin;
 
 import backend.entity.Asset;
 import backend.entity.Department;
-import backend.service.AssetService;
-import backend.service.DepartmentService;
-import backend.service.LocationService;
-import backend.service.UserService;
+import backend.entity.Ticket;
+import backend.service.*;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -38,6 +36,7 @@ public class Dashboard extends VerticalLayout {
     Button show = new Button("Show");
     
     DepartmentService departmentService = new DepartmentService();
+    TicketService ticketService = new TicketService();
     LocationService locationService = new LocationService();
     AssetService assetService = new AssetService();
     UserService userService = new UserService();
@@ -79,6 +78,7 @@ public class Dashboard extends VerticalLayout {
     }
 
     private void setUpFilter() {
+        List<Ticket> tickets = ticketService.getAllHib();
         List<Department> departmentsList = departmentService.getAll();
         departments.setItems(departmentsList);
         departments.setItemLabelGenerator(Department::getDepartment_name);

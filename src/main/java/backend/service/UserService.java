@@ -3,6 +3,9 @@ package backend.service;
 import backend.entity.Asset;
 import backend.entity.User;
 import backend.entity.Department;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -46,7 +49,7 @@ public class UserService {
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
                 user.setIs_admin(rs.getBoolean("is_admin"));
-                user.setTicketCount(rs.getInt("count"));
+//                user.setTicketCount(rs.getInt("count"));
                 assets.add(user);
             }
         } catch (SQLException e) {
@@ -187,5 +190,21 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         return new User();
+    }
+
+    public List<User> getAllHib(){
+        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
+        Transaction tx = null;
+        List <User> users = null;
+
+        try {
+            tx = session.beginTransaction();
+            users = session.createQuery("FROM backend.entity.User").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }
+        return users;
     }
 }

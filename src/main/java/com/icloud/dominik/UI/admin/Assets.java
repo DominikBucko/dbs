@@ -106,7 +106,8 @@ public class Assets extends VerticalLayout {
     private void setupGrid() {
 
         provider = DataProvider.fromCallbacks(
-                query -> assetService.getAll(query.getOffset(), query.getLimit()).stream(),
+                query -> assetService.getAllHib().stream(),
+//                query -> assetService.getAll(query.getOffset(), query.getLimit()).stream(),
                 query -> assetService.countAll()
         );
         grid.setDataProvider(provider);
@@ -120,7 +121,6 @@ public class Assets extends VerticalLayout {
         }).setHeader("Department");
         grid.asSingleSelect().addValueChangeListener(evt -> updateAsset(evt.getValue()));
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-
     }
 
     private void refreshAfterDialogCloses() {

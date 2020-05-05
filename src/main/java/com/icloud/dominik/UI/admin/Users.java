@@ -145,7 +145,8 @@ public class Users extends VerticalLayout {
 
     private void setupGrid() {
         provider = DataProvider.fromCallbacks(
-                query -> userService.getAll(query.getOffset(), query.getLimit()).stream(),
+                query -> userService.getAllHib().stream(),
+//                query -> userService.getAll(query.getOffset(), query.getLimit()).stream(),
                 query -> userService.countAll()
         );
         userGrid.setDataProvider(provider);
@@ -153,7 +154,8 @@ public class Users extends VerticalLayout {
         userGrid.setSizeFull();
         userGrid.recalculateColumnWidths();
         userGrid.removeColumnByKey("user_department");
-        userGrid.setColumns("first_name", "surname", "address", "login", "ticketCount");
+        userGrid.setColumns("first_name", "surname", "address", "login");
+//        userGrid.setColumns("first_name", "surname", "address", "login", "ticketCount");
         userGrid.addColumn(user -> {
             Department department = user.getDepartment();
             return department == null ? "none" : department.getDepartment_name();

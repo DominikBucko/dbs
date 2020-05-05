@@ -119,4 +119,20 @@ public class LocationService {
         }
         return 0;
     }
+
+    public List<Location> getAllHib(){
+        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
+        Transaction tx = null;
+        List <Location> locations = null;
+
+        try {
+            tx = session.beginTransaction();
+            locations = session.createQuery("FROM backend.entity.Location").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }
+        return locations;
+    }
 }
