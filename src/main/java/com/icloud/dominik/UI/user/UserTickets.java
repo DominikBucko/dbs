@@ -14,6 +14,8 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.List;
+
 
 @Route(value = "mytickets", layout = UserLayout.class)
 @Secured("ROLE_User")
@@ -34,7 +36,8 @@ public class UserTickets extends VerticalLayout {
     }
 
     private void setupGrid() {
-        ticketGrid.setItems(userAssetHandler.getUserTickets());
+        List<Ticket> items = userAssetHandler.getUserTickets();
+        ticketGrid.setItems(items);
         ticketGrid.setSizeFull();
         ticketGrid.addColumn(ticket -> {
             Asset asset = ticket.getAsset();

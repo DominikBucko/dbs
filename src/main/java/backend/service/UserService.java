@@ -212,11 +212,12 @@ public class UserService {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         }
-        if (users != null) {
-            User user = users.get(0);
-            return user;
-        }
-        else return null;
+//        if (users != null) {
+//            User user = users.get(0);
+//            return usersDTO;
+//        }
+//        else return null;
+        return usersDTO;
     }
 
     public List<User> getAllHib(){
