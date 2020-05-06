@@ -97,7 +97,10 @@ public class Ticket {
     Date time_returned;
 
 
+    @Transient
     int user_info;
+
+    @Transient
     int asset_info;
 
     @ManyToOne

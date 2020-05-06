@@ -145,8 +145,8 @@ public class Users extends VerticalLayout {
 
     private void setupGrid() {
         provider = DataProvider.fromCallbacks(
-                query -> userService.getAllHib().stream(),
-//                query -> userService.getAll(query.getOffset(), query.getLimit()).stream(),
+//                query -> userService.getAllHib().stream(),
+                query -> userService.getAll(query.getOffset(), query.getLimit()).stream(),
                 query -> userService.countAll()
         );
         userGrid.setDataProvider(provider);

@@ -236,14 +236,17 @@ public class AssetService {
         return new ArrayList<>();
     }
 
-    public List<Asset> getAllHib(){
+    public List<Asset> getAllHib(int offset, int limit){
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
         Transaction tx = null;
         List <Asset> assets = null;
 
         try {
             tx = session.beginTransaction();
-            assets = session.createQuery("FROM backend.entity.Asset as ass group by ass.asset_id").list();
+            assets = session.createQuery("FROM backend.entity.Asset as ass group by ass.asset_id")
+                    .setFirstResult(offset)
+                    .setMaxResults(limit)
+                    .list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();

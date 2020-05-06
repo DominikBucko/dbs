@@ -3,9 +3,13 @@ package backend.service;
 import backend.entity.Asset;
 import backend.entity.User;
 import backend.entity.Department;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.modelmapper.ModelMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -188,8 +192,31 @@ public class UserService {
         return 0;
     }
 
-    public User getUserByUsername(String username) {
-        return new User();
+    public User getUserByUsername(String username){
+        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
+        Transaction tx = null;
+        List <User> users = null;
+        User usersDTO = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            Query query = session.createQuery("FROM backend.entity.User user where user.login = :username");
+            query.setParameter("username", username);
+            users = query.list();
+            ModelMapper modelMapper = new ModelMapper();
+            usersDTO = modelMapper.map(users.get(0), User.class);
+
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }
+        if (users != null) {
+            User user = users.get(0);
+            return user;
+        }
+        else return null;
     }
 
     public List<User> getAllHib(){

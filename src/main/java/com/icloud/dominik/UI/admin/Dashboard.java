@@ -78,7 +78,7 @@ public class Dashboard extends VerticalLayout {
     }
 
     private void setUpFilter() {
-        List<Ticket> tickets = ticketService.getAllHib();
+//        List<Ticket> tickets = ticketService.getAllHib();
         List<Department> departmentsList = departmentService.getAll();
         departments.setItems(departmentsList);
         departments.setItemLabelGenerator(Department::getDepartment_name);

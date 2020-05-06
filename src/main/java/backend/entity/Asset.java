@@ -104,6 +104,7 @@ public class Asset {
     @JoinColumn(name = "asset_department", insertable=false, updatable = false)
     private Department department;
 
+    @Transient
     private int count;
 
     public Asset() {}

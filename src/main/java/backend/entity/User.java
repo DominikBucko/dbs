@@ -103,7 +103,6 @@ public class User {
 //    }
 
     public User() {
-
     }
 
     public User(String first_name,
@@ -146,6 +145,20 @@ public class User {
         this.is_admin = is_admin;
     }
 
+    public User(int user_id, String first_name, String surname, String city, String address, int postcode, int user_department, Department department, String login, String password, Boolean is_admin) {
+        this.user_id = user_id;
+        this.first_name = first_name;
+        this.surname = surname;
+        this.city = city;
+        this.address = address;
+        this.postcode = postcode;
+        this.user_department = user_department;
+        this.department = department;
+        this.login = login;
+        this.password = password;
+        this.is_admin = is_admin;
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "user_id")
@@ -166,6 +179,7 @@ public class User {
     @Column(name = "postcode")
     int postcode;
 
+    @Transient
     int user_department;
 
 

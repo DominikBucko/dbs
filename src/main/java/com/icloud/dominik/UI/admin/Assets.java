@@ -106,7 +106,7 @@ public class Assets extends VerticalLayout {
     private void setupGrid() {
 
         provider = DataProvider.fromCallbacks(
-                query -> assetService.getAllHib().stream(),
+                query -> assetService.getAllHib(query.getOffset(), query.getLimit()).stream(),
 //                query -> assetService.getAll(query.getOffset(), query.getLimit()).stream(),
                 query -> assetService.countAll()
         );
