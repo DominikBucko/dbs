@@ -30,6 +30,7 @@ public class HomeLayout extends AppLayout {
                 usersTab,
                 locationsTab,
                 dashboard,
+                tickets_approval,
                 test
         ));
 

@@ -33,6 +33,7 @@ public class Assets extends VerticalLayout {
     Div dialogContent = new Div();
     Dialog dialog = new Dialog();
     Text itemCount = new Text("");
+    TextField filter = new TextField();
 
     CallbackDataProvider<Asset, Void> provider;
     public Assets() {
@@ -106,8 +107,8 @@ public class Assets extends VerticalLayout {
     private void setupGrid() {
 
         provider = DataProvider.fromCallbacks(
-                query -> assetService.getAllHib(query.getOffset(), query.getLimit()).stream(),
-//                query -> assetService.getAll(query.getOffset(), query.getLimit()).stream(),
+//                query -> assetService.getAllHib(query.getOffset(), query.getLimit()).stream(),
+                query -> assetService.getAll(query.getOffset(), query.getLimit()).stream(),
                 query -> assetService.countAll()
         );
         grid.setDataProvider(provider);

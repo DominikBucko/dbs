@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -67,22 +68,21 @@ public class TicketService {
         return mappedTickets;
     }
     public boolean saveTicket(Ticket newTicket) {
-//        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
-//        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-//        parameterSource.addValue("asset_id", newTicket.getAsset().getAsset_id());
-//        parameterSource.addValue("user_id", newTicket.getUser().getUser_id());
-//        parameterSource.addValue("time_created", newTicket.getTime_created());
-//        parameterSource.addValue("time_accepted", newTicket.getTime_accepted());
-//        parameterSource.addValue("time_assigned", newTicket.getTime_assigned());
-//        parameterSource.addValue("time_returned", newTicket.getTime_returned());
-//        parameterSource.addValue("comment", newTicket.getComment());
-//        try {
-//            jdbcTemplate.update("INSERT INTO asset_manager.public.ticket (asset_info, user_info, time_created, time_accepted, time_assigned, time_returned, comment)" +
-//                    " VALUES (:asset_id, :user_id, :time_created, :time_accepted, :time_assigned, :time_returned, :comment)", parameterSource);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
+        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("asset_id", newTicket.getAsset().getAsset_id());
+        parameterSource.addValue("user_id", newTicket.getUser().getUser_id());
+        parameterSource.addValue("time_created", newTicket.getTime_created());
+        parameterSource.addValue("time_accepted", newTicket.getTime_accepted());
+        parameterSource.addValue("time_assigned", newTicket.getTime_assigned());
+        parameterSource.addValue("time_returned", newTicket.getTime_returned());
+        try {
+            jdbcTemplate.update("INSERT INTO asset_manager.public.ticket (asset_info, user_info, time_created, time_accepted, time_assigned, time_returned)" +
+                    " VALUES (:asset_id, :user_id, :time_created, :time_accepted, :time_assigned, :time_returned)", parameterSource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
 //       Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().getCurrentSession();
 //        try {
@@ -98,15 +98,23 @@ public class TicketService {
 
     }
 
-    public Collection<Ticket> getUnapprovedTickets(int limit, int offset) {
+    public Collection<Ticket> getUnapprovedTickets(String name, int limit, int offset) {
+        String delims = "[ ]";
+        List<String> names = new ArrayList<>(Arrays.asList(name.split(delims)));
+        if (names.size() < 2) {
+            names.add("");
+            names.add("");
+        }
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().getCurrentSession();
         List returned = null;
         List<Ticket> tickets;
         try {
             Transaction tx = session.beginTransaction();
-            returned = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null")
+            returned = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null and t.user.first_name = :fname% and t.user.surname = :lname%")
                     .setFirstResult(offset)
                     .setMaxResults(limit)
+                    .setParameter("fname", names.get(0))
+                    .setParameter("lname", names.get(1))
                     .list();
             }
         catch (HibernateException e) {
@@ -123,4 +131,5 @@ public class TicketService {
         }
         return mapped;
     }
+
 }
