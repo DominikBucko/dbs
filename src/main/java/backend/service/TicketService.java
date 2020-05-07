@@ -110,11 +110,15 @@ public class TicketService {
         List<Ticket> tickets;
         try {
             Transaction tx = session.beginTransaction();
-            returned = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null and t.user.first_name = :fname% and t.user.surname = :lname%")
-                    .setFirstResult(offset)
-                    .setMaxResults(limit)
-                    .setParameter("fname", names.get(0))
-                    .setParameter("lname", names.get(1))
+            returned = session.createNativeQuery("SELECT * FROM asset_manager.public.ticket " +
+                    "INNER JOIN user u on user_info = u.user_id" +
+                    "WHERE (lower(first_name)) LIKE lower(:fname)" +
+                    "WHERE (lower(surname)) LIKE lower(:lname)" +
+                    "ORDER BY time_created DESC LIMIT :limit OFFSET :offset")
+                    .setParameter("fname", names.get(0) + "%")
+                    .setParameter("lname", names.get(1) + "%")
+                    .setParameter("limit", limit)
+                    .setParameter("offset", offset)
                     .list();
             }
         catch (HibernateException e) {
