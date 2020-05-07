@@ -7,6 +7,7 @@ import backend.entity.User;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.NativeQuery;
+import org.modelmapper.ModelMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -232,8 +233,29 @@ public class AssetService {
         return assets;
     }
 
-    public List<Asset> getAvailable(Department department) {
-        return new ArrayList<>();
+    public List<Asset> getAvailable(Department department, int limit, int offset) {
+        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
+        Transaction tx = null;
+        List returned = null;
+        List<Asset> assetsDTO = new ArrayList<>();
+        ModelMapper mapper = new ModelMapper();
+        try {
+            tx = session.beginTransaction();
+            returned = session.createQuery("FROM Asset ass where ass.department.department_id = :department_id ")
+                    .setFirstResult(offset)
+                    .setMaxResults(limit)
+                    .setParameter("department_id", department.getDepartment_id())
+                    .list();
+            tx.commit();
+
+            for (int i = 0; i < returned.size(); i++) {
+                assetsDTO.add(mapper.map(returned.get(i), Asset.class));
+            }
+        }
+        catch (HibernateException e) {
+            e.printStackTrace();
+        }
+        return assetsDTO;
     }
 
     public List<Asset> getAllHib(int offset, int limit){

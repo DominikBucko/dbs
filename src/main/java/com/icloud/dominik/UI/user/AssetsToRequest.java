@@ -11,6 +11,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -28,6 +29,8 @@ public class AssetsToRequest extends VerticalLayout {
             SecurityContextHolder.getContext().getAuthentication().getName()
     );
     Dialog requestAssetDialog = new Dialog();
+    CallbackDataProvider<Asset, Void> provider;
+    Asset current_selection = null;
 
     private AssetsToRequest() {
         setupGrid();
@@ -52,15 +55,19 @@ public class AssetsToRequest extends VerticalLayout {
     }
 
     private void requestAsset() {
-        userAssetHandler.createTicket(assetGrid.getSelectedItems().iterator().next());
+        userAssetHandler.createTicket(current_selection);
         requestAssetDialog.close();
     }
 
     private void setupGrid() {
-        
-        assetGrid.setItems(userAssetHandler.getAvailableAssets());
+        provider = DataProvider.fromCallbacks(
+                query ->  userAssetHandler.getAvailableAssets(query.getLimit(), query.getOffset()).stream(),
+                query -> userAssetHandler.getAvailableAssets(query.getLimit(), query.getOffset()).size()
+        );
+        assetGrid.setDataProvider(provider);
+//        assetGrid.setItems(userAssetHandler.getAvailableAssets());
         assetGrid.addClassName("asset-grid");
-        assetGrid.setSizeFull();
+//        assetGrid.setSizeFull();
         assetGrid.removeColumnByKey("asset_department");
         assetGrid.setColumns("name", "type", "qr_code", "asset_category", "status");
         assetGrid.addColumn(asset -> {
@@ -73,7 +80,8 @@ public class AssetsToRequest extends VerticalLayout {
     }
 
     private void openRequestAssetPopup(Asset value) {
-
+        current_selection = value;
+        requestAssetDialog.open();
     }
 
 }

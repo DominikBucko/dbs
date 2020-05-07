@@ -22,8 +22,8 @@ public class UserAssetHandler {
         currentUser = userService.getUserByUsername(username);
     }
 
-    public List<Asset> getAvailableAssets() {
-        List<Asset> assets = this.assetService.getAvailable(this.currentUser.getDepartment());
+    public List<Asset> getAvailableAssets(int limit, int offset) {
+        List<Asset> assets = assetService.getAvailable(currentUser.getDepartment(), limit, offset);
         return assets;
     }
 

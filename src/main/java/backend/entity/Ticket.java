@@ -79,8 +79,17 @@ public class Ticket {
         this.asset = asset;
     }
 
+//    public String getComment() {
+//        return comment;
+//    }
+//
+//    public void setComment(String comment) {
+//        this.comment = comment;
+//    }
+//
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "invoice_id")
     int invoice_id;
 
@@ -110,6 +119,7 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "asset_info", insertable=false, updatable = false)
     Asset asset;
+
 
     @Column(name = "comment")
     String comment;

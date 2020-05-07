@@ -1,6 +1,7 @@
 package backend.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "asset")
@@ -99,6 +100,9 @@ public class Asset {
 
     @Column(name = "status")
     private String status;
+
+//    @OneToMany
+//    private List<Ticket> tickets;
 
     @ManyToOne
     @JoinColumn(name = "asset_department", insertable=false, updatable = false)

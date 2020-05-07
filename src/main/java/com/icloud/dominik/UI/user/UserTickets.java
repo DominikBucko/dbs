@@ -38,11 +38,11 @@ public class UserTickets extends VerticalLayout {
     private void setupGrid() {
         List<Ticket> items = userAssetHandler.getUserTickets();
         ticketGrid.setItems(items);
-        ticketGrid.setSizeFull();
+//        ticketGrid.setSizeFull();
         ticketGrid.addColumn(ticket -> {
             Asset asset = ticket.getAsset();
             return asset == null ? "none" : asset.getName() + asset.getType();
         }).setHeader("Asset");
-        ticketGrid.setColumns("invoice_id", "time_created", "time_returned", "comment");
+        ticketGrid.setColumns("invoice_id", "time_created", "time_returned");
     }
 }
