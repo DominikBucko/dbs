@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class TicketService {
@@ -95,5 +96,31 @@ public class TicketService {
 //        }
 //        return true;
 
+    }
+
+    public Collection<Ticket> getUnapprovedTickets(int limit, int offset) {
+        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().getCurrentSession();
+        List returned = null;
+        List<Ticket> tickets;
+        try {
+            Transaction tx = session.beginTransaction();
+            returned = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null")
+                    .setFirstResult(offset)
+                    .setMaxResults(limit)
+                    .list();
+            }
+        catch (HibernateException e) {
+            e.printStackTrace();
+        }
+        return mapList(returned);
+    }
+
+    public List<Ticket> mapList(List returned) {
+        List<Ticket> mapped = new ArrayList<>();
+        ModelMapper mapper = new ModelMapper();
+        for (int i = 0; i < returned.size(); i++) {
+            mapped.add(mapper.map(returned.get(i), Ticket.class));
+        }
+        return mapped;
     }
 }

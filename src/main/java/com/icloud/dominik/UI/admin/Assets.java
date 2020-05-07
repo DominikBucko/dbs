@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @Route(value = "assets", layout = HomeLayout.class)
-@Secured("ROLE_User")
+@Secured("ROLE_Admin")
 @PageTitle("Assets | SAM")
 public class Assets extends VerticalLayout {
     Grid<Asset> grid = new Grid<>(Asset.class);
@@ -33,7 +33,7 @@ public class Assets extends VerticalLayout {
     Div dialogContent = new Div();
     Dialog dialog = new Dialog();
     Text itemCount = new Text("");
-    TextField filter = new TextField();
+
     CallbackDataProvider<Asset, Void> provider;
     public Assets() {
         addClassName("list-view");
