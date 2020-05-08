@@ -35,4 +35,8 @@ public class UserAssetHandler {
         Ticket newTicket = new Ticket(currentUser, asset);
         return ticketService.saveTicket(newTicket);
     }
+
+    public void askForReturn(Ticket currentTicket) {
+        ticketService.updateTicket(currentTicket);
+    }
 }
