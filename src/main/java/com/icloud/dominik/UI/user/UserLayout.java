@@ -25,6 +25,7 @@ public class UserLayout extends AppLayout {
             logout.getUI().ifPresent(ui -> ui.navigate("login"));
             logout.getUI().ifPresent(ui -> ui.getSession().close());
         });
+        logout.setWidth("10%");
         addToNavbar(header, logout);
     }
 

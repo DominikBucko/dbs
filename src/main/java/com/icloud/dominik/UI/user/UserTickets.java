@@ -39,10 +39,14 @@ public class UserTickets extends VerticalLayout {
         List<Ticket> items = userAssetHandler.getUserTickets();
         ticketGrid.setItems(items);
 //        ticketGrid.setSizeFull();
+        ticketGrid.removeAllColumns();
         ticketGrid.addColumn(ticket -> {
             Asset asset = ticket.getAsset();
-            return asset == null ? "none" : asset.getName() + asset.getType();
+            return asset == null ? "none" : asset.getName() + " " + asset.getType();
         }).setHeader("Asset");
-        ticketGrid.setColumns("invoice_id", "time_created", "time_returned");
+        ticketGrid.addColumn(Ticket::getInvoice_id).setHeader("Ticket ID");
+        ticketGrid.addColumn(Ticket::getTime_created).setHeader("Requested");
+        ticketGrid.addColumn(Ticket::getTime_accepted).setHeader("Approved");
+        ticketGrid.addColumn(Ticket::getTime_returned).setHeader("Returned");
     }
 }

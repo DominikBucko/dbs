@@ -3,6 +3,7 @@ package com.icloud.dominik.UI.admin;
 import com.icloud.dominik.UI.Test;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -45,7 +46,13 @@ public class HomeLayout extends AppLayout {
         header.addClassName("header");
         header.setWidth("100%");
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
-        addToNavbar(header);
+        Button logout = new Button("Logout");
+        logout.addClickListener(click -> {
+            logout.getUI().ifPresent(ui -> ui.navigate("login"));
+            logout.getUI().ifPresent(ui -> ui.getSession().close());
+        });
+        logout.setWidth("10%");
+        addToNavbar(header, logout);
     }
 
 

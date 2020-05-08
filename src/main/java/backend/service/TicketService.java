@@ -26,7 +26,8 @@ public class TicketService {
 
         try {
             tx = session.beginTransaction();
-            returnedTickets = session.createQuery("FROM backend.entity.Ticket ticket where ticket.user.login = :username ")
+            returnedTickets = session.createQuery("FROM backend.entity.Ticket ticket where ticket.user.login = :username " +
+                    "order by ticket.time_accepted desc")
                     .setFirstResult(0)
                     .setMaxResults(1000)
                     .setParameter("username", current_user.getLogin())
@@ -67,6 +68,28 @@ public class TicketService {
         }
         return mappedTickets;
     }
+
+        public boolean updateTicket(Ticket newTicket) {
+            NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
+            MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+            parameterSource.addValue("invoice_id", newTicket.getInvoice_id());
+            parameterSource.addValue("asset_id", newTicket.getAsset().getAsset_id());
+            parameterSource.addValue("user_id", newTicket.getUser().getUser_id());
+            parameterSource.addValue("time_created", newTicket.getTime_created());
+            parameterSource.addValue("time_accepted", newTicket.getTime_accepted());
+            parameterSource.addValue("time_assigned", newTicket.getTime_assigned());
+            parameterSource.addValue("time_returned", newTicket.getTime_returned());
+            try {
+                jdbcTemplate.update("UPDATE asset_manager.public.ticket " +
+                        "SET asset_info = :asset_id, user_info = :user_id, time_created = :time_created, time_accepted = :time_accepted, time_assigned = :time_assigned, time_returned = :time_returned" +
+                        " WHERE invoice_id = :invoice_id", parameterSource);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+
     public boolean saveTicket(Ticket newTicket) {
         NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -100,6 +123,7 @@ public class TicketService {
 
     public Collection<Ticket> getUnapprovedTickets(String name, int limit, int offset) {
         String delims = "[ ]";
+
         List<String> names = new ArrayList<>(Arrays.asList(name.split(delims)));
         if (names.size() < 2) {
             names.add("");
@@ -110,17 +134,14 @@ public class TicketService {
         List<Ticket> tickets;
         try {
             Transaction tx = session.beginTransaction();
-            returned = session.createNativeQuery("SELECT * FROM asset_manager.public.ticket " +
-                    "INNER JOIN user u on user_info = u.user_id" +
-                    "WHERE (lower(first_name)) LIKE lower(:fname)" +
-                    "WHERE (lower(surname)) LIKE lower(:lname)" +
-                    "ORDER BY time_created DESC LIMIT :limit OFFSET :offset")
-                    .setParameter("fname", names.get(0) + "%")
-                    .setParameter("lname", names.get(1) + "%")
-                    .setParameter("limit", limit)
-                    .setParameter("offset", offset)
-                    .list();
-            }
+            Query query = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null and lower(t.user.first_name) like :fname and lower(t.user.surname) like :lname");
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+            query.setString("fname", names.get(0) + "%");
+            query.setString("lname", names.get(1)+ "%");
+            returned = query.list();
+            tx.commit();
+        }
         catch (HibernateException e) {
             e.printStackTrace();
         }
@@ -136,4 +157,14 @@ public class TicketService {
         return mapped;
     }
 
+    public void deleteTicket(Ticket currentTicket) {
+        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("invoice_id", currentTicket.getInvoice_id());
+        try {
+            jdbcTemplate.update("DELETE from ticket where invoice_id = :invoice_id", parameterSource);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
