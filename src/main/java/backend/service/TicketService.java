@@ -84,10 +84,11 @@ public class TicketService {
             return false;
         }
         return true;
+
 //       Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().getCurrentSession();
 //        try {
 //            Transaction tx = session.beginTransaction();
-//            session.persist(newTicket);
+//            session.save(newTicket);
 //            tx.commit();
 //        }
 //        catch (HibernateException e) {
@@ -95,7 +96,6 @@ public class TicketService {
 //            return false;
 //        }
 //        return true;
-
     }
 
     public Collection<Ticket> getUnapprovedTickets(String name, int limit, int offset) {
@@ -133,5 +133,4 @@ public class TicketService {
         }
         return mapped;
     }
-
 }

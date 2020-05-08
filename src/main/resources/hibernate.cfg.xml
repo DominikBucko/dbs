@@ -21,5 +21,7 @@
         <mapping class = "backend.entity.User"/>
         <mapping class = "backend.entity.Asset"/>
         <mapping class = "backend.entity.Ticket"/>
+        <mapping class = "backend.entity.AssetFault"/>
+        <mapping class = "backend.entity.Fault"/>
     </session-factory>
 </hibernate-configuration>
