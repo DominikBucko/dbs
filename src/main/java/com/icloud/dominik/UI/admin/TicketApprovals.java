@@ -1,5 +1,7 @@
 package com.icloud.dominik.UI.admin;
 
+import backend.entity.Department;
+import backend.entity.Location;
 import backend.entity.Ticket;
 import backend.entity.User;
 import backend.service.TicketService;
@@ -68,7 +70,7 @@ public class TicketApprovals extends VerticalLayout {
 
     private void setupFilters() {
         filter.setPlaceholder("Filter by name..");
-        filter.setMaxWidth("50%");
+//        filter.setMaxWidth("100%");
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.LAZY);
         filter.addValueChangeListener(e -> applyFilter());
@@ -80,12 +82,21 @@ public class TicketApprovals extends VerticalLayout {
                 query -> ticketService.getUnapprovedTickets(filter.getValue(), query.getLimit(), query.getOffset()).size()
         );
         ticketGrid.setDataProvider(dataProvider);
+        ticketGrid.setColumns("invoice_id", "time_created");
         ticketGrid.addColumn(ticket -> {
             User user = ticket.getUser();
             return user.getFirst_name() + " " + user.getSurname();
         }).setHeader("Applicant");
-        ticketGrid.setColumns("invoice_id", "time_created");
+        ticketGrid.addColumn(ticket -> {
+            Department department = ticket.getUser().getDepartment();
+            return department.getDepartment_name();
+        }).setHeader("Department");
+        ticketGrid.addColumn(ticket -> {
+            Location location = ticket.getUser().getDepartment().getLocation();
+            return location.getState();
+        }).setHeader("State");
         ticketGrid.asSingleSelect().addValueChangeListener(evt -> openApprovalForTicket(evt.getValue()));
+        ticketGrid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 
     private void openApprovalForTicket(Ticket value) {

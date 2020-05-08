@@ -100,6 +100,7 @@ public class TicketService {
 
     public Collection<Ticket> getUnapprovedTickets(String name, int limit, int offset) {
         String delims = "[ ]";
+
         List<String> names = new ArrayList<>(Arrays.asList(name.split(delims)));
         if (names.size() < 2) {
             names.add("");
@@ -110,13 +111,14 @@ public class TicketService {
         List<Ticket> tickets;
         try {
             Transaction tx = session.beginTransaction();
-            returned = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null and t.user.first_name = :fname% and t.user.surname = :lname%")
-                    .setFirstResult(offset)
-                    .setMaxResults(limit)
-                    .setParameter("fname", names.get(0))
-                    .setParameter("lname", names.get(1))
-                    .list();
-            }
+            Query query = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null and lower(t.user.first_name) like :fname and lower(t.user.surname) like :lname");
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+            query.setString("fname", names.get(0) + "%");
+            query.setString("lname", names.get(1)+ "%");
+            returned = query.list();
+            tx.commit();
+        }
         catch (HibernateException e) {
             e.printStackTrace();
         }
