@@ -83,7 +83,7 @@ public class TicketApprovals extends VerticalLayout {
 
     private void setupFilters() {
         filter.setPlaceholder("Filter by name..");
-        filter.setMaxWidth("50%");
+//        filter.setMaxWidth("100%");
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.LAZY);
         filter.addValueChangeListener(e -> applyFilter());

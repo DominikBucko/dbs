@@ -27,7 +27,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="Entities" />
-          <factory-entry name="dbs" />
+          <factory-entry name="dbs" value="01c0b8e4-0336-417d-b10c-dbb6d359c2f3" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
