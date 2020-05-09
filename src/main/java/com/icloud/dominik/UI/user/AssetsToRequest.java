@@ -23,7 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @PageTitle("Assets | SAM")
 public class AssetsToRequest extends VerticalLayout {
     Grid<Asset> assetGrid = new Grid<>(Asset.class);
-    Button userAssets = new Button("My Assets");
+    Button userAssets = new Button("My Tickets");
     AssetService assetService = new AssetService();
     UserAssetHandler userAssetHandler = new UserAssetHandler(
             SecurityContextHolder.getContext().getAuthentication().getName()

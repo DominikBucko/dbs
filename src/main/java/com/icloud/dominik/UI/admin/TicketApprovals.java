@@ -1,10 +1,6 @@
 package com.icloud.dominik.UI.admin;
 
-import backend.entity.Department;
-import backend.entity.Location;
-import backend.entity.Ticket;
-import backend.entity.User;
-import backend.service.AssetFaultService;
+import backend.entity.*;
 import backend.service.TicketService;
 import com.icloud.dominik.UI.admin.HomeLayout;
 import com.vaadin.flow.component.button.Button;
@@ -23,6 +19,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.xml.crypto.Data;
+import java.sql.Date;
 
 @Route(value = "tickets_approval", layout = HomeLayout.class)
 @Secured("ROLE_Admin")
@@ -39,10 +36,12 @@ public class TicketApprovals extends VerticalLayout {
     public TicketApprovals() {
         setupGrid();
         setupFilters();
+        setupDialog();
         add(filter, ticketGrid);
     }
 
     private void setupDialog() {
+        approveDialog = new Dialog();
         VerticalLayout dialogLayout = new VerticalLayout();
         H3 prompt = new H3("Do you want to approve this request?");
         HorizontalLayout buttonLayout = new HorizontalLayout();
@@ -52,15 +51,28 @@ public class TicketApprovals extends VerticalLayout {
         Button no = new Button("No");
         no.addThemeVariants(ButtonVariant.LUMO_ERROR);
         no.addClickListener(click -> approveDialog.close());
+        Button deny = new Button("Deny asset");
+        deny.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        deny.addClickListener(click -> denyTicket());
         no.setSizeFull();
         yes.setSizeFull();
-        buttonLayout.add(no, yes);
+        deny.setSizeFull();
+        buttonLayout.add(no, yes, deny);
+        buttonLayout.setAlignItems(Alignment.CENTER);
         dialogLayout.add(prompt, buttonLayout);
         approveDialog.add(dialogLayout);
     }
 
+    private void denyTicket() {
+        ticketService.deleteTicket(currentTicket);
+        applyFilter();
+        approveDialog.close();
+    }
+
     private void approveTicket() {
-        ticketService.saveTicket(currentTicket);
+        currentTicket.setTime_accepted(new Date(new java.util.Date().getTime()));
+        ticketService.updateTicket(currentTicket);
+        applyFilter();
         approveDialog.close();
     }
 
@@ -93,9 +105,9 @@ public class TicketApprovals extends VerticalLayout {
             return department.getDepartment_name();
         }).setHeader("Department");
         ticketGrid.addColumn(ticket -> {
-            Location location = ticket.getUser().getDepartment().getLocation();
-            return location.getState();
-        }).setHeader("State");
+            Asset asset = ticket.getAsset();
+            return asset.getName() + " " + asset.getType();
+        }).setHeader("Asset");
         ticketGrid.asSingleSelect().addValueChangeListener(evt -> openApprovalForTicket(evt.getValue()));
         ticketGrid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
