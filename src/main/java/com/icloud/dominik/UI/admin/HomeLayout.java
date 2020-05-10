@@ -25,6 +25,8 @@ public class HomeLayout extends AppLayout {
         RouterLink test = new RouterLink("Test", Test.class);
         RouterLink dashboard = new RouterLink("Dashboard", Dashboard.class);
         RouterLink tickets_approval = new RouterLink("Approve Tickets", TicketApprovals.class);
+        RouterLink tickets_returns = new RouterLink("Approve Returns", TicketReturns.class);
+        RouterLink faults = new RouterLink("Faults", Faults.class);
         assetsTab.setHighlightCondition(HighlightConditions.sameLocation());
         addToDrawer(new VerticalLayout(
                 assetsTab,
@@ -32,7 +34,8 @@ public class HomeLayout extends AppLayout {
                 locationsTab,
                 dashboard,
                 tickets_approval,
-                test
+                tickets_returns,
+                faults
         ));
 
 

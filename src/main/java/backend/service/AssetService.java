@@ -276,4 +276,26 @@ public class AssetService {
         }
         return assets;
     }
+
+    public Asset getByID(int ID) {
+        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
+        Transaction tx = null;
+        List returned;
+        Asset asset = null;
+        ModelMapper mapper = new ModelMapper();
+
+        try {
+            tx = session.beginTransaction();
+            returned = session.createQuery("FROM Asset a where a.asset_id = :id")
+                    .setParameter("id", ID)
+                    .list();
+             for (int i = 0; i < returned.size(); i++) {
+                asset = mapper.map(returned.get(i), Asset.class);
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+        return asset;
+
+    }
 }

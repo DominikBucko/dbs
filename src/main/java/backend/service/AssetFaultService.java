@@ -1,6 +1,7 @@
 package backend.service;
 
 import backend.entity.*;
+import com.vaadin.flow.component.textfield.IntegerField;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,11 +21,21 @@ public class AssetFaultService {
     public List<AssetFault> getAll(int offset, int limit) {
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().getCurrentSession();
         List returned = null;
+       if (limit == 2147483647) {
+            Transaction tx = session.beginTransaction();
+            List<AssetFault> count = new ArrayList<>();
+            Long c = (Long) session.createQuery("select count(e) from AssetFault e").getSingleResult();
+            tx.commit();
+            for (int i = 0; i < c; i++) {
+                count.add(new AssetFault());
+            }
+            return count;
+        }
         try {
             Transaction tx = session.beginTransaction();
             Query query = session.createQuery("FROM backend.entity.AssetFault");
-//            query.setFirstResult(offset);
-//            query.setMaxResults(limit);
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
             returned = query.list();
             tx.commit();
         }

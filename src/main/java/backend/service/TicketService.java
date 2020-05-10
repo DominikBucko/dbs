@@ -121,7 +121,7 @@ public class TicketService {
 //        return true;
     }
 
-    public Collection<Ticket> getUnapprovedTickets(String name, int limit, int offset) {
+    public Collection<Ticket> getUnapprovedTickets(String type, String name, int limit, int offset) {
         String delims = "[ ]";
 
         List<String> names = new ArrayList<>(Arrays.asList(name.split(delims)));
@@ -132,9 +132,18 @@ public class TicketService {
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().getCurrentSession();
         List returned = null;
         List<Ticket> tickets;
+        Query query;
+
+//        if (limit == 2147483647) {
+//            return Arrays.asList(new Ticket[1000000]);
+//        }
         try {
             Transaction tx = session.beginTransaction();
-            Query query = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null and lower(t.user.first_name) like :fname and lower(t.user.surname) like :lname");
+            if (type.equals("approve")) {
+                query = session.createQuery("FROM backend.entity.Ticket t where t.time_accepted = null and lower(t.user.first_name) like :fname and lower(t.user.surname) like :lname");
+            } else {
+                query = session.createQuery("FROM backend.entity.Ticket t where t.time_assigned != null and t.time_returned = null and lower(t.user.first_name) like :fname and lower(t.user.surname) like :lname");
+            }
             query.setFirstResult(offset);
             query.setMaxResults(limit);
             query.setString("fname", names.get(0) + "%");

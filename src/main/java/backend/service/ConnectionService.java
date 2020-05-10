@@ -33,7 +33,13 @@ public class ConnectionService {
     }
 
     public DataSource getCustomDataSource() {
-
+        try {
+            if (conn.isClosed()) {
+                createConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return new CustomDataSource(conn);
     }
 

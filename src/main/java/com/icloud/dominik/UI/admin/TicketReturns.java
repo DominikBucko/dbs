@@ -1,8 +1,10 @@
 package com.icloud.dominik.UI.admin;
 
-import backend.entity.*;
+import backend.entity.Asset;
+import backend.entity.Department;
+import backend.entity.Ticket;
+import backend.entity.User;
 import backend.service.TicketService;
-import com.icloud.dominik.UI.admin.HomeLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -18,14 +20,14 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 
-import javax.xml.crypto.Data;
 import java.sql.Date;
 
-@Route(value = "tickets_approval", layout = HomeLayout.class)
+
+@Route(value = "tickets_returns", layout = HomeLayout.class)
 @Secured("ROLE_Admin")
-@PageTitle("Tickets | SAM")
-public class TicketApprovals extends VerticalLayout {
-    Grid<Ticket> ticketGrid = new Grid<>(Ticket.class);
+@PageTitle("Returns | SAM")
+public class TicketReturns extends VerticalLayout {
+     Grid<Ticket> ticketGrid = new Grid<>(Ticket.class);
     CallbackDataProvider<Ticket, Void> dataProvider;
     TextField filter = new TextField();
     TicketService ticketService = new TicketService();
@@ -33,7 +35,7 @@ public class TicketApprovals extends VerticalLayout {
     Dialog approveDialog;
 
 
-    public TicketApprovals() {
+    public TicketReturns() {
         setupGrid();
         setupFilters();
         setupDialog();
@@ -43,7 +45,7 @@ public class TicketApprovals extends VerticalLayout {
     private void setupDialog() {
         approveDialog = new Dialog();
         VerticalLayout dialogLayout = new VerticalLayout();
-        H3 prompt = new H3("Do you want to approve this request?");
+        H3 prompt = new H3("Do you want to approve return of this request?");
         HorizontalLayout buttonLayout = new HorizontalLayout();
         Button yes = new Button("Yes");
         yes.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -51,26 +53,16 @@ public class TicketApprovals extends VerticalLayout {
         Button no = new Button("No");
         no.addThemeVariants(ButtonVariant.LUMO_ERROR);
         no.addClickListener(click -> approveDialog.close());
-        Button deny = new Button("Deny asset");
-        deny.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        deny.addClickListener(click -> denyTicket());
         no.setSizeFull();
         yes.setSizeFull();
-        deny.setSizeFull();
-        buttonLayout.add(no, yes, deny);
+        buttonLayout.add(no, yes);
         buttonLayout.setAlignItems(Alignment.CENTER);
         dialogLayout.add(prompt, buttonLayout);
         approveDialog.add(dialogLayout);
     }
 
-    private void denyTicket() {
-        ticketService.deleteTicket(currentTicket);
-        applyFilter();
-        approveDialog.close();
-    }
-
     private void approveTicket() {
-        currentTicket.setTime_accepted(new Date(new java.util.Date().getTime()));
+        currentTicket.setTime_returned(new Date(new java.util.Date().getTime()));
         ticketService.updateTicket(currentTicket);
         applyFilter();
         approveDialog.close();
@@ -91,8 +83,8 @@ public class TicketApprovals extends VerticalLayout {
 
     private void setupGrid() {
         dataProvider = DataProvider.fromCallbacks(
-                query -> ticketService.getUnapprovedTickets("approve", filter.getValue(), query.getLimit(), query.getOffset()).stream(),
-                query -> ticketService.getUnapprovedTickets("approve",filter.getValue(), query.getLimit(), query.getOffset()).size()
+                query -> ticketService.getUnapprovedTickets("return", filter.getValue(), query.getLimit(), query.getOffset()).stream(),
+                query -> ticketService.getUnapprovedTickets("return", filter.getValue(), query.getLimit(), query.getOffset()).size()
         );
         ticketGrid.setDataProvider(dataProvider);
         ticketGrid.setColumns("invoice_id", "time_created");
@@ -116,6 +108,4 @@ public class TicketApprovals extends VerticalLayout {
         currentTicket = value;
         approveDialog.open();
     }
-
 }
-

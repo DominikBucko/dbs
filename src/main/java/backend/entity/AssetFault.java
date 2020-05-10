@@ -43,6 +43,15 @@ public class AssetFault {
     @Column(name = "fixable")
     Boolean fixable;
 
+    public AssetFault(Fault fault, Asset asset, int fault_id, int asset_id, Date time_of_failure, Boolean fixable) {
+        this.fault = fault;
+        this.asset = asset;
+        this.fault_id = fault_id;
+        this.asset_id = asset_id;
+        this.time_of_failure = time_of_failure;
+        this.fixable = fixable;
+    }
+
     public AssetFault(int asset_failt_id, Fault fault, Asset asset, Date time_of_failure, Date fix_time, Boolean fixable) {
         this.asset_failt_id = asset_failt_id;
         this.fault_id = fault.getFault_id();
