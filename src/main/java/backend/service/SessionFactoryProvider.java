@@ -1,6 +1,7 @@
 package backend.service;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -41,5 +42,13 @@ public class SessionFactoryProvider {
             sessionFactoryProvider = new SessionFactoryProvider();
         }
         return sessionFactoryProvider;
+    }
+
+    public static Session getSession() {
+        Session session = getSessionFactoryProvider().getSessionFactory().getCurrentSession();
+        if (session == null) {
+            return getSessionFactoryProvider().getSessionFactory().openSession();
+        }
+        else return session;
     }
 }

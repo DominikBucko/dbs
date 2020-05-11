@@ -24,7 +24,7 @@ public class AssetFaultService {
        if (limit == 2147483647) {
             Transaction tx = session.beginTransaction();
             List<AssetFault> count = new ArrayList<>();
-            Long c = (Long) session.createQuery("select count(e) from AssetFault e").getSingleResult();
+            Long c = (Long) session.createQuery("select count(a) from AssetFault a where a.fix_time = null and a.fixable = true").getSingleResult();
             tx.commit();
             for (int i = 0; i < c; i++) {
                 count.add(new AssetFault());
@@ -33,7 +33,7 @@ public class AssetFaultService {
         }
         try {
             Transaction tx = session.beginTransaction();
-            Query query = session.createQuery("FROM backend.entity.AssetFault");
+            Query query = session.createQuery("FROM backend.entity.AssetFault a where a.fix_time = null and a.fixable = true");
             query.setFirstResult(offset);
             query.setMaxResults(limit);
             returned = query.list();
@@ -83,7 +83,7 @@ public class AssetFaultService {
         return true;
     }
 
-    public boolean PassToService(int asset_id) {
+    public boolean passToService(int asset_id, int fault_id, Boolean fixable) {
         NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("index", asset_id);
@@ -93,7 +93,7 @@ public class AssetFaultService {
                             " WHERE asset_id = :index",
                     parameterSource
             );
-            addToAssetFaultService(asset_id, 1, false);
+            addToAssetFaultService(asset_id, fault_id, fixable);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,7 +115,7 @@ public class AssetFaultService {
             sql.setInt(2, asset_id);
             sql.setDate(3, date);
             sql.setBoolean(4, fixable);
-            rs = sql.executeQuery();
+            sql.execute();
         } catch (Exception e) {
             e.printStackTrace();
             return false;

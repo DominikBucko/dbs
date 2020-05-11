@@ -38,8 +38,7 @@ public class FaultForm extends CustomForm {
 
     private void registerFault() {
         if (asset != null) {
-            assetFaultService.addToAssetFaultService(assetID.getValue(), faults.getValue().getFault_id(), fixable.getValue());
-            assetFaultService.PassToService(assetID.getValue());
+            assetFaultService.passToService(assetID.getValue(), faults.getValue().getFault_id(), fixable.getValue());
             cancel.click();
         }
     }

@@ -6,8 +6,11 @@ import backend.service.AssetFaultService;
 import backend.service.AssetService;
 import com.icloud.dominik.UI.components.FaultForm;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
@@ -27,12 +30,15 @@ public class Faults extends VerticalLayout {
     Button registerNew = new Button("Register new fault");
     FaultForm faultForm = new FaultForm();
     Dialog newFault = new Dialog();
+    Dialog markAsRepaired = new Dialog();
+    AssetFault fault;
 
     public Faults() {
         setupDialog();
         setupGrid();
+        setupRepairedDialog();
         registerNew.addClickListener(click -> newFault.open());
-        add(registerNew, grid, newFault);
+        add(registerNew, grid, newFault, markAsRepaired);
     }
 
     private void setupGrid() {
@@ -54,10 +60,47 @@ public class Faults extends VerticalLayout {
     }
 
     private void editFault(AssetFault value) {
+        fault = value;
+        markAsRepaired.open();
+    }
+
+    private void setupRepairedDialog() {
+        VerticalLayout layout = new VerticalLayout();
+        H3 prompt = new H3("Do you want to mark this asset as repaired?");
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        Button yes = new Button("Yes");
+        Button no = new Button("No");
+        yes.setSizeFull();
+        yes.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        yes.addClickListener(click -> resolveRepaired());
+        no.setSizeFull();
+        no.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        no.addClickListener(click -> markAsRepaired.close());
+        buttonLayout.add(yes, no);
+        layout.add(prompt, buttonLayout);
+        markAsRepaired.add(layout);
+    }
+
+    private void resolveRepaired() {
+        assetFaultService.dropFromService(fault.getAsset().getAsset_id());
+        markAsRepaired.close();
+        refreshGrid();
+        markAsRepaired.close();
+    }
+
+    private void refreshGrid() {
+        grid.removeAllColumns();
+        grid.setDataProvider(provider);
     }
 
     private void setupDialog() {
         newFault.add(faultForm);
-        faultForm.getCancel().addClickListener(click -> newFault.close());
+        faultForm.getCancel().addClickListener(click -> closeAndRefresh());
+    }
+
+    private void closeAndRefresh() {
+        newFault.close();
+        grid.setDataProvider(provider);
+//        refreshGrid();
     }
 }
