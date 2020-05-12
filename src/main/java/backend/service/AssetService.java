@@ -234,7 +234,7 @@ public class AssetService {
     }
 
     public List<Asset> getAvailable(Department department, int limit, int offset) {
-        Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
+        Session session = SessionFactoryProvider.getSession();
         Transaction tx = null;
         List returned = null;
         List<Asset> assetsDTO = new ArrayList<>();

@@ -46,6 +46,24 @@ public class LocationService {
         return locations;
     }
 
+    public int countAll() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select count(location_id) as POCET\n" +
+                            "from location"
+            );
+            rs = sql.executeQuery();
+            rs.next();
+            return rs.getInt("POCET");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public boolean createNew(List<Location> locations) {
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
@@ -100,24 +118,6 @@ public class LocationService {
             return false;
         }
         return true;
-    }
-
-        public int countAll() {
-        Connection conn = ConnectionService.getConnectionService().getConnection();
-        ResultSet rs;
-
-        try {
-            PreparedStatement sql = conn.prepareStatement(
-                    "select count(location_id) as POCET\n" +
-                            "from location"
-            );
-            rs = sql.executeQuery();
-            rs.next();
-            return rs.getInt("POCET");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
     public List<Location> getAllHib(){

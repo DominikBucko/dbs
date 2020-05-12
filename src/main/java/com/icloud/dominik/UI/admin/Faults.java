@@ -18,6 +18,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 
+import java.sql.SQLException;
+
 @Route(value = "faults", layout = HomeLayout.class)
 @Secured("ROLE_Admin")
 @PageTitle("Faults | SAM")
@@ -82,7 +84,11 @@ public class Faults extends VerticalLayout {
     }
 
     private void resolveRepaired() {
-        assetFaultService.dropFromService(fault.getAsset().getAsset_id());
+        try {
+            assetFaultService.dropFromService(fault.getAsset().getAsset_id());
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         markAsRepaired.close();
         refreshGrid();
         markAsRepaired.close();

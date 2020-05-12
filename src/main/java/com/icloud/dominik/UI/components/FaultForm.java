@@ -13,6 +13,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.value.ValueChangeMode;
 
+import java.sql.SQLException;
+
 
 public class FaultForm extends CustomForm {
     IntegerField assetID = new IntegerField("Asset ID");
@@ -38,7 +40,12 @@ public class FaultForm extends CustomForm {
 
     private void registerFault() {
         if (asset != null) {
-            assetFaultService.passToService(assetID.getValue(), faults.getValue().getFault_id(), fixable.getValue());
+            try {
+                assetFaultService.passToService(assetID.getValue(), faults.getValue().getFault_id(), fixable.getValue());
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
             cancel.click();
         }
     }

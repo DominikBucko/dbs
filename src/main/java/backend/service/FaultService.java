@@ -6,6 +6,10 @@ import org.hibernate.Transaction;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.parameters.P;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,5 +30,23 @@ public class FaultService {
             e.printStackTrace();
         }
         return faults;
+    }
+
+    public int countAll() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select count(fault_id) as POCET\n" +
+                            "from fault"
+            );
+            rs = sql.executeQuery();
+            rs.next();
+            return rs.getInt("POCET");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

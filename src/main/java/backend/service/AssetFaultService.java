@@ -10,12 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
 
 public class AssetFaultService {
     public List<AssetFault> getAll(int offset, int limit) {
@@ -45,79 +42,68 @@ public class AssetFaultService {
         return mapList(returned);
     }
 
-    public boolean dropFromService(int asset_id) {
-        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("index", asset_id);
-        try {
-            jdbcTemplate.update("UPDATE asset_manager.public.asset" +
-                            " SET status = 'FREE' " +
-                            " WHERE asset_id = :index",
-                    parameterSource
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        markAsFixed(asset_id);
-        return true;
-    }
-
-    public boolean markAsFixed(int asset_id) {
+    public boolean dropFromService(int asset_id) throws SQLException {
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
         Connection conn = ConnectionService.getConnectionService().getConnection();
+//        Savepoint savepoint1 = null;
         try {
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
             PreparedStatement sql = conn.prepareStatement(
+                    "UPDATE asset_manager.public.asset" +
+                            " SET status = 'FREE' " +
+                            " WHERE asset_id = ?"
+            );
+            sql.setInt(1, asset_id);
+            sql.executeUpdate();
+            PreparedStatement sql2 = conn.prepareStatement(
                     "UPDATE asset_manager.public.asset_fault" +
                             " SET fix_time = ?" +
                             " WHERE asset_id = ?"
             );
-            sql.setDate(1, date);
-            sql.setInt(2, asset_id);
-            sql.execute();
-        } catch (Exception e) {
+            sql2.setDate(1, date);
+            sql2.setInt(2, asset_id);
+            sql2.executeUpdate();
+            conn.commit();
+        } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            conn.rollback();
         }
         return true;
     }
 
-    public boolean passToService(int asset_id, int fault_id, Boolean fixable) {
-        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("index", asset_id);
-        try {
-            jdbcTemplate.update("UPDATE asset_manager.public.asset" +
-                            " SET status = 'IN SERVICE' " +
-                            " WHERE asset_id = :index",
-                    parameterSource
-            );
-            addToAssetFaultService(asset_id, fault_id, fixable);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean addToAssetFaultService(int asset_id, int fault_id, Boolean fixable){
-        ResultSet rs;
+    public boolean passToService(int asset_id, int fault_id, Boolean fixable) throws SQLException {
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
         Connection conn = ConnectionService.getConnectionService().getConnection();
-        long millis=System.currentTimeMillis();
-        java.sql.Date date=new java.sql.Date(millis);
         try {
+            conn.setAutoCommit(false);
+            Savepoint savepoint1 = conn.setSavepoint("Savepoint1");
+
             PreparedStatement sql = conn.prepareStatement(
+                    "UPDATE asset_manager.public.asset" +
+                            " SET status = 'IN SERVICE' " +
+                            " WHERE asset_id = ?"
+            );
+            sql.setInt(1, asset_id);
+            sql.executeUpdate();
+
+
+            PreparedStatement sql2 = conn.prepareStatement(
                     "INSERT INTO asset_fault(fault_id, asset_id, time_of_failure, fixable)" +
                             "VALUES (?, ?, ?, ?);"
             );
-            sql.setInt(1, fault_id);
-            sql.setInt(2, asset_id);
-            sql.setDate(3, date);
-            sql.setBoolean(4, fixable);
-            sql.execute();
+            sql2.setInt(1, fault_id);
+            sql2.setInt(2, asset_id);
+            sql2.setDate(3, date);
+            sql2.setBoolean(4, fixable);
+            sql2.executeUpdate();
+
+            conn.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            conn.rollback();
             return false;
         }
         return true;
@@ -149,5 +135,23 @@ public class AssetFaultService {
             mapped.add(mapper.map(returned.get(i), AssetFault.class));
         }
         return mapped;
+    }
+
+    public int countAll() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        ResultSet rs;
+
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select count(asset_failt_id) as POCET\n" +
+                            "from \"asset_fault\""
+            );
+            rs = sql.executeQuery();
+            rs.next();
+            return rs.getInt("POCET");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
