@@ -4,6 +4,8 @@ import backend.entity.AssetFault;
 import backend.entity.Fault;
 import backend.service.AssetFaultService;
 import backend.service.AssetService;
+import backend.service.LogService;
+import backend.service.UserService;
 import com.icloud.dominik.UI.components.FaultForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -17,6 +19,7 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.sql.SQLException;
 
@@ -89,6 +92,8 @@ public class Faults extends VerticalLayout {
         }catch(SQLException e){
             e.printStackTrace();
         }
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Dropped asset " + fault.getAsset().getAsset_id() + " from service");
+
         markAsRepaired.close();
         refreshGrid();
         markAsRepaired.close();

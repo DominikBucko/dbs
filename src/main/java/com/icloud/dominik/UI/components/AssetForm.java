@@ -4,6 +4,8 @@ import backend.entity.Asset;
 import backend.entity.Department;
 import backend.service.AssetService;
 import backend.service.DepartmentService;
+import backend.service.LogService;
+import backend.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.notification.Notification;
@@ -11,6 +13,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +62,13 @@ public class AssetForm extends CustomForm {
     }
 
     private void updateAsset() {
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Updated asset " + binder.getBean().getAsset_id());
         assetService.update(binder.getBean());
         cancel.click();
     }
 
     private void setUpCombobox() {
-        department.setItems(departmentService.getAll());
+        department.setItems(departmentService.getAll(0, 10000));
         department.setItemLabelGenerator(Department::getDepartment_name);
         department.setPlaceholder("No department selected");
         department.setWidth("100%");
@@ -91,6 +95,7 @@ public class AssetForm extends CustomForm {
         );
 
         assets.add(asset);
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Created asset " + asset.getAsset_id());
         assetService.createNew(assets);
         cancel.click();
     }

@@ -4,7 +4,9 @@ import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.Ticket;
 import backend.entity.User;
+import backend.service.LogService;
 import backend.service.TicketService;
+import backend.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -19,6 +21,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.sql.Date;
 
@@ -66,6 +69,7 @@ public class TicketReturns extends VerticalLayout {
         ticketService.updateTicket(currentTicket);
         applyFilter();
         approveDialog.close();
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Approved return of " + currentTicket.getInvoice_id());
     }
 
     private void applyFilter() {

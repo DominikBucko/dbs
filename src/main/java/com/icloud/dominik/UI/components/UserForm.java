@@ -3,6 +3,7 @@ package com.icloud.dominik.UI.components;
 import backend.entity.Department;
 import backend.entity.User;
 import backend.service.DepartmentService;
+import backend.service.LogService;
 import backend.service.UserService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Text;
@@ -18,7 +19,12 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
+import com.vaadin.flow.data.provider.DataProvider;
+import com.vaadin.flow.function.SerializableFunction;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.security.auth.callback.Callback;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -40,6 +46,7 @@ public class UserForm extends FormLayout {
     Button cancel = new Button("Cancel");
     Notification userAdded = new Notification();
     HorizontalLayout buttonLayout;
+    DataProvider<Department, Void> provider;
 
     DepartmentService departmentService = new DepartmentService();
     UserService userService = new UserService();
@@ -95,6 +102,7 @@ public class UserForm extends FormLayout {
     }
 
     private void updateUser() {
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Updated user " + binder.getBean().getUser_id());
         userService.updateUser(binder.getBean());
         cancel.click();
     }
@@ -124,6 +132,7 @@ public class UserForm extends FormLayout {
                 is_admin.getValue()
         );
         users.add(user);
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Cretated user " + user.getUser_id());
         if (userService.createNew(users)) {
             cancel.click();
             userAdded.open();
@@ -147,8 +156,14 @@ public class UserForm extends FormLayout {
     }
 
     private void departmentComboSetup() {
-        Collection<Department> departments = departmentService.getAll();
+        Collection<Department> departments = departmentService.getAll(0, 10000);
         department.setItems(departments);
+//        SerializableFunction<String, Integer> filterConverter;
+//        provider = DataProvider.fromCallbacks(
+//                query -> departmentService.getAll(query.getLimit(), query.getOffset()).stream(),
+//                query -> departmentService.countAll()
+//                );
+//        department.setDataProvider((DataProvider<Department, String>) provider);
         department.setItemLabelGenerator(Department::getDepartment_name);
         department.setPlaceholder("No department selected");
         department.setWidth("100%");

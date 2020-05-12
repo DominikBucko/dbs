@@ -3,15 +3,14 @@ package com.icloud.dominik.UI.components;
 import backend.entity.Asset;
 import backend.entity.AssetFault;
 import backend.entity.Fault;
-import backend.service.AssetFaultService;
-import backend.service.AssetService;
-import backend.service.FaultService;
+import backend.service.*;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.sql.SQLException;
 
@@ -48,6 +47,7 @@ public class FaultForm extends CustomForm {
             }
             cancel.click();
         }
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Registered fault on asset " + assetID.getValue());
     }
 
     private void filterConfig() {

@@ -1,7 +1,9 @@
 package com.icloud.dominik.security;
 
 import backend.entity.User;
+import backend.service.LogService;
 import backend.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -48,6 +50,7 @@ public class DatabaseUserDetailsManager implements UserDetailsManager {
                 .password("{noop}"+user.getPassword())
                 .roles(role)
                 .build();
+        LogService.log(user.getUser_id(), "Login");
         return userDetails;
     }
 }

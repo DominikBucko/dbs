@@ -1,7 +1,9 @@
 package com.icloud.dominik.UI.admin;
 
 import backend.entity.*;
+import backend.service.LogService;
 import backend.service.TicketService;
+import backend.service.UserService;
 import com.icloud.dominik.UI.admin.HomeLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -17,6 +19,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.xml.crypto.Data;
 import java.sql.Date;
@@ -67,6 +70,7 @@ public class TicketApprovals extends VerticalLayout {
         ticketService.deleteTicket(currentTicket);
         applyFilter();
         approveDialog.close();
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Denied request for " + currentTicket.getInvoice_id());
     }
 
     private void approveTicket() {
@@ -74,6 +78,7 @@ public class TicketApprovals extends VerticalLayout {
         ticketService.updateTicket(currentTicket);
         applyFilter();
         approveDialog.close();
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Approved Ticket " + currentTicket.getInvoice_id());
     }
 
     private void applyFilter() {

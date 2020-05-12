@@ -5,6 +5,8 @@ import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.Ticket;
 import backend.service.AssetService;
+import backend.service.LogService;
+import backend.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -63,6 +65,8 @@ public class UserTickets extends VerticalLayout {
         userAssetHandler.askForReturn(currentTicket);
         returnAssetDialog.close();
         fillGrid();
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Requested return of " + currentTicket.getInvoice_id());
+
 
     }
 
