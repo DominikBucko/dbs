@@ -4,6 +4,8 @@ import backend.dataHandling.UserAssetHandler;
 import backend.entity.Asset;
 import backend.entity.Department;
 import backend.service.AssetService;
+import backend.service.LogService;
+import backend.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -55,6 +57,7 @@ public class AssetsToRequest extends VerticalLayout {
     }
 
     private void requestAsset() {
+        LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Requested item " + current_selection.getAsset_id());
         userAssetHandler.createTicket(current_selection);
         requestAssetDialog.close();
     }

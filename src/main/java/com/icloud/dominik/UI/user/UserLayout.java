@@ -1,5 +1,7 @@
 package com.icloud.dominik.UI.user;
 
+import backend.service.LogService;
+import backend.service.UserService;
 import com.icloud.dominik.UI.admin.TicketApprovals;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -10,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class UserLayout extends AppLayout {
     public UserLayout() {
@@ -37,6 +40,7 @@ public class UserLayout extends AppLayout {
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         Button logout = new Button("Logout");
         logout.addClickListener(click -> {
+            LogService.log(new UserService().getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getUser_id(), "Logout");
             logout.getUI().ifPresent(ui -> ui.navigate("login"));
             logout.getUI().ifPresent(ui -> ui.getSession().close());
         });

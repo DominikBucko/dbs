@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentService {
-    public List<Department> getAll() {
+    public List<Department> getAll(int offset, int limit) {
         Connection conn = ConnectionService.getConnectionService().getConnection();
         List<Department> departments = new ArrayList<Department>();
         try {
@@ -25,7 +25,8 @@ public class DepartmentService {
                     "FROM asset_manager.public.department " +
                     "INNER JOIN asset_manager.public.location " +
                     "ON department.department_location = location.location_id " +
-                    "LIMIT 15000");
+                    "OFFSET " + offset + " " +
+                    "LIMIT  " + limit);
             while (rs.next()) {
                 Department department = new Department();
                 department.setDepartment_id(rs.getInt("department_id"));
