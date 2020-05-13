@@ -7,7 +7,7 @@ public class Mapping {
     public static Connection getConnection (String USERNAME, String PASSWORD) {
 //        Class.forName("org.postgresql.Driver");
         Connection conn = null;
-        String URL = "jdbc:postgresql://dbs.fiit.uk.to/asset_manager";
+        String URL = "jdbc:postgresql://127.0.0.1/asset_manager";
         try {
             conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
         } catch (SQLException e) {

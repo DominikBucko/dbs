@@ -68,6 +68,22 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>5.2.12.Final</version>
+            </dependency>
+            <dependency>
+              <groupId>org.modelmapper</groupId>
+              <artifactId>modelmapper</artifactId>
+              <version>2.3.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>2.2.6.RELEASE</version>
+            </dependency>
+
+            <dependency>
 	            <groupId>org.postgresql</groupId>
 	            <artifactId>postgresql</artifactId>
 	            <version>42.2.5</version>
@@ -109,6 +125,16 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.ilay</groupId>
+            <artifactId>ilay</artifactId>
+            <version>3.0-Final</version>
+        </dependency>
+        <dependency>
+          <groupId>org.modelmapper</groupId>
+          <artifactId>modelmapper</artifactId>
+          <version>2.3.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
             <exclusions>
@@ -129,6 +155,25 @@
             <artifactId>vaadin-testbench</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-jpa</artifactId>-->
+<!--        </dependency>-->
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.2.4.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -172,13 +217,6 @@
             <properties>
                 <vaadin.productionMode>true</vaadin.productionMode>
             </properties>
-
-            <dependencies>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>flow-server-production-mode</artifactId>
-                </dependency>
-            </dependencies>
 
             <build>
                 <plugins>
@@ -232,54 +270,54 @@
                     </plugin>
 
                     <!-- Runs the integration tests (*IT) after the server is started -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <trimStackTrace>false</trimStackTrace>
-                            <enableAssertions>true</enableAssertions>
-                            <systemPropertyVariables>
-                                <!-- Pass location of downloaded webdrivers to the tests -->
-                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </plugin>
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-failsafe-plugin</artifactId>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <goals>-->
+<!--                                    <goal>integration-test</goal>-->
+<!--                                    <goal>verify</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                        <configuration>-->
+<!--                            <trimStackTrace>false</trimStackTrace>-->
+<!--                            <enableAssertions>true</enableAssertions>-->
+<!--                            <systemPropertyVariables>-->
+<!--                                &lt;!&ndash; Pass location of downloaded webdrivers to the tests &ndash;&gt;-->
+<!--                                <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>-->
+<!--                            </systemPropertyVariables>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
 
-                    <plugin>
-                        <groupId>com.lazerycode.selenium</groupId>
-                        <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-                        <version>1.0.17</version>
-                        <configuration>
-                            <onlyGetDriversForHostOperatingSystem>true
-                            </onlyGetDriversForHostOperatingSystem>
-                            <rootStandaloneServerDirectory>
-                                ${project.basedir}/drivers/driver
-                            </rootStandaloneServerDirectory>
-                            <downloadedZipFileDirectory>
-                                ${project.basedir}/drivers/driver_zips
-                            </downloadedZipFileDirectory>
-                            <customRepositoryMap>
-                                ${project.basedir}/drivers.xml
-                            </customRepositoryMap>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <!-- use phase "none" to skip download step -->
-                                <phase>${drivers.downloader.phase}</phase>
-                                <goals>
-                                    <goal>selenium</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+<!--                    <plugin>-->
+<!--                        <groupId>com.lazerycode.selenium</groupId>-->
+<!--                        <artifactId>driver-binary-downloader-maven-plugin</artifactId>-->
+<!--                        <version>1.0.17</version>-->
+<!--                        <configuration>-->
+<!--                            <onlyGetDriversForHostOperatingSystem>true-->
+<!--                            </onlyGetDriversForHostOperatingSystem>-->
+<!--                            <rootStandaloneServerDirectory>-->
+<!--                                ${project.basedir}/drivers/driver-->
+<!--                            </rootStandaloneServerDirectory>-->
+<!--                            <downloadedZipFileDirectory>-->
+<!--                                ${project.basedir}/drivers/driver_zips-->
+<!--                            </downloadedZipFileDirectory>-->
+<!--                            <customRepositoryMap>-->
+<!--                                ${project.basedir}/drivers.xml-->
+<!--                            </customRepositoryMap>-->
+<!--                        </configuration>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                &lt;!&ndash; use phase "none" to skip download step &ndash;&gt;-->
+<!--                                <phase>${drivers.downloader.phase}</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>selenium</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
                 </plugins>
             </build>
         </profile>
