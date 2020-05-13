@@ -148,7 +148,31 @@ public class AssetService {
         }
         return 0;
     }
-
+    public int countStats( String department, String status, String category) {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        ResultSet rs;
+        if (department == null) {
+            department = "%";
+        }
+        try {
+            PreparedStatement sql = conn.prepareStatement(
+                    "select count(*) as POCET from (select \"name\", \"type\", asset_category, status, department_name, count(*) as \"SUM\" from asset\n" +
+                            "JOIN department d on asset_department = department_id\n" +
+                            "where d.department_name LIKE ? and status LIKE ? and asset_category LIKE ?\n" +
+                            "group by \"name\",\"type\", asset_category, status, d.department_name " +
+                            "order by \"SUM\" DESC) as tmp"
+            );
+            sql.setString(1, department);
+            sql.setString(2, status);
+            sql.setString(3, category);
+            rs = sql.executeQuery();
+            rs.next();
+            return rs.getInt("POCET");
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     public List<Asset> getStats(int offset, int limit, String department, String status, String category) {
         Connection conn = ConnectionService.getConnectionService().getConnection();
         if (department == null) {

@@ -180,18 +180,50 @@ public class TicketService {
         }
     }
 
-    public int countAll() {
+    public int countUnapprovedTickets(String type, String name) {
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
 
+        String delims = "[ ]";
+
+        List<String> names = new ArrayList<>(Arrays.asList(name.split(delims)));
+        if (names.size() < 2) {
+            names.add("");
+            names.add("");
+        }
+
         try {
-            PreparedStatement sql = conn.prepareStatement(
-                    "select count(invoice_id) as POCET\n" +
-                            "from \"ticket\""
-            );
-            rs = sql.executeQuery();
-            rs.next();
-            return rs.getInt("POCET");
+
+            if (type.equals("approve")) {
+                PreparedStatement sql = conn.prepareStatement(
+                        "select count(invoice_id) as POCET\n" +
+                                "from \"ticket\" " +
+                                "JOIN \"user\" u on user_info = u.user_id "+
+                                "where time_accepted is null " +
+                                "and time_returned is null " +
+                                "and lower(u.first_name) like ? and lower(u.surname) like ?;"
+                );
+                sql.setString(1, names.get(0) + "%");
+                sql.setString(2, names.get(1) + "%");
+                rs = sql.executeQuery();
+                rs.next();
+                return rs.getInt("POCET");
+
+            } else {
+                PreparedStatement sql = conn.prepareStatement(
+                        "select count(invoice_id) as POCET\n" +
+                                "from \"ticket\" " +
+                                "JOIN \"user\" u on user_info = u.user_id "+
+                                "where time_assigned is not null " +
+                                "and time_returned is null " +
+                                "and lower(u.first_name) like ? and lower(u.surname) like ?;"
+                );
+                sql.setString(1, names.get(0) + "%");
+                sql.setString(2, names.get(1) + "%");
+                rs = sql.executeQuery();
+                rs.next();
+                return rs.getInt("POCET");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
