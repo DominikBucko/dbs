@@ -84,7 +84,7 @@ public class TicketReturns extends VerticalLayout {
     private void setupGrid() {
         dataProvider = DataProvider.fromCallbacks(
                 query -> ticketService.getUnapprovedTickets("return", filter.getValue(), query.getLimit(), query.getOffset()).stream(),
-                query -> ticketService.getUnapprovedTickets("return", filter.getValue(), query.getLimit(), query.getOffset()).size()
+                query -> ticketService.countUnapprovedTickets("return", filter.getValue())
         );
         ticketGrid.setDataProvider(dataProvider);
         ticketGrid.setColumns("invoice_id", "time_created");

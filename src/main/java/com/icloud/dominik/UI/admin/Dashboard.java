@@ -3,6 +3,7 @@ package com.icloud.dominik.UI.admin;
 import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.Ticket;
+import backend.entity.Window;
 import backend.service.*;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -34,13 +35,12 @@ public class Dashboard extends VerticalLayout {
     ComboBox<String> status = new ComboBox<>();
     ComboBox<String> category = new ComboBox<>();
     Button show = new Button("Show");
-    
+
     DepartmentService departmentService = new DepartmentService();
     TicketService ticketService = new TicketService();
     LocationService locationService = new LocationService();
     AssetService assetService = new AssetService();
     UserService userService = new UserService();
-    
     CallbackDataProvider<Asset, Void> assetProvider;
 
     Div div1 = new Div(new Text("Number of registered users: " +userService.countAll()));
@@ -65,8 +65,8 @@ public class Dashboard extends VerticalLayout {
         assetProvider = DataProvider.fromCallbacks(
             query -> assetService.getStats(query.getOffset(), query.getLimit(), departments.getValue().getDepartment_name(), status
             .getValue(), category.getValue()).stream(),
-            query -> assetService.getStats(query.getOffset(), query.getLimit(), departments.getValue().getDepartment_name(), status
-            .getValue(), category.getValue()).size()
+            query -> assetService.countStats(departments.getValue().getDepartment_name(), status
+                    .getValue(), category.getValue())
         );
         assetGrid.setDataProvider(assetProvider);
         assetGrid.setColumns("name", "type", "asset_category", "status", "count");
@@ -78,7 +78,6 @@ public class Dashboard extends VerticalLayout {
     }
 
     private void setUpFilter() {
-//        List<Ticket> tickets = ticketService.getAllHib();
         List<Department> departmentsList = departmentService.getAll();
         departments.setItems(departmentsList);
         departments.setItemLabelGenerator(Department::getDepartment_name);
