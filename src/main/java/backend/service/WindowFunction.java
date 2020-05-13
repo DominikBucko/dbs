@@ -1,7 +1,5 @@
 package backend.service;
 
-import backend.entity.Asset;
-import backend.entity.Department;
 import backend.entity.Window;
 
 import java.sql.Connection;
@@ -12,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WindowFunction {
-    public List<Window> getAll(int offset, int limit){
+    public List<Window> getAll(int offset, int limit, String state){
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
         List<Window> windows = new ArrayList<Window>();
@@ -27,6 +25,7 @@ public class WindowFunction {
                             "JOIN location l on d.department_location = l.location_id " +
                             "GROUP BY d.department_name, l.state) tmp " +
                             "WHERE RANK < 4 " +
+//                            "AND lower(l.state) = lower(?) " +
                             "ORDER BY state ASC, asset_count Desc " +
                             "LIMIT ? " + "OFFSET ?"
             );
@@ -37,9 +36,9 @@ public class WindowFunction {
             while (rs.next()) {
                 Window window = new Window();
 //                asset.setAsset_id(rs.getInt("asset_id"));
-                window.setDepartment_name(rs.getString("department_name"));
+                window.setDepartmentName(rs.getString("department_name"));
                 window.setState(rs.getString("state"));
-                window.setAsset_count(rs.getInt("asset_count"));
+                window.setAssetCount(rs.getInt("asset_count"));
                 window.setRank(rs.getInt("rank"));
                 windows.add(window);
             }

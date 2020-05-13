@@ -24,7 +24,8 @@ public class DepartmentService {
             ResultSet rs = conn.createStatement().executeQuery("SELECT * " +
                     "FROM asset_manager.public.department " +
                     "INNER JOIN asset_manager.public.location " +
-                    "ON department.department_location = location.location_id");
+                    "ON department.department_location = location.location_id " +
+                    "LIMIT 15000");
             while (rs.next()) {
                 Department department = new Department();
                 department.setDepartment_id(rs.getInt("department_id"));

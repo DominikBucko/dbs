@@ -1,27 +1,27 @@
 package backend.entity;
 
 public class Window {
-    String department_name;
+    String departmentName;
     String state;
-    int asset_count;
+    int assetCount;
     int rank;
 
-    public Window(String department_name, String state, int asset_count, int rank) {
-        this.department_name = department_name;
+    public Window(String departmentName, String state, int asset_count, int rank) {
+        this.departmentName = departmentName;
         this.state = state;
-        this.asset_count = asset_count;
+        this.assetCount = asset_count;
         this.rank = rank;
     }
 
     public Window() {
     }
 
-    public String getDepartment_name() {
-        return department_name;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
-    public void setDepartment_name(String department_name) {
-        this.department_name = department_name;
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public String getState() {
@@ -32,12 +32,12 @@ public class Window {
         this.state = state;
     }
 
-    public int getAsset_count() {
-        return asset_count;
+    public int getAssetCount() {
+        return assetCount;
     }
 
-    public void setAsset_count(int asset_count) {
-        this.asset_count = asset_count;
+    public void setAssetCount(int assetCount) {
+        this.assetCount = assetCount;
     }
 
     public int getRank() {

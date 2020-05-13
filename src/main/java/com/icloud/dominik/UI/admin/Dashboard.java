@@ -12,8 +12,10 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
@@ -23,6 +25,7 @@ import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.awt.*;
 import java.util.List;
 
 
@@ -31,12 +34,16 @@ import java.util.List;
 @PageTitle("Dashboard | SAM")
 public class Dashboard extends VerticalLayout {
     Grid<Asset> assetGrid = new Grid<>(Asset.class);
+    Grid<Window> windowGrid = new Grid<>(Window.class);
     ComboBox<Department> departments = new ComboBox<>();
     ComboBox<String> status = new ComboBox<>();
     ComboBox<String> category = new ComboBox<>();
     Button show = new Button("Show");
+    TextField stateFilter = new TextField();
 
+    WindowFunction windowFunction = new WindowFunction();
     DepartmentService departmentService = new DepartmentService();
+    CallbackDataProvider<Window, Void> windowProvider;
     TicketService ticketService = new TicketService();
     LocationService locationService = new LocationService();
     AssetService assetService = new AssetService();
@@ -49,12 +56,13 @@ public class Dashboard extends VerticalLayout {
     Div div4 = new Div(new Text("Number of locations: " + locationService.countAll()));
     VerticalLayout stats = new VerticalLayout(div1, div2, div3, div4);
     HorizontalLayout filter = new HorizontalLayout(departments, status, category, show);
-
+    String currentState;
 //    @Autowired
     public Dashboard() {
         setUpFilter();
+        setupWindowGrid();
         setupGrid();
-        add(stats, filter, assetGrid);
+        add(stats, filter, assetGrid, stateFilter, windowGrid);
     }
 
     private void updateGrid() {
@@ -76,6 +84,31 @@ public class Dashboard extends VerticalLayout {
         }).setHeader("Department");
         assetGrid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
+
+    private void setupWindowGrid() {
+        stateFilter.setPlaceholder("Country...");
+        stateFilter.setValueChangeMode(ValueChangeMode.LAZY);
+        stateFilter.addValueChangeListener(evt -> refreshWindowGrid(evt.getValue()));
+
+        windowProvider = DataProvider.fromCallbacks(
+                query -> windowFunction.getAll(query.getOffset(), query.getLimit(), currentState).stream(),
+                query -> windowFunction.countAll()
+        );
+        windowGrid.setDataProvider(windowProvider);
+        windowGrid.setColumns("state", "departmentName", "assetCount", "rank");
+    }
+
+    private void refreshWindowGrid(String value) {
+        currentState = value;
+        windowGrid.removeAllColumns();
+        windowProvider = DataProvider.fromCallbacks(
+                query -> windowFunction.getAll(query.getOffset(), query.getLimit(), currentState).stream(),
+                query -> windowFunction.countAll()
+        );
+        windowGrid.setDataProvider(windowProvider);
+
+    }
+
 
     private void setUpFilter() {
         List<Department> departmentsList = departmentService.getAll();
