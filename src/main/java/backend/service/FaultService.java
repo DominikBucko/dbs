@@ -12,9 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class FaultService {
+    private static final Logger LOGGER = Logger.getLogger(FaultService.class.getName());
+
     public List<Fault> getAll() {
+        LOGGER.info("GETTING ALL FAULTS");
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
         Transaction tx;
         List returned;
@@ -27,12 +31,14 @@ public class FaultService {
                 faults.add(mapper.map(returned.get(i), Fault.class));
             }
         } catch (Exception e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return faults;
     }
 
     public int countAll() {
+        LOGGER.info("COUNTING ALL FAULTS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
 
@@ -45,6 +51,7 @@ public class FaultService {
             rs.next();
             return rs.getInt("POCET");
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return 0;

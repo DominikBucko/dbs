@@ -15,9 +15,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class TicketService {
+
+    private static final Logger LOGGER = Logger.getLogger(TicketService.class.getName());
+
     public List<Ticket> getUserTickets(User current_user) {
+        LOGGER.info("GETTING USER TICKETS");
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
         Transaction tx;
         List returnedTickets;
@@ -39,12 +44,14 @@ public class TicketService {
             }
         }
         catch (HibernateException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return ticketsDTO;
     }
 
     public String exportToCsv() {
+        LOGGER.info("EXPORTING TICKETS TO CSV");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         String filename = "/tmp/" + new Date().getTime() + "_" + "tickets" + ".csv";
         String file = "'" + filename + "'";
@@ -52,6 +59,7 @@ public class TicketService {
             PreparedStatement sql = conn.prepareStatement("COPY ticket TO "+ file +" WITH (FORMAT CSV , HEADER )");
             sql.execute();
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return filename;
@@ -78,12 +86,14 @@ public class TicketService {
             }
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return mappedTickets;
     }
 
         public boolean updateTicket(Ticket newTicket) {
+            LOGGER.info("UPDATING TICKET");
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             MapSqlParameterSource parameterSource = new MapSqlParameterSource();
             parameterSource.addValue("invoice_id", newTicket.getInvoice_id());
@@ -99,12 +109,14 @@ public class TicketService {
                         " WHERE invoice_id = :invoice_id", parameterSource);
             } catch (Exception e) {
                 e.printStackTrace();
+                LOGGER.warning(e.getMessage());
                 return false;
             }
             return true;
         }
 
     public boolean saveTicket(Ticket newTicket) {
+        LOGGER.info("SAVING TICKET");
         NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("asset_id", newTicket.getAsset().getAsset_id());
@@ -118,6 +130,7 @@ public class TicketService {
                     " VALUES (:asset_id, :user_id, :time_created, :time_accepted, :time_assigned, :time_returned)", parameterSource);
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
         return true;
@@ -136,6 +149,9 @@ public class TicketService {
     }
 
     public Collection<Ticket> getUnapprovedTickets(String type, String name, int limit, int offset) {
+
+        LOGGER.info("GETTING UNAPPROVED TICKETS");
+
         String delims = "[ ]";
 
         List<String> names = new ArrayList<>(Arrays.asList(name.split(delims)));
@@ -164,6 +180,7 @@ public class TicketService {
         }
         catch (HibernateException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return mapList(returned);
     }
@@ -178,6 +195,7 @@ public class TicketService {
     }
 
     public void deleteTicket(Ticket currentTicket) {
+        LOGGER.info("DELETING TICKETS");
         NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("invoice_id", currentTicket.getInvoice_id());
@@ -185,6 +203,7 @@ public class TicketService {
             jdbcTemplate.update("DELETE from ticket where invoice_id = :invoice_id", parameterSource);
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
     }
 
@@ -234,6 +253,7 @@ public class TicketService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return 0;
     }
