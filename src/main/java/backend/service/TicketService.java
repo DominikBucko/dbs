@@ -14,10 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class TicketService {
     public List<Ticket> getUserTickets(User current_user) {
@@ -46,6 +43,20 @@ public class TicketService {
         }
         return ticketsDTO;
     }
+
+    public String exportToCsv() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        String filename = "/tmp/" + new Date().getTime() + "_" + "tickets" + ".csv";
+        String file = "'" + filename + "'";
+        try {
+            PreparedStatement sql = conn.prepareStatement("COPY ticket TO "+ file +" WITH (FORMAT CSV , HEADER )");
+            sql.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
 
     public List<Ticket> getAllHib(){
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
@@ -136,10 +147,7 @@ public class TicketService {
         List returned = null;
         List<Ticket> tickets;
         Query query;
-
-//        if (limit == 2147483647) {
-//            return Arrays.asList(new Ticket[1000000]);
-//        }
+        
         try {
             Transaction tx = session.beginTransaction();
             if (type.equals("approve")) {

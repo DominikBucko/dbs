@@ -11,16 +11,24 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.SQLException;
 
 @Route(value = "faults", layout = HomeLayout.class)
@@ -43,7 +51,21 @@ public class Faults extends VerticalLayout {
         setupGrid();
         setupRepairedDialog();
         registerNew.addClickListener(click -> newFault.open());
-        add(registerNew, grid, newFault, markAsRepaired);
+        Anchor download = new Anchor(new StreamResource("faults.csv", () -> createResource()), "");
+        download.getElement().setAttribute("download", true);
+        download.add(new Button("Download .csv", new Icon(VaadinIcon.DOWNLOAD_ALT)));
+        add(new HorizontalLayout(registerNew, download), grid, newFault, markAsRepaired);
+    }
+
+    private InputStream createResource() {
+        String filename = assetFaultService.exportToCsv();
+        try {
+            File fileToDl = new File(filename);
+            return new FileInputStream(fileToDl);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void setupGrid() {

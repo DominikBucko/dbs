@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DepartmentService {
@@ -64,6 +65,20 @@ public class DepartmentService {
         }
         return true;
     }
+
+    public String exportToCsv() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        String filename = "/tmp/" + new Date().getTime() + "_" + "departments" + ".csv";
+        String file = "'" + filename + "'";
+        try {
+            PreparedStatement sql = conn.prepareStatement("COPY department TO "+ file +" WITH (FORMAT CSV , HEADER )");
+            sql.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
     public boolean update(Department department) {
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());

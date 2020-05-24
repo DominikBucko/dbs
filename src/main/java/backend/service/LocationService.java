@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LocationService {
@@ -45,6 +46,20 @@ public class LocationService {
         }
         return locations;
     }
+
+    public String exportToCsv() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        String filename = "/tmp/" + new Date().getTime() + "_" + "locations" + ".csv";
+        String file = "'" + filename + "'";
+        try {
+            PreparedStatement sql = conn.prepareStatement("COPY location TO "+ file +" WITH (FORMAT CSV , HEADER )");
+            sql.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
 
     public int countAll() {
         Connection conn = ConnectionService.getConnectionService().getConnection();

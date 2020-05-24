@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -62,6 +63,19 @@ public class AssetService {
             e.printStackTrace();
         }
         return assets;
+    }
+
+    public String exportToCsv() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        String filename = "/tmp/" + new Date().getTime() + "_" + "assets" + ".csv";
+        String file = "'" + filename + "'";
+        try {
+            PreparedStatement sql = conn.prepareStatement("COPY asset TO "+ file +" WITH (FORMAT CSV , HEADER )");
+            sql.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filename;
     }
 
     public boolean createNew(List<Asset> assets) {

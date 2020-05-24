@@ -9,7 +9,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -19,8 +22,13 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import org.springframework.security.access.annotation.Secured;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -52,8 +60,21 @@ public class Users extends VerticalLayout {
         newUser.addClickListener(click -> addNewUser());
         newUser.setWidthFull();
         filterConfig();
-
+        Anchor download = new Anchor(new StreamResource("users.csv", () -> createResource()), "");
+        download.getElement().setAttribute("download", true);
+        download.add(new Button("Download .csv", new Icon(VaadinIcon.DOWNLOAD_ALT)));
+        topRow.add(download);
         add(topRow, middleRow, itemCount, newUserDialog, userGrid, userAdded);
+    }
+    private InputStream createResource() {
+        String filename = userService.exportToCsv();
+        try {
+            File fileToDl = new File(filename);
+            return new FileInputStream(fileToDl);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void filterConfig() {

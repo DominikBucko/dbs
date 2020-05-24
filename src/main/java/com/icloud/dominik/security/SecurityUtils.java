@@ -27,16 +27,14 @@ public final class SecurityUtils {
     }
 
     public static boolean isAccessGranted(Class<?> securedClass) {
-        // Allow if no roles are required.
         Secured secured = AnnotationUtils.findAnnotation(securedClass, Secured.class);
         if (secured == null) {
-            return true; //
+            return true;
         }
 
-        // lookup needed role in user roles
         List<String> allowedRoles = Arrays.asList(secured.value());
         Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
-        return userAuthentication.getAuthorities().stream() //
+        return userAuthentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch(allowedRoles::contains);
     }
@@ -44,7 +42,7 @@ public final class SecurityUtils {
     public static boolean isUserLoggedIn() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null
-            && !(authentication instanceof AnonymousAuthenticationToken) //
+            && !(authentication instanceof AnonymousAuthenticationToken)
             && authentication.isAuthenticated();
     }
 

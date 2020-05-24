@@ -8,7 +8,11 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
@@ -16,9 +20,14 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import org.springframework.security.access.annotation.Secured;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -34,6 +43,7 @@ public class Assets extends VerticalLayout {
     Dialog dialog = new Dialog();
     Text itemCount = new Text("");
     TextField filter = new TextField();
+    Button downloadCSV = new Button("Download .csv");
 
     CallbackDataProvider<Asset, Void> provider;
     public Assets() {
@@ -44,15 +54,24 @@ public class Assets extends VerticalLayout {
         updateGrid();
         setupDialog();
         addNew.addClickListener(click -> createNewAsset());
-//        VerticalLayout layout = new VerticalLayout();
-//        layout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-//        Button btn = new Button("EXEC");
-//        AssetsManager assetsManager = new AssetsManager();
-//        btn.addClickListener(click -> assetsManager.get_assets());
-        add(addNew, filter, itemCount, grid);
+        Anchor download = new Anchor(new StreamResource("assets.csv", () -> createResource()), "");
+        download.getElement().setAttribute("download", true);
+        download.add(new Button("Download .csv", new Icon(VaadinIcon.DOWNLOAD_ALT)));
+        add(new HorizontalLayout(addNew, download), filter, itemCount, grid);
 	}
 
-	private void filterConfig() {
+    private InputStream createResource() {
+        String filename = assetService.exportToCsv();
+        try {
+            File fileToDl = new File(filename);
+            return new FileInputStream(fileToDl);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void filterConfig() {
         filter.setPlaceholder("Filter by name..");
         filter.setWidthFull();
         filter.setClearButtonVisible(true);

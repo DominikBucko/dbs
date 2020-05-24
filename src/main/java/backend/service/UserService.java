@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -212,13 +213,22 @@ public class UserService {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         }
-//        if (users != null) {
-//            User user = users.get(0);
-//            return usersDTO;
-//        }
-//        else return null;
         return usersDTO;
     }
+
+    public String exportToCsv() {
+        Connection conn = ConnectionService.getConnectionService().getConnection();
+        String filename = "/tmp/" + new Date().getTime() + "_" + "users" + ".csv";
+        String file = "'" + filename + "'";
+        try {
+            PreparedStatement sql = conn.prepareStatement("COPY \"user\" TO "+ file +" WITH (FORMAT CSV , HEADER )");
+            sql.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
 
     public List<User> getAllHib(){
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
