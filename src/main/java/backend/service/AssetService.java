@@ -4,6 +4,7 @@ import backend.entity.Asset;
 import backend.entity.Department;
 import backend.entity.Location;
 import backend.entity.User;
+import com.opencsv.CSVWriter;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.NativeQuery;
@@ -17,10 +18,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.FileWriter;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -63,19 +62,6 @@ public class AssetService {
             e.printStackTrace();
         }
         return assets;
-    }
-
-    public String exportToCsv() {
-        Connection conn = ConnectionService.getConnectionService().getConnection();
-        String filename = "/tmp/" + new Date().getTime() + "_" + "assets" + ".csv";
-        String file = "'" + filename + "'";
-        try {
-            PreparedStatement sql = conn.prepareStatement("COPY asset TO "+ file +" WITH (FORMAT CSV , HEADER )");
-            sql.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return filename;
     }
 
     public boolean createNew(List<Asset> assets) {
@@ -125,9 +111,6 @@ public class AssetService {
         }
     }
 
-//    public List<Asset> filterBy(String property, String toMatch) {
-//        return null;
-//    }
 
     public boolean delete(Asset asset) {
         Connection conn = ConnectionService.getConnectionService().getConnection();
@@ -145,6 +128,10 @@ public class AssetService {
         return true;
     }
 
+    /**
+     * Counts all rows in the table.
+     * @return Number of rows of given table
+     */
     public int countAll() {
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;

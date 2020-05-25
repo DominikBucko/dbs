@@ -1,5 +1,6 @@
 package com.icloud.dominik.UI.admin;
 
+import backend.csvexport.CSVExport;
 import backend.entity.AssetFault;
 import backend.entity.Fault;
 import backend.service.AssetFaultService;
@@ -51,22 +52,12 @@ public class Faults extends VerticalLayout {
         setupGrid();
         setupRepairedDialog();
         registerNew.addClickListener(click -> newFault.open());
-        Anchor download = new Anchor(new StreamResource("faults.csv", () -> createResource()), "");
+        Anchor download = new Anchor(new StreamResource("faults.csv", () -> CSVExport.createResource("asset_fault")), "");
         download.getElement().setAttribute("download", true);
         download.add(new Button("Download .csv", new Icon(VaadinIcon.DOWNLOAD_ALT)));
         add(new HorizontalLayout(registerNew, download), grid, newFault, markAsRepaired);
     }
 
-    private InputStream createResource() {
-        String filename = assetFaultService.exportToCsv();
-        try {
-            File fileToDl = new File(filename);
-            return new FileInputStream(fileToDl);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     private void setupGrid() {
         provider = DataProvider.fromCallbacks(

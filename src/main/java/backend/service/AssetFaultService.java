@@ -42,20 +42,6 @@ public class AssetFaultService {
         return mapList(returned);
     }
 
-    public String exportToCsv() {
-        Connection conn = ConnectionService.getConnectionService().getConnection();
-        String filename = "/tmp/" + new java.util.Date().getTime() + "_" + "assetFaults" + ".csv";
-        String file = "'" + filename + "'";
-        try {
-            PreparedStatement sql = conn.prepareStatement("COPY asset_fault TO "+ file +" WITH (FORMAT CSV , HEADER )");
-            sql.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return filename;
-    }
-
-
     public boolean dropFromService(int asset_id) throws SQLException {
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);

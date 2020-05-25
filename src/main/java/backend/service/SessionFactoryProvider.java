@@ -26,6 +26,10 @@ public class SessionFactoryProvider {
         }
     }
 
+    /**
+     * Returns hibernate SessionFactory and handles closed connections
+     * @return hibernate SessionFactory
+     */
     public SessionFactory getSessionFactory() {
         try {
             if (sessionFactory.isClosed()) {
@@ -37,6 +41,10 @@ public class SessionFactoryProvider {
         return sessionFactory;
     }
 
+    /**
+     * Returns SessionFactoryProvider instance, if instance is not yet created, function creates one.
+     * @return SessionFactoryProvider instance (Singleton)
+     */
     public static SessionFactoryProvider getSessionFactoryProvider() {
         if (sessionFactoryProvider == null) {
             sessionFactoryProvider = new SessionFactoryProvider();
@@ -44,6 +52,10 @@ public class SessionFactoryProvider {
         return sessionFactoryProvider;
     }
 
+    /**
+     * Provides a hibernate session while handling closed connections
+     * @return hibernate Session
+     */
     public static Session getSession() {
         Session session = getSessionFactoryProvider().getSessionFactory().getCurrentSession();
         if (session == null) {

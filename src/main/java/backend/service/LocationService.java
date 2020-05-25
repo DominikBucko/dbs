@@ -47,19 +47,10 @@ public class LocationService {
         return locations;
     }
 
-    public String exportToCsv() {
-        Connection conn = ConnectionService.getConnectionService().getConnection();
-        String filename = "/tmp/" + new Date().getTime() + "_" + "locations" + ".csv";
-        String file = "'" + filename + "'";
-        try {
-            PreparedStatement sql = conn.prepareStatement("COPY location TO "+ file +" WITH (FORMAT CSV , HEADER )");
-            sql.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return filename;
-    }
-
+    /**
+     * Counts all rows in the table.
+     * @return Number of rows of given table
+     */
 
     public int countAll() {
         Connection conn = ConnectionService.getConnectionService().getConnection();

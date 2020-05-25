@@ -21,6 +21,10 @@ public class ConnectionService {
         }
     }
 
+    /**
+     * Returns JDBC Connection, opens one if none are open
+     * @return JDBC Connection
+     */
     public Connection getConnection() {
         try {
             if (conn.isClosed()) {
@@ -32,6 +36,10 @@ public class ConnectionService {
         return conn;
     }
 
+    /**
+     * Returns DataSource for creating JDBC templates, handles closed connections
+     * @return SQL DataSource
+     */
     public DataSource getCustomDataSource() {
         try {
             if (conn.isClosed()) {
