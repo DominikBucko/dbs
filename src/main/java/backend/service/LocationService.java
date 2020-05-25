@@ -18,10 +18,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class LocationService {
 
+    private static final Logger LOGGER = Logger.getLogger(LocationService.class.getName());
+
     public List<Location> getAll(int offset, int limit) {
+        LOGGER.info("GETTING ALL LOCATIONS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         List<Location> locations = new ArrayList<Location>();
         try {
@@ -42,17 +46,16 @@ public class LocationService {
                 locations.add(location);
             }
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return locations;
     }
 
-    /**
-     * Counts all rows in the table.
-     * @return Number of rows of given table
-     */
+
 
     public int countAll() {
+        LOGGER.info("COUNTING LOCATION");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
 
@@ -65,12 +68,14 @@ public class LocationService {
             rs.next();
             return rs.getInt("POCET");
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return 0;
     }
 
     public boolean createNew(List<Location> locations) {
+        LOGGER.info("CREATING LOCATION");
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             for (Location location : locations) {
@@ -86,12 +91,14 @@ public class LocationService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
         return true;
     }
 
     public boolean update(Location location) {
+        LOGGER.info("UPDATING LOCATION");
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -107,11 +114,13 @@ public class LocationService {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
     }
     
     public boolean delete(Location location) {
+        LOGGER.info("DELETING LOCATION");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         try {
             PreparedStatement sql = conn.prepareStatement(
@@ -121,6 +130,7 @@ public class LocationService {
             sql.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
         return true;
@@ -137,6 +147,7 @@ public class LocationService {
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return locations;

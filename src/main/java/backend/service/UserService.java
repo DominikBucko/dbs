@@ -21,10 +21,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class UserService {
+
+    private static final Logger LOGGER = Logger.getLogger(TicketService.class.getName());
+
     public List<User> getAll(int offset, int limit) {
+        LOGGER.info("GETTING USERS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         List<User> assets = new ArrayList<User>();
         try {
@@ -59,11 +64,14 @@ public class UserService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return assets;
     }
 
     public boolean createNew(List<User> userList) {
+        LOGGER.info("CREATING NEW USER");
+
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             for (User user : userList) {
@@ -91,6 +99,7 @@ public class UserService {
     }
 
     public void updateUser(User user) {
+        LOGGER.info("UPDATING USER");
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -111,10 +120,12 @@ public class UserService {
             );
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
     }
 
     public List<User> filterBy(String property, String toMatch) {
+        LOGGER.info("FILTERING USERS");
         ResultSet rs;
         Connection conn = ConnectionService.getConnectionService().getConnection();
         try {
@@ -132,6 +143,7 @@ public class UserService {
             rs = sql.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return new ArrayList<User>();
             }
         List<User> users = new ArrayList<User>();
@@ -156,11 +168,13 @@ public class UserService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return users;
     }
     
     public boolean delete(User user) {
+        LOGGER.info("DELETING USER");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         try {
             PreparedStatement sql = conn.prepareStatement(
@@ -170,12 +184,14 @@ public class UserService {
             sql.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
         return true;
     }
 
     public int countAll() {
+        LOGGER.info("COUNTING USERS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
 
@@ -189,11 +205,13 @@ public class UserService {
             return rs.getInt("POCET");
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return 0;
     }
 
     public User getUserByUsername(String username){
+        LOGGER.info("FILTERING USER");
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
         Transaction tx = null;
         List <User> users = null;
@@ -212,11 +230,13 @@ public class UserService {
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return usersDTO;
     }
 
     public String exportToCsv() {
+        LOGGER.info("EXPORTING USERS TO CSV");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         String filename = "/tmp/" + new Date().getTime() + "_" + "users" + ".csv";
         String file = "'" + filename + "'";
@@ -225,6 +245,7 @@ public class UserService {
             sql.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return filename;
     }
@@ -242,6 +263,7 @@ public class UserService {
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return users;
     }

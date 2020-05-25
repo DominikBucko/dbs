@@ -8,8 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class WindowFunction {
+
+    private static final Logger LOGGER = Logger.getLogger(TicketService.class.getName());
+
     public List<Window> getAll(int offset, int limit, String state){
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
@@ -44,6 +48,7 @@ public class WindowFunction {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return windows;
     }
@@ -67,6 +72,7 @@ public class WindowFunction {
             return rs.getInt("POCET");
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return 0;
     }

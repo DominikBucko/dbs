@@ -13,9 +13,14 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
 
 public class AssetFaultService {
+    private static final Logger LOGGER = Logger.getLogger(AssetFaultService.class.getName());
+
     public List<AssetFault> getAll(int offset, int limit) {
+        LOGGER.info("GETTING ALL ASSET_FAULTS");
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().getCurrentSession();
         List returned = null;
        if (limit == 2147483647) {
@@ -37,14 +42,17 @@ public class AssetFaultService {
             tx.commit();
         }
         catch (HibernateException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return mapList(returned);
     }
 
+
     public boolean dropFromService(int asset_id) throws SQLException {
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
+        LOGGER.info("DROPPING ASSET FROM SERVICE");
         Connection conn = ConnectionService.getConnectionService().getConnection();
 //        Savepoint savepoint1 = null;
         try {
@@ -67,6 +75,7 @@ public class AssetFaultService {
             sql2.executeUpdate();
             conn.commit();
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
             conn.rollback();
         }
@@ -74,6 +83,7 @@ public class AssetFaultService {
     }
 
     public boolean passToService(int asset_id, int fault_id, Boolean fixable) throws SQLException {
+        LOGGER.info("PASSING ASSET TO SERVICE");
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
         Connection conn = ConnectionService.getConnectionService().getConnection();
@@ -102,7 +112,9 @@ public class AssetFaultService {
 
             conn.commit();
         } catch (Exception e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
+            LOGGER.info("ROLLBACK");
             conn.rollback();
             return false;
         }
@@ -110,6 +122,7 @@ public class AssetFaultService {
     }
 
     public List<AssetFault> filter(int offset, int limit, String department_name) {
+        LOGGER.info("FILTERING ASSET_FAULTS");
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().getCurrentSession();
         List returned = null;
         try {
@@ -123,6 +136,7 @@ public class AssetFaultService {
             tx.commit();
         }
         catch (HibernateException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return mapList(returned);
@@ -138,6 +152,7 @@ public class AssetFaultService {
     }
 
     public int countAll() {
+        LOGGER.info("COUNTING ASSET_FAULTS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
 
@@ -150,6 +165,7 @@ public class AssetFaultService {
             rs.next();
             return rs.getInt("POCET");
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return 0;

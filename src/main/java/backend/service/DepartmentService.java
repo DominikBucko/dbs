@@ -16,9 +16,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DepartmentService {
+    private static final Logger LOGGER = Logger.getLogger(DepartmentService.class.getName());
+
     public List<Department> getAll(int offset, int limit) {
+        LOGGER.info("GETTING ALL DEPARTMENTS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         List<Department> departments = new ArrayList<Department>();
         try {
@@ -42,11 +46,13 @@ public class DepartmentService {
                 departments.add(department);
             }
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return departments;
     }
     public boolean createNew(List<Department> departments) {
+        LOGGER.info("CREATING DEPARTMENT");
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             for (Department department : departments) {
@@ -61,12 +67,14 @@ public class DepartmentService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
         return true;
     }
 
     public boolean update(Department department) {
+        LOGGER.info("UPDATING DEPARTMENT");
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -81,10 +89,12 @@ public class DepartmentService {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
     }
     public boolean delete(Department department) {
+        LOGGER.info("DELETING DEPARTMENT");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         try {
             PreparedStatement sql = conn.prepareStatement(
@@ -94,12 +104,14 @@ public class DepartmentService {
             sql.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
         return true;
     }
 
     public int countAll() {
+        LOGGER.info("COUNTING DEPARTMENTS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
 
@@ -112,6 +124,7 @@ public class DepartmentService {
             rs.next();
             return rs.getInt("POCET");
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return 0;
@@ -127,6 +140,7 @@ public class DepartmentService {
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return departments;
