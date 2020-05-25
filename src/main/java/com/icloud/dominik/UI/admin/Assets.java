@@ -1,5 +1,6 @@
 package com.icloud.dominik.UI.admin;
 
+import backend.csvexport.CSVExport;
 import backend.entity.Asset;
 import backend.entity.Department;
 import backend.service.AssetService;
@@ -54,22 +55,11 @@ public class Assets extends VerticalLayout {
         updateGrid();
         setupDialog();
         addNew.addClickListener(click -> createNewAsset());
-        Anchor download = new Anchor(new StreamResource("assets.csv", () -> createResource()), "");
+        Anchor download = new Anchor(new StreamResource("assets.csv", () -> CSVExport.createResource("asset")), "");
         download.getElement().setAttribute("download", true);
         download.add(new Button("Download .csv", new Icon(VaadinIcon.DOWNLOAD_ALT)));
         add(new HorizontalLayout(addNew, download), filter, itemCount, grid);
 	}
-
-    private InputStream createResource() {
-        String filename = assetService.exportToCsv();
-        try {
-            File fileToDl = new File(filename);
-            return new FileInputStream(fileToDl);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     private void filterConfig() {
         filter.setPlaceholder("Filter by name..");

@@ -1,7 +1,5 @@
 package com.icloud.dominik;
 
-import backend.AssetObject;
-import backend.Mapping;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;

@@ -52,20 +52,6 @@ public class LocationService {
         return locations;
     }
 
-    public String exportToCsv() {
-        LOGGER.info("EXPORTING CSV");
-        Connection conn = ConnectionService.getConnectionService().getConnection();
-        String filename = "/tmp/" + new Date().getTime() + "_" + "locations" + ".csv";
-        String file = "'" + filename + "'";
-        try {
-            PreparedStatement sql = conn.prepareStatement("COPY location TO "+ file +" WITH (FORMAT CSV , HEADER )");
-            sql.execute();
-        } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
-            e.printStackTrace();
-        }
-        return filename;
-    }
 
 
     public int countAll() {

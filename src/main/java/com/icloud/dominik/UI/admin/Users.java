@@ -1,5 +1,6 @@
 package com.icloud.dominik.UI.admin;
 
+import backend.csvexport.CSVExport;
 import backend.entity.Department;
 import backend.entity.User;
 import backend.service.UserService;
@@ -60,7 +61,7 @@ public class Users extends VerticalLayout {
         newUser.addClickListener(click -> addNewUser());
         newUser.setWidthFull();
         filterConfig();
-        Anchor download = new Anchor(new StreamResource("users.csv", () -> createResource()), "");
+        Anchor download = new Anchor(new StreamResource("users.csv", () -> CSVExport.createResource("\"user\"")), "");
         download.getElement().setAttribute("download", true);
         download.add(new Button("Download .csv", new Icon(VaadinIcon.DOWNLOAD_ALT)));
         topRow.add(download);

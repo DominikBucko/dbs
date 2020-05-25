@@ -1,5 +1,6 @@
 package com.icloud.dominik.UI.admin;
 
+import backend.csvexport.CSVExport;
 import backend.entity.Location;
 import backend.service.LocationService;
 import com.icloud.dominik.UI.components.LocationForm;
@@ -68,7 +69,7 @@ public class Locations extends VerticalLayout {
         updateGrid();
         setupDialog();
         newLocation.addClickListener(click -> createLocation());
-        Anchor download = new Anchor(new StreamResource("locations.csv", () -> createResource()), "");
+        Anchor download = new Anchor(new StreamResource("locations.csv", () -> CSVExport.createResource("location")), "");
         download.getElement().setAttribute("download", true);
         download.add(new Button("Download .csv", new Icon(VaadinIcon.DOWNLOAD_ALT)));
         add(new HorizontalLayout(newLocation, download), itemCount, locationsGrid);
@@ -76,16 +77,6 @@ public class Locations extends VerticalLayout {
 //        listLocations();
     }
 
-    private InputStream createResource() {
-        String filename = locationService.exportToCsv();
-        try {
-            File fileToDl = new File(filename);
-            return new FileInputStream(fileToDl);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     private void setupDialog() {
         dialogContent.add(locationForm);

@@ -73,21 +73,6 @@ public class DepartmentService {
         return true;
     }
 
-    public String exportToCsv() {
-        LOGGER.info("EXPORTING DEPARTMENTS TO CSV");
-        Connection conn = ConnectionService.getConnectionService().getConnection();
-        String filename = "/tmp/" + new Date().getTime() + "_" + "departments" + ".csv";
-        String file = "'" + filename + "'";
-        try {
-            PreparedStatement sql = conn.prepareStatement("COPY department TO "+ file +" WITH (FORMAT CSV , HEADER )");
-            sql.execute();
-        } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
-            e.printStackTrace();
-        }
-        return filename;
-    }
-
     public boolean update(Department department) {
         LOGGER.info("UPDATING DEPARTMENT");
         try {
