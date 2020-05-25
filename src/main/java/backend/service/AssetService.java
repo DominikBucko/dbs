@@ -25,11 +25,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class AssetService {
+    private static final Logger LOGGER = Logger.getLogger(AssetService.class.getName());
 
     public List<Asset> getAll(int offset, int limit) {
+        LOGGER.info("GETTING ALL ASSETS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         List<Asset> assets = new ArrayList<Asset>();
         try {
@@ -60,12 +63,14 @@ public class AssetService {
                 assets.add(asset);
             }
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return assets;
     }
 
     public String exportToCsv() {
+        LOGGER.info("EXPORTING ASSETS TO CSV");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         String filename = "/tmp/" + new Date().getTime() + "_" + "assets" + ".csv";
         String file = "'" + filename + "'";
@@ -73,12 +78,14 @@ public class AssetService {
             PreparedStatement sql = conn.prepareStatement("COPY asset TO "+ file +" WITH (FORMAT CSV , HEADER )");
             sql.execute();
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return filename;
     }
 
     public boolean createNew(List<Asset> assets) {
+        LOGGER.info("CREATING ASSET");
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             for (Asset asset : assets) {
@@ -96,6 +103,7 @@ public class AssetService {
                 return true;
             }
         } catch (Exception e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -103,6 +111,7 @@ public class AssetService {
     }
 
     public boolean update(Asset asset) {
+        LOGGER.info("UPDATING ASSET");
         try {
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(ConnectionService.getConnectionService().getCustomDataSource());
             MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -120,6 +129,7 @@ public class AssetService {
             );
             return true;
         } catch (Exception e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -130,6 +140,7 @@ public class AssetService {
 //    }
 
     public boolean delete(Asset asset) {
+        LOGGER.info("DELETING ASSET");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         try {
             PreparedStatement sql = conn.prepareStatement(
@@ -140,12 +151,14 @@ public class AssetService {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
             return false;
         }
         return true;
     }
 
     public int countAll() {
+        LOGGER.info("COUNTING ASSETS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
 
@@ -158,11 +171,13 @@ public class AssetService {
             rs.next();
             return rs.getInt("POCET");
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return 0;
     }
     public int countStats( String department, String status, String category) {
+        LOGGER.info("COUNTING ASSET STATISTIC");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         ResultSet rs;
         if (department == null) {
@@ -184,10 +199,12 @@ public class AssetService {
             return rs.getInt("POCET");
         }catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.warning(e.getMessage());
         }
         return 0;
     }
     public List<Asset> getStats(int offset, int limit, String department, String status, String category) {
+        LOGGER.info("GETTING ALL ASSETS STATISTICS");
         Connection conn = ConnectionService.getConnectionService().getConnection();
         if (department == null) {
             department = "%";
@@ -225,12 +242,14 @@ public class AssetService {
                 assets.add(asset);
             }
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return assets;
     }
 
     public List<Asset> filterBy(String property, String toMatch) {
+        LOGGER.info("FILTERING ASSETS");
         ResultSet rs;
         Connection conn = ConnectionService.getConnectionService().getConnection();
         try {
@@ -266,12 +285,14 @@ public class AssetService {
                 assets.add(asset);
             }
         } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return assets;
     }
 
     public List<Asset> getAvailable(Department department, int limit, int offset) {
+        LOGGER.info("GETTING ALL FREE ASSETS");
         Session session = SessionFactoryProvider.getSession();
         Transaction tx = null;
         List returned = null;
@@ -291,6 +312,7 @@ public class AssetService {
             }
         }
         catch (HibernateException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return assetsDTO;
@@ -310,12 +332,14 @@ public class AssetService {
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return assets;
     }
 
     public Asset getByID(int ID) {
+        LOGGER.info("FILTERING ASSETS BY ID");
         Session session = SessionFactoryProvider.getSessionFactoryProvider().getSessionFactory().openSession();
         Transaction tx = null;
         List returned;
@@ -331,6 +355,7 @@ public class AssetService {
                 asset = mapper.map(returned.get(i), Asset.class);
             }
         } catch (HibernateException e) {
+            LOGGER.warning(e.getMessage());
             e.printStackTrace();
         }
         return asset;
